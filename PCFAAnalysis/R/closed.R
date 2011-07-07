@@ -1,0 +1,104 @@
+closed <-function(x,nocc)
+{
+# closed population estimators  -- nocc = number of occasions  
+  nest=nchar(x$ch)[1]-nocc+1
+  Nhat=vector("numeric",length=nest)
+  Nse=vector("numeric",length=nest)
+  Nch=vector("list",length=nest)
+  for(i in 1:nest)
+  {
+     xx=x
+     xx$ch=substr(xx$ch,i,i+nocc-1)
+     xx=xx[xx$ch!=paste(rep("0",nocc),collapse=""),,drop=FALSE]
+     ss=summary(mark(xx,model="Closed",model.parameters=list(p=list(formula=~time,share=TRUE)),output=FALSE,delete=TRUE),se=TRUE)$real$N
+     Nhat[i]=ss$estimate
+     Nse[i]=ss$se
+     Nch[[i]]=table(xx$ch)
+  }
+return(list(Nhat=Nhat,Nse=Nse,Nch=Nch))
+}
+# Create simple function for closed estimators
+closed.set=function(x,plot=FALSE)
+{
+  LP=closed(x,2)
+  Darroch3=closed(x,3)
+  Darroch4=closed(x,4)
+  Darroch5=closed(x,5)
+  limited.lp=limited.LP(x)
+  if(plot)
+  {
+    xmin=min(as.numeric(as.character(ch.pcfa$cohort)))
+    xmax=max(as.numeric(as.character(ch.pcfa$cohort)))
+    plot(xmin:(xmax-1)+.5,LP$Nhat,type="b",ylim=c(0,max(c(LP$Nhat,Darroch3$Nhat,Darroch4$Nhat,Darroch5$Nhat))))
+    lines((xmin+1):(xmax-1),Darroch3$Nhat,type="b",pch=2)
+    lines(xmin:(xmax-3)+1.5,Darroch4$Nhat,type="b",pch=3)
+    lines((xmin+2):(xmax-2),Darroch5$Nhat,type="b",pch=4)
+    lines(xmin:(xmax-1)+.5,limited.lp$Nhat,type="b",pch=5)
+  }
+  return(list(LP=LP,limited.LP=limited.lp,Darroch3=Darroch3,Darroch4=Darroch4,Darroch5=Darroch5))
+}
+limited.LP <-
+function(x)
+{
+xmat=strsplit(x$ch,"")
+xmat=do.call(rbind,xmat)
+dimx=dim(xmat)
+xmat=as.numeric(xmat)
+dim(xmat)=dimx
+x1=as.numeric(rowSums(xmat[,3:11])>0)
+x2=as.numeric(rowSums(xmat[,c(1,4:11)])>0)
+x3=as.numeric(rowSums(xmat[,c(1:2,5:11)])>0)
+x4=as.numeric(rowSums(xmat[,c(1:3,6:11)])>0)
+x5=as.numeric(rowSums(xmat[,c(1:4,7:11)])>0)
+x6=as.numeric(rowSums(xmat[,c(1:5,8:11)])>0)
+x7=as.numeric(rowSums(xmat[,c(1:6,9:11)])>0)
+x8=as.numeric(rowSums(xmat[,c(1:7,11)])>0)
+x9=as.numeric(rowSums(xmat[,c(1:8,11)])>0)
+x10=as.numeric(rowSums(xmat[,c(1:9)])>0)
+Nhat=vector("numeric",10)
+Nse=vector("numeric",10)
+Nch=vector("numeric",10)
+xx=closed(x[x1==1,],2)
+Nhat[1]=xx$Nhat[1]
+Nse[1]=xx$Nse[1]
+Nch[1]=xx$Nch[1]
+xx=closed(x[x2==1,],2)
+Nhat[2]=xx$Nhat[2]
+Nse[2]=xx$Nse[2]
+Nch[2]=xx$Nch[2]
+xx=closed(x[x3==1,],2)
+Nhat[3]=xx$Nhat[3]
+Nse[3]=xx$Nse[3]
+Nch[3]=xx$Nch[3]
+xx=closed(x[x4==1,],2)
+Nhat[4]=xx$Nhat[4]
+Nse[4]=xx$Nse[4]
+Nch[4]=xx$Nch[4]
+xx=closed(x[x5==1,],2)
+Nhat[5]=xx$Nhat[5]
+Nse[5]=xx$Nse[5]
+Nch[5]=xx$Nch[5]
+xx=closed(x[x6==1,],2)
+Nhat[6]=xx$Nhat[6]
+Nse[6]=xx$Nse[6]
+Nch[6]=xx$Nch[6]
+xx=closed(x[x7==1,],2)
+Nhat[7]=xx$Nhat[7]
+Nse[7]=xx$Nse[7]
+Nch[7]=xx$Nch[7]
+xx=closed(x[x8==1,],2)
+Nhat[8]=xx$Nhat[8]
+Nse[8]=xx$Nse[8]
+Nch[8]=xx$Nch[8]
+xx=closed(x[x9==1,],2)
+Nhat[9]=xx$Nhat[9]
+Nse[9]=xx$Nse[9]
+Nch[9]=xx$Nch[9]
+xx=closed(x[x10==1,],2)
+Nhat[10]=xx$Nhat[10]
+Nse[10]=xx$Nse[10]
+Nch[10]=xx$Nch[10]
+return(list(Nhat=Nhat,Nse=Nse,Nch=Nch))
+}
+
+

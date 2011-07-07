@@ -1,0 +1,23 @@
+\name{PCFAAnalysis-package}
+\alias{PCFAAnalysis-package}
+\alias{PCFAAnalysis}
+\docType{package}
+\title{Analysis of gray whale photo-identification data collected from California to Kodiak Alaska}
+\description{Contains various utility functions and scripts for analysis to support development of
+EIS on Makah proposal to harvest gray whales.  Includes data exploration and summary and code for
+abundance and survival estimation.}
+\details{
+\tabular{ll}{
+Package: \tab PCFAAnalysis\cr
+Type: \tab Package\cr
+Version: \tab 1.0\cr
+Date: \tab 2009-12-30\cr
+License: \tab GPL-2\cr
+LazyLoad: \tab yes\cr
+}
+}
+\author{Jeff Laake
+Maintainer: <Jeff.Laake@noaa.gov>
+}
+\keyword{ package }
+\examples{}
