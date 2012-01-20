@@ -1,3 +1,15 @@
+#' Produces a set of summary statistics and plots for a subset of the PCFA data
+#' 
+#' 
+#' 
+#' @param x dataframe (or subset) of \code{\link{PCFA}}
+#' @param ch capture history dataframe created by \code{\link{create.chmat}}
+#' using same data
+#' @export 
+#' @return None
+#' @author Jeff Laake
+#' @seealso \code{\link{movement.table}}
+#' 
 summary.stats.plots=function(x,ch)
 {
 cat("\nTotal number of unique whale IDs\n")

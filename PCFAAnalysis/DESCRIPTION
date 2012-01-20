@@ -5,7 +5,19 @@ Version: 1.0
 Date: 2009-12-30
 Author: Jeff Laake
 Maintainer: <jeff.laake@noaa.gov>
-Description: Data summaries and exploration and analysis of abundance and survival
+Description: Data summaries and exploration and analysis of abundance and
+    survival
 License: GPL-2
 LazyLoad: yes
-Depends: RMark, ggplot2, reshape
+Depends:
+    RMark,
+    ggplot2,
+    reshape
+Collate:
+    'abundance.r'
+    'closed.R'
+    'create.chmat.R'
+    'movement.table.R'
+    'open.estimate.r'
+    'PCFAAnalysis-package.R'
+    'summary.stats.plots.R'

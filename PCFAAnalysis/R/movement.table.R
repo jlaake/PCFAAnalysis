@@ -1,3 +1,19 @@
+#' Matrix of movements of whales between regions
+#' 
+#' 
+#' 
+#' @param ER dataframe \code{\link{ER}} or subset of that dataframe containing
+#' fields \code{ID} and \code{Region}
+#' @return A k by k matrix where k is the number of levels in the factor
+#' variabele Region. The values in row i represent the proportion of whales
+#' that were seen in region i that were also seen in each of the regions,
+#' j=1,k.  Diagonal elements are obviously 1. Column i in the matrix is the
+#' probability that a whale from each of the regions will be seen in the ith
+#' region. Those values will be higher in regions with more effort.
+#' @author Jeff Laake
+#' @export
+#' 
+#' 
 movement.table <-
 function(ER)
 {

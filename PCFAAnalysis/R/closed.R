@@ -1,3 +1,48 @@
+#' Computes sequence of closed population estimates for a specified number of
+#' consecutive years in the capture history.
+#' 
+#' 
+#' If the length of each capture history string is k, then it will produce an
+#' estimate using occasions 1 to nocc, then 2 to nocc+1, ..., and finally
+#' k-nocc to k.  The number of abundance estimates will be k-nocc+1. It uses
+#' the package RMark to construct the estimates with program MARK using a
+#' time-specific capture probability model.
+#' 
+#' \code{limited.LP} produces Lincoln-Petersen abundance estimates limited to
+#' non-transient whales. For each pair of years in the data, it selects the
+#' whales that were seen either before or after the pair of years and
+#' constructs a Lincoln-Petersen estimate of abundance using the 01,10 and 11
+#' capture histories in the pair of years for the selected data.  This excludes
+#' temporary immmigrants in the calculation for the closed population
+#' estimator.  The abundance estimate is of the non-transient whales that were
+#' in the population during the two year period.  It is probably still biased
+#' and some simulation and theory development should be used to explore this
+#' ad-hoc approach for adjusting a closed population estimator in an open
+#' population.
+#' 
+#' @aliases closed limited.LP closed.set 
+#' @export closed closed.set limited.LP
+#' @param x dataframe with a field \code{ch} which is the capture history
+#' string of 0s & 1s
+#' @param nocc number of consecutive occasions to include in each abundance
+#' estimate
+#' @param plot produces plot of estimates if TRUE
+#' @return For \code{closed} \item{Nhat}{vector containing sequence of
+#' abundance estimates} \item{Nse}{vector containing standard errors of
+#' abundance estimates} \item{Nch}{list containing table of capture histories
+#' for each of the estimates}
+#' 
+#' For \code{limited.LP} \item{Nhat}{vector containing sequence of abundance
+#' estimates} \item{Nse}{vector containing standard errors of abundance
+#' estimates}
+#' 
+#' For \code{closed.set}, each list contains a list with Nhat and Nse for all
+#' and Nch for all except for \code{limited.LP} \item{LP}{Lincoln-Petersen
+#' sequence of abundance estimates} \item{limited.LP}{limited Lincoln-Petersen
+#' sequence of abundance estimates} \item{Darroch3}{Darroch estimator with 3
+#' occasions} \item{Darroch4}{Darroch estimator with 4 occasions}
+#' \item{Darroch5}{Darroch estimator with 5 occasions}
+#' @author Jeff Laake
 closed <-function(x,nocc)
 {
 # closed population estimators  -- nocc = number of occasions  
@@ -40,24 +85,27 @@ closed.set=function(x,plot=FALSE)
 limited.LP <-
 function(x)
 {
+nyears=nchar(x$ch[1])
 xmat=strsplit(x$ch,"")
 xmat=do.call(rbind,xmat)
 dimx=dim(xmat)
 xmat=as.numeric(xmat)
 dim(xmat)=dimx
-x1=as.numeric(rowSums(xmat[,3:11])>0)
-x2=as.numeric(rowSums(xmat[,c(1,4:11)])>0)
-x3=as.numeric(rowSums(xmat[,c(1:2,5:11)])>0)
-x4=as.numeric(rowSums(xmat[,c(1:3,6:11)])>0)
-x5=as.numeric(rowSums(xmat[,c(1:4,7:11)])>0)
-x6=as.numeric(rowSums(xmat[,c(1:5,8:11)])>0)
-x7=as.numeric(rowSums(xmat[,c(1:6,9:11)])>0)
-x8=as.numeric(rowSums(xmat[,c(1:7,11)])>0)
-x9=as.numeric(rowSums(xmat[,c(1:8,11)])>0)
-x10=as.numeric(rowSums(xmat[,c(1:9)])>0)
-Nhat=vector("numeric",10)
-Nse=vector("numeric",10)
-Nch=vector("numeric",10)
+x1=as.numeric(rowSums(xmat[,3:nyears])>0)
+x2=as.numeric(rowSums(xmat[,c(1,4:nyears)])>0)
+x3=as.numeric(rowSums(xmat[,c(1:2,5:nyears)])>0)
+x4=as.numeric(rowSums(xmat[,c(1:3,6:nyears)])>0)
+x5=as.numeric(rowSums(xmat[,c(1:4,7:nyears)])>0)
+x6=as.numeric(rowSums(xmat[,c(1:5,8:nyears)])>0)
+x7=as.numeric(rowSums(xmat[,c(1:6,9:nyears)])>0)
+x8=as.numeric(rowSums(xmat[,c(1:7,10:nyears)])>0)
+x9=as.numeric(rowSums(xmat[,c(1:8,11:nyears)])>0)
+x10=as.numeric(rowSums(xmat[,c(1:9,12:nyears)])>0)
+x11=as.numeric(rowSums(xmat[,c(1:10,13:nyears)])>0)
+x12=as.numeric(rowSums(xmat[,c(1:11)])>0)
+Nhat=vector("numeric",nyears-1)
+Nse=vector("numeric",nyears-1)
+Nch=vector("numeric",nyears-1)
 xx=closed(x[x1==1,],2)
 Nhat[1]=xx$Nhat[1]
 Nse[1]=xx$Nse[1]
@@ -98,6 +146,14 @@ xx=closed(x[x10==1,],2)
 Nhat[10]=xx$Nhat[10]
 Nse[10]=xx$Nse[10]
 Nch[10]=xx$Nch[10]
+xx=closed(x[x11==1,],2)
+Nhat[11]=xx$Nhat[11]
+Nse[11]=xx$Nse[11]
+Nch[11]=xx$Nch[11]
+xx=closed(x[x12==1,],2)
+Nhat[12]=xx$Nhat[12]
+Nse[12]=xx$Nse[12]
+Nch[12]=xx$Nch[12]
 return(list(Nhat=Nhat,Nse=Nse,Nch=Nch))
 }
 

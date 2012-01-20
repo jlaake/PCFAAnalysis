@@ -1,4 +1,10 @@
-#POPAN analysis
+#' POPAN model fitting
+#' 
+#' 
+#' @export open.estimate
+#' @param er dataframe 
+#' @return List of results
+#' @author Jeff Laake
 open.estimate=function(er)
 {
 # minyyyy is the minimum tenure measure for year yyyy if it was the
@@ -50,6 +56,7 @@ open.estimate=function(er)
 #er$pmin2008[er$pmin2008>0]=er$pmin2008[er$pmin2008>0]-median(er$pmin2008[er$pmin2008>0])
 er$ID=NULL
 er$NC=1-er$Calf
+years=as.numeric(levels(er$cohort))
 # Process data and set up design data for RMark
 er.proc=process.data(er,model="POPAN",begin.time=1998,groups="cohort")
 er.ddl=make.design.data(er.proc)
@@ -75,8 +82,8 @@ fixed.p.values=rep(0,length(fixed.p.index))
 fixed.p.values=1
 
 # create a timebin field that lumps 1998-1999 so N1998 can be estimated.
-er.ddl$p$timebin=cut(er.ddl$p$Time,c(-1,1:10))
-levels(er.ddl$p$timebin)=c("1998-1999",as.character(2000:2008))
+er.ddl$p$timebin=cut(er.ddl$p$Time,c(-1,1:(max(years)-min(years))))
+levels(er.ddl$p$timebin)=c("1998-1999",as.character(2000:max(years)))
 # create function to fit various model sets
 do.popan=function()
 {

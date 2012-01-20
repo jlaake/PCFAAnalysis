@@ -1,51 +1,66 @@
 \name{closed}
 \alias{closed}
-\alias{limited.LP}
 \alias{closed.set}
+\alias{limited.LP}
 \title{Computes sequence of closed population estimates for a specified number of
 consecutive years in the capture history.}
 \usage{
-closed(x, nocc)
-closed.set(x,plot=FALSE)
-limited.LP(x)
+  closed(x, nocc)
 }
 \arguments{
-  \item{x}{dataframe with a field \code{ch} which is the capture history string of 0s & 1s}
-  \item{nocc}{number of consecutive occasions to include in each abundance estimate}
+  \item{x}{dataframe with a field \code{ch} which is the
+  capture history string of 0s & 1s}
+
+  \item{nocc}{number of consecutive occasions to include in
+  each abundance estimate}
+
   \item{plot}{produces plot of estimates if TRUE}
 }
-\details{
-If the length of each capture history string is k, then it will produce an estimate using
-occasions 1 to nocc, then 2 to nocc+1, ..., and finally k-nocc to k.  The number of 
-abundance estimates will be k-nocc+1. It uses the package RMark to construct the estimates with
-program MARK using a time-specific capture probability model.
-
-\code{limited.LP} produces Lincoln-Petersen abundance estimates limited to non-transient whales.
-For each pair of years in the data, it selects the whales that were seen either before or after 
-the pair of years and constructs a Lincoln-Petersen estimate of abundance using the 01,10 and 11 capture histories
-in the pair of years for the selected data.  This excludes temporary immmigrants in the calculation for the
-closed population estimator.  The abundance estimate is of the non-transient whales that were in the population during the
-two year period.  It is probably still biased and some simulation and theory development should be used to
-explore this ad-hoc approach for adjusting a closed population estimator in an open population. 
-}
 \value{
-For \code{closed}
-  \item{Nhat}{vector containing sequence of abundance estimates}
-  \item{Nse}{vector containing standard errors of abundance estimates}
-  \item{Nch}{list containing table of capture histories for each of the estimates}
+  For \code{closed} \item{Nhat}{vector containing sequence
+  of abundance estimates} \item{Nse}{vector containing
+  standard errors of abundance estimates} \item{Nch}{list
+  containing table of capture histories for each of the
+  estimates}
 
-For \code{limited.LP}
-  \item{Nhat}{vector containing sequence of abundance estimates}
-  \item{Nse}{vector containing standard errors of abundance estimates}
+  For \code{limited.LP} \item{Nhat}{vector containing
+  sequence of abundance estimates} \item{Nse}{vector
+  containing standard errors of abundance estimates}
 
-
-For \code{closed.set}, each list contains a list with Nhat and Nse for all and Nch for all except
-for \code{limited.LP}
-  \item{LP}{Lincoln-Petersen sequence of abundance estimates}
-  \item{limited.LP}{limited Lincoln-Petersen sequence of abundance estimates}
+  For \code{closed.set}, each list contains a list with
+  Nhat and Nse for all and Nch for all except for
+  \code{limited.LP} \item{LP}{Lincoln-Petersen sequence of
+  abundance estimates} \item{limited.LP}{limited
+  Lincoln-Petersen sequence of abundance estimates}
   \item{Darroch3}{Darroch estimator with 3 occasions}
   \item{Darroch4}{Darroch estimator with 4 occasions}
   \item{Darroch5}{Darroch estimator with 5 occasions}
-
 }
-\author{Jeff Laake}
+\description{
+  If the length of each capture history string is k, then
+  it will produce an estimate using occasions 1 to nocc,
+  then 2 to nocc+1, ..., and finally k-nocc to k.  The
+  number of abundance estimates will be k-nocc+1. It uses
+  the package RMark to construct the estimates with program
+  MARK using a time-specific capture probability model.
+}
+\details{
+  \code{limited.LP} produces Lincoln-Petersen abundance
+  estimates limited to non-transient whales. For each pair
+  of years in the data, it selects the whales that were
+  seen either before or after the pair of years and
+  constructs a Lincoln-Petersen estimate of abundance using
+  the 01,10 and 11 capture histories in the pair of years
+  for the selected data.  This excludes temporary
+  immmigrants in the calculation for the closed population
+  estimator.  The abundance estimate is of the
+  non-transient whales that were in the population during
+  the two year period.  It is probably still biased and
+  some simulation and theory development should be used to
+  explore this ad-hoc approach for adjusting a closed
+  population estimator in an open population.
+}
+\author{
+  Jeff Laake
+}
+

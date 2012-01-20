@@ -1,3 +1,12 @@
+#' Alternative abundance estimators for open population models
+#' 
+#' 
+#' @export abundance.surv abundance.p
+#' @param x dataframe with a field \code{ch} which is the capture history
+#' string of 0s & 1s
+#' @param model fitted model
+#' @return List of results
+#' @author Jeff Laake
 
 abundance.surv=function(x,model)
 {
