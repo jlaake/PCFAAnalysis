@@ -58,7 +58,7 @@ abundance.p=function(x,model)
 	x$cohort=as.numeric(x$cohort)+1997
 	x$year=x$cohort
 #   Next add to dataframe the p estimates for each resigting event	
-	occasions.seen=lapply(strsplit(ch,""),function(x) (as.numeric(x)*1:11)[as.numeric(x)>0])
+	occasions.seen=lapply(strsplit(ch,""),function(x) (as.numeric(x)*1:nocc)[as.numeric(x)>0])
 	baseindex=(nocc-1)*nocc
 	addx=NULL
 	for(i in 1:nrow(x))

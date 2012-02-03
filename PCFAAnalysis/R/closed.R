@@ -94,15 +94,47 @@ dim(xmat)=dimx
 x1=as.numeric(rowSums(xmat[,3:nyears])>0)
 x2=as.numeric(rowSums(xmat[,c(1,4:nyears)])>0)
 x3=as.numeric(rowSums(xmat[,c(1:2,5:nyears)])>0)
-x4=as.numeric(rowSums(xmat[,c(1:3,6:nyears)])>0)
-x5=as.numeric(rowSums(xmat[,c(1:4,7:nyears)])>0)
-x6=as.numeric(rowSums(xmat[,c(1:5,8:nyears)])>0)
-x7=as.numeric(rowSums(xmat[,c(1:6,9:nyears)])>0)
-x8=as.numeric(rowSums(xmat[,c(1:7,10:nyears)])>0)
-x9=as.numeric(rowSums(xmat[,c(1:8,11:nyears)])>0)
-x10=as.numeric(rowSums(xmat[,c(1:9,12:nyears)])>0)
-x11=as.numeric(rowSums(xmat[,c(1:10,13:nyears)])>0)
-x12=as.numeric(rowSums(xmat[,c(1:11)])>0)
+if(nyears>=5)
+	if(nyears>5)
+		x4=as.numeric(rowSums(xmat[,c(1:3,6:nyears)])>0)
+    else
+		x4=as.numeric(rowSums(xmat[,c(1:3)])>0)
+if(nyears>=6)
+	if(nyears>6)
+	   x5=as.numeric(rowSums(xmat[,c(1:4,7:nyears)])>0)
+    else
+	   x5=as.numeric(rowSums(xmat[,c(1:4)])>0)
+if(nyears>=7)
+	if(nyears>7)
+		x6=as.numeric(rowSums(xmat[,c(1:5,8:nyears)])>0)
+    else
+		x6=as.numeric(rowSums(xmat[,c(1:5)])>0)
+if(nyears>=8)
+	if(nyears>8)
+		x7=as.numeric(rowSums(xmat[,c(1:6,9:nyears)])>0)
+    else
+		x7=as.numeric(rowSums(xmat[,c(1:6)])>0)
+if(nyears>=9)
+	if(nyears>9)
+		x8=as.numeric(rowSums(xmat[,c(1:7,10:nyears)])>0)
+    else
+		x8=as.numeric(rowSums(xmat[,c(1:7)])>0)
+if(nyears>=10)
+	if(nyears>10)
+		x9=as.numeric(rowSums(xmat[,c(1:8,11:nyears)])>0)
+    else
+		x9=as.numeric(rowSums(xmat[,c(1:8)])>0)	
+if(nyears>=11)
+	if(nyears>11)
+		x10=as.numeric(rowSums(xmat[,c(1:9,12:nyears)])>0)
+    else
+        x10=as.numeric(rowSums(xmat[,c(1:9)])>0)
+if(nyears>=12)
+	if(nyears>12)
+		x11=as.numeric(rowSums(xmat[,c(1:10,13:nyears)])>0)
+    else
+        x11=as.numeric(rowSums(xmat[,c(1:10)])>0)
+if(nyears>=13)x12=as.numeric(rowSums(xmat[,c(1:11)])>0)
 Nhat=vector("numeric",nyears-1)
 Nse=vector("numeric",nyears-1)
 Nch=vector("numeric",nyears-1)
@@ -118,42 +150,69 @@ xx=closed(x[x3==1,],2)
 Nhat[3]=xx$Nhat[3]
 Nse[3]=xx$Nse[3]
 Nch[3]=xx$Nch[3]
-xx=closed(x[x4==1,],2)
-Nhat[4]=xx$Nhat[4]
-Nse[4]=xx$Nse[4]
-Nch[4]=xx$Nch[4]
-xx=closed(x[x5==1,],2)
-Nhat[5]=xx$Nhat[5]
-Nse[5]=xx$Nse[5]
-Nch[5]=xx$Nch[5]
-xx=closed(x[x6==1,],2)
-Nhat[6]=xx$Nhat[6]
-Nse[6]=xx$Nse[6]
-Nch[6]=xx$Nch[6]
-xx=closed(x[x7==1,],2)
-Nhat[7]=xx$Nhat[7]
-Nse[7]=xx$Nse[7]
-Nch[7]=xx$Nch[7]
-xx=closed(x[x8==1,],2)
-Nhat[8]=xx$Nhat[8]
-Nse[8]=xx$Nse[8]
-Nch[8]=xx$Nch[8]
-xx=closed(x[x9==1,],2)
-Nhat[9]=xx$Nhat[9]
-Nse[9]=xx$Nse[9]
-Nch[9]=xx$Nch[9]
-xx=closed(x[x10==1,],2)
-Nhat[10]=xx$Nhat[10]
-Nse[10]=xx$Nse[10]
-Nch[10]=xx$Nch[10]
-xx=closed(x[x11==1,],2)
-Nhat[11]=xx$Nhat[11]
-Nse[11]=xx$Nse[11]
-Nch[11]=xx$Nch[11]
-xx=closed(x[x12==1,],2)
-Nhat[12]=xx$Nhat[12]
-Nse[12]=xx$Nse[12]
-Nch[12]=xx$Nch[12]
+if(nyears>=5)
+{
+	xx=closed(x[x4==1,],2)
+	Nhat[4]=xx$Nhat[4]
+	Nse[4]=xx$Nse[4]
+	Nch[4]=xx$Nch[4]
+}
+if(nyears>=6)
+{
+	xx=closed(x[x5==1,],2)
+	Nhat[5]=xx$Nhat[5]
+	Nse[5]=xx$Nse[5]
+	Nch[5]=xx$Nch[5]
+}
+if(nyears>=7)
+{
+	xx=closed(x[x6==1,],2)
+	Nhat[6]=xx$Nhat[6]
+	Nse[6]=xx$Nse[6]
+	Nch[6]=xx$Nch[6]
+}
+if(nyears>=8)
+{
+	xx=closed(x[x7==1,],2)
+	Nhat[7]=xx$Nhat[7]
+	Nse[7]=xx$Nse[7]
+	Nch[7]=xx$Nch[7]
+}
+if(nyears>=9)
+{
+	xx=closed(x[x8==1,],2)
+	Nhat[8]=xx$Nhat[8]
+	Nse[8]=xx$Nse[8]
+	Nch[8]=xx$Nch[8]
+}
+if(nyears>=10)
+{
+	xx=closed(x[x9==1,],2)
+	Nhat[9]=xx$Nhat[9]
+	Nse[9]=xx$Nse[9]
+	Nch[9]=xx$Nch[9]
+}
+if(nyears>=11)
+{
+	xx=closed(x[x10==1,],2)
+	Nhat[10]=xx$Nhat[10]
+	Nse[10]=xx$Nse[10]
+	Nch[10]=xx$Nch[10]
+}
+if(nyears>=12)
+{
+	xx=closed(x[x11==1,],2)
+	Nhat[11]=xx$Nhat[11]
+	Nse[11]=xx$Nse[11]
+	Nch[11]=xx$Nch[11]
+}
+if(nyears>=13)
+{
+	xx=closed(x[x12==1,],2)
+	Nhat[12]=xx$Nhat[12]
+	Nse[12]=xx$Nse[12]
+	Nch[12]=xx$Nch[12]
+}
 return(list(Nhat=Nhat,Nse=Nse,Nch=Nch))
 }
 

@@ -1,11 +1,12 @@
 #' POPAN model fitting
 #' 
 #' 
-#' @export open.estimate
+#' @export open.estimate alt.open.estimate
 #' @param er dataframe 
+#' @param delta value of delta aicc to use for model averaging set. Default is Inf to use all.
 #' @return List of results
 #' @author Jeff Laake
-open.estimate=function(er)
+open.estimate=function(er,delta=Inf,alternate=FALSE)
 {
 # minyyyy is the minimum tenure measure for year yyyy if it was the
 # whales first year seen; else 0
@@ -13,28 +14,34 @@ open.estimate=function(er)
 # of those whales with a non-zero value such that those with missing values (0)
 # can be set to the median value.
 #
-#er$min1998[er$min1998>0]=er$min1998[er$min1998>0]-median(er$min1998[er$min1998>0])
-#er$min1999[er$min1999>0]=er$min1999[er$min1999>0]-median(er$min1999[er$min1999>0])
-#er$min2000[er$min2000>0]=er$min2000[er$min2000>0]-median(er$min2000[er$min2000>0])
-#er$min2001[er$min2001>0]=er$min2001[er$min2001>0]-median(er$min2001[er$min2001>0])
-#er$min2002[er$min2002>0]=er$min2002[er$min2002>0]-median(er$min2002[er$min2002>0])
-#er$min2003[er$min2003>0]=er$min2003[er$min2003>0]-median(er$min2003[er$min2003>0])
-#er$min2004[er$min2004>0]=er$min2004[er$min2004>0]-median(er$min2004[er$min2004>0])
-#er$min2005[er$min2005>0]=er$min2005[er$min2005>0]-median(er$min2005[er$min2005>0])
-#er$min2006[er$min2006>0]=er$min2006[er$min2006>0]-median(er$min2006[er$min2006>0])
-#er$min2007[er$min2007>0]=er$min2007[er$min2007>0]-median(er$min2007[er$min2007>0])
-#er$min1998[er$min1998>0]=er$min1998[er$min1998>0]-median(er$min1998[er$min1998>0])
+if(!alternate)
+{
+   er$min1998[er$min1998>0]=er$min1998[er$min1998>0]-median(er$min1998[er$min1998>0])
+   er$min1999[er$min1999>0]=er$min1999[er$min1999>0]-median(er$min1999[er$min1999>0])
+   er$min2000[er$min2000>0]=er$min2000[er$min2000>0]-median(er$min2000[er$min2000>0])
+   er$min2001[er$min2001>0]=er$min2001[er$min2001>0]-median(er$min2001[er$min2001>0])
+   er$min2002[er$min2002>0]=er$min2002[er$min2002>0]-median(er$min2002[er$min2002>0])
+   er$min2003[er$min2003>0]=er$min2003[er$min2003>0]-median(er$min2003[er$min2003>0])
+   er$min2004[er$min2004>0]=er$min2004[er$min2004>0]-median(er$min2004[er$min2004>0])
+   er$min2005[er$min2005>0]=er$min2005[er$min2005>0]-median(er$min2005[er$min2005>0])
+   er$min2006[er$min2006>0]=er$min2006[er$min2006>0]-median(er$min2006[er$min2006>0])
+   er$min2007[er$min2007>0]=er$min2007[er$min2007>0]-median(er$min2007[er$min2007>0])
+   er$min2008[er$min2008>0]=er$min2008[er$min2008>0]-median(er$min2008[er$min2008>0])
+   er$min2009[er$min2009>0]=er$min2009[er$min2009>0]-median(er$min2009[er$min2009>0])
 
-#er$min1998[er$min1998>0]=er$min1998[er$min1998>0]/100
-#er$min1999[er$min1999>0]=er$min1999[er$min1999>0]/100
-#er$min2000[er$min2000>0]=er$min2000[er$min2000>0]/100
-#er$min2001[er$min2001>0]=er$min2001[er$min2001>0]/100
-#er$min2002[er$min2002>0]=er$min2002[er$min2002>0]/100
-#er$min2003[er$min2003>0]=er$min2003[er$min2003>0]/100
-#er$min2004[er$min2004>0]=er$min2004[er$min2004>0]/100
-#er$min2005[er$min2005>0]=er$min2005[er$min2005>0]/100
-#er$min2006[er$min2006>0]=er$min2006[er$min2006>0]/100
-#er$min2007[er$min2007>0]=er$min2007[er$min2007>0]/100
+   er$min1998[er$min1998>0]=er$min1998[er$min1998>0]/100
+   er$min1999[er$min1999>0]=er$min1999[er$min1999>0]/100
+   er$min2000[er$min2000>0]=er$min2000[er$min2000>0]/100
+   er$min2001[er$min2001>0]=er$min2001[er$min2001>0]/100
+   er$min2002[er$min2002>0]=er$min2002[er$min2002>0]/100
+   er$min2003[er$min2003>0]=er$min2003[er$min2003>0]/100
+   er$min2004[er$min2004>0]=er$min2004[er$min2004>0]/100
+   er$min2005[er$min2005>0]=er$min2005[er$min2005>0]/100
+   er$min2006[er$min2006>0]=er$min2006[er$min2006>0]/100
+   er$min2007[er$min2007>0]=er$min2007[er$min2007>0]/100
+   er$min2008[er$min2008>0]=er$min2008[er$min2008>0]/100
+   er$min2009[er$min2009>0]=er$min2009[er$min2009>0]/100
+
 # minyyyy is the minimum tenure measure for year yyyy-1 which is used to 
 # model probability of detection of the whale in year yyyy. If it was not
 # seen in year yyyy-1 then it is set to 0.  
@@ -43,18 +50,22 @@ open.estimate=function(er)
 # can be set to the median value.
 #
 
-#er$pmin1998[er$pmin1998>0]=er$pmin1998[er$pmin1998>0]-median(er$pmin1998[er$pmin1998>0])
-#er$pmin1999[er$pmin1999>0]=er$pmin1999[er$pmin1999>0]-median(er$pmin1999[er$pmin1999>0])
-#er$pmin2000[er$pmin2000>0]=er$pmin2000[er$pmin2000>0]-median(er$pmin2000[er$pmin2000>0])
-#er$pmin2001[er$pmin2001>0]=er$pmin2001[er$pmin2001>0]-median(er$pmin2001[er$pmin2001>0])
-#er$pmin2002[er$pmin2002>0]=er$pmin2002[er$pmin2002>0]-median(er$pmin2002[er$pmin2002>0])
-#er$pmin2003[er$pmin2003>0]=er$pmin2003[er$pmin2003>0]-median(er$pmin2003[er$pmin2003>0])
-#er$pmin2004[er$pmin2004>0]=er$pmin2004[er$pmin2004>0]-median(er$pmin2004[er$pmin2004>0])
-#er$pmin2005[er$pmin2005>0]=er$pmin2005[er$pmin2005>0]-median(er$pmin2005[er$pmin2005>0])
-#er$pmin2006[er$pmin2006>0]=er$pmin2006[er$pmin2006>0]-median(er$pmin2006[er$pmin2006>0])
-#er$pmin2007[er$pmin2007>0]=er$pmin2007[er$pmin2007>0]-median(er$pmin2007[er$pmin2007>0])
-#er$pmin2008[er$pmin2008>0]=er$pmin2008[er$pmin2008>0]-median(er$pmin2008[er$pmin2008>0])
-er$ID=NULL
+   er$pmin1998[er$pmin1998>0]=er$pmin1998[er$pmin1998>0]-median(er$pmin1998[er$pmin1998>0])
+   er$pmin1999[er$pmin1999>0]=er$pmin1999[er$pmin1999>0]-median(er$pmin1999[er$pmin1999>0])
+   er$pmin2000[er$pmin2000>0]=er$pmin2000[er$pmin2000>0]-median(er$pmin2000[er$pmin2000>0])
+   er$pmin2001[er$pmin2001>0]=er$pmin2001[er$pmin2001>0]-median(er$pmin2001[er$pmin2001>0])
+   er$pmin2002[er$pmin2002>0]=er$pmin2002[er$pmin2002>0]-median(er$pmin2002[er$pmin2002>0])
+   er$pmin2003[er$pmin2003>0]=er$pmin2003[er$pmin2003>0]-median(er$pmin2003[er$pmin2003>0]) 
+   er$pmin2004[er$pmin2004>0]=er$pmin2004[er$pmin2004>0]-median(er$pmin2004[er$pmin2004>0])
+   er$pmin2005[er$pmin2005>0]=er$pmin2005[er$pmin2005>0]-median(er$pmin2005[er$pmin2005>0])
+   er$pmin2006[er$pmin2006>0]=er$pmin2006[er$pmin2006>0]-median(er$pmin2006[er$pmin2006>0])
+   er$pmin2007[er$pmin2007>0]=er$pmin2007[er$pmin2007>0]-median(er$pmin2007[er$pmin2007>0])
+   er$pmin2008[er$pmin2008>0]=er$pmin2008[er$pmin2008>0]-median(er$pmin2008[er$pmin2008>0]) 
+   er$pmin2009[er$pmin2009>0]=er$pmin2009[er$pmin2009>0]-median(er$pmin2009[er$pmin2009>0])
+   er$pmin2010[er$pmin2010>0]=er$pmin2010[er$pmin2010>0]-median(er$pmin2010[er$pmin2010>0])
+}
+
+#er$ID=NULL
 er$NC=1-er$Calf
 years=as.numeric(levels(er$cohort))
 # Process data and set up design data for RMark
@@ -87,9 +98,18 @@ levels(er.ddl$p$timebin)=c("1998-1999",as.character(2000:max(years)))
 # create function to fit various model sets
 do.popan=function()
 {
-  p.1=list(formula=~-1+timebin,fixed=list(index=fixed.p.index,value=fixed.p.values))
-  p.2=list(formula=~-1+timebin+pmin,fixed=list(index=fixed.p.index,value=fixed.p.values))
-  p.3=list(formula=~pmin,fixed=list(index=fixed.p.index,value=fixed.p.values))
+if(alternate)
+{
+   p.1=list(formula=~-1+timebin,fixed=list(index=fixed.p.index,value=fixed.p.values))
+   p.2=list(formula=~-1+timebin+pmin,fixed=list(index=fixed.p.index,value=fixed.p.values))
+   p.3=list(formula=~pmin,fixed=list(index=fixed.p.index,value=fixed.p.values))
+}
+else
+{
+	p.1=list(formula=~-1+timebin)
+	p.2=list(formula=~-1+timebin+pmin)
+	p.3=list(formula=~pmin)
+}
   Phi.1=list(formula=~firstyr)
   Phi.2=list(formula=~firstyr+firstyr:min)
   Phi.3=list(formula=~firstcohort:firstyr+firstyr)
@@ -98,7 +118,13 @@ do.popan=function()
   Phi.6=list(formula=~cohort:firstyr+firstyr:min)
   Phi.7=list(formula=~cohort:firstyr+Calf:firstyr+firstyr+firstyr:min)
   Phi.8=list(formula=~cohort:firstyr+Calf:firstyr+ Calf:min:firstyr +firstyr:min)
-  N.1=list(formula=~-1+group,fixed=0)
+  Phi.9=list(formula=~firstcohort:firstyr+firstyr+firstyr:min+firstcohort:min + Calf:firstyr)
+  Phi.10=list(formula=~firstcohort:firstyr+firstyr+firstyr:min+firstcohort:min + Calf:firstyr+Calf:min:firstyr )
+ 
+  if(alternate)
+	  N.1=list(formula=~-1+group,fixed=0)
+  else
+      N.1=list(formula=~-1+group)
   pent.1=list(formula=~1,fixed=list(index=fixed.pent.index,value=fixed.pent.values))
   cml=create.model.list("POPAN")
   results=mark.wrapper(cml,data=er.proc,ddl=er.ddl,output=FALSE)
@@ -106,30 +132,57 @@ do.popan=function()
 # Run set of models and store in popan.results
 popan.results=do.popan()
 # Use top models with delta AICc <4 
-model.nums=as.numeric(row.names(popan.results$model.table[popan.results$model.table$DeltaAICc<4,]))
-weight=popan.results$model.table$DeltaAICc[popan.results$model.table$DeltaAICc<4]
+model.nums=as.numeric(row.names(popan.results$model.table[popan.results$model.table$DeltaAICc<delta,]))
+weight=popan.results$model.table$DeltaAICc[popan.results$model.table$DeltaAICc<delta]
 weight=weight-min(weight)
 weight=exp(-.5*weight)/sum(exp(-.5*weight))
 nmodels=length(model.nums)
 N.vcv.list=vector("list",nmodels)
 Nest=matrix(NA,nrow=nmodels,ncol=nchar(er$ch[1]))
-for(i in 1:nmodels)
+if(alternate)
 {
-  mod=popan.results[[model.nums[i]]]
-# Assign all covariate values to 0 which is the average value since all have been centered
-  suppressWarnings(mod$design.matrix[is.na(as.numeric(mod$design.matrix))]<-"0")
-# Call popan.derived to estimate abundance
-  xx=popan.derived(er.proc,mod)
-  Nest[i,]=xx$Nbyocc$N
-  N.vcv.list[[i]]=xx$Nbyocc.vcv
-}
-Nbyocc=model.average(list(estimates=Nest,vcv=N.vcv.list,weight=weight))
+	lnN.vcv.list=vector("list",nmodels)
+	lnNest=matrix(NA,nrow=nmodels,ncol=nchar(er$ch[1]))
+	for(i in 1:nmodels)
+	{
+		mod=popan.results[[model.nums[i]]]
+		xx=abundance.p(er,mod) 
+		Nest[i,]=xx$N
+		N.vcv.list[[i]]=xx$N.vcv
+		lnNest[i,]=xx$lnN
+		lnN.vcv.list[[i]]=xx$lnN.vcv
+	}
+	Nbyocc=model.average(list(estimates=Nest,vcv=N.vcv.list,weight=weight))
 # Compute LCL,UCL,Nmin calculation with std formula for log-normal conf interval
-Nbyocc$estimate=data.frame(N=Nbyocc$estimate,se=Nbyocc$se)
-C=exp(sqrt(log(1+(Nbyocc$estimate$se/Nbyocc$estimate$N)^2)))
-Nbyocc$estimate$LCL=Nbyocc$estimate$N/C
-Nbyocc$estimate$UCL=Nbyocc$estimate$N*C
-Nbyocc$estimate$Nmin=with(Nbyocc$estimate,N/exp(0.864*sqrt(log(1+(se/N)^2))))
-return(list(Nbyocc=Nbyocc,model.list=popan.results))
+	Nbyocc$estimate=data.frame(N=Nbyocc$estimate,se=Nbyocc$se)
+	C=exp(sqrt(log(1+(Nbyocc$estimate$se/Nbyocc$estimate$N)^2)))
+	Nbyocc$estimate$LCL=Nbyocc$estimate$N/C
+	Nbyocc$estimate$UCL=Nbyocc$estimate$N*C
+	Nbyocc$estimate$Nmin=with(Nbyocc$estimate,N/exp(0.864*sqrt(log(1+(se/N)^2))))
+	lnNbyocc=model.average(list(estimates=lnNest,vcv=lnN.vcv.list,weight=weight))
+	lnNbyocc$estimate=data.frame(lnN=lnNbyocc$estimate,se=lnNbyocc$se)
+	return(list(Nbyocc=Nbyocc,lnNbyocc=lnNbyocc,model.list=popan.results))
+} else
+{
+	for(i in 1:nmodels)
+	{
+		mod=popan.results[[model.nums[i]]]
+# Assign all covariate values to 0 which is the average value since all have been centered
+		suppressWarnings(mod$design.matrix[is.na(as.numeric(mod$design.matrix))]<-"0")
+# Call popan.derived to estimate abundance
+		xx=popan.derived(er.proc,mod)
+		Nest[i,]=xx$Nbyocc$N
+		N.vcv.list[[i]]=xx$Nbyocc.vcv
+	}
+	Nbyocc=model.average(list(estimates=Nest,vcv=N.vcv.list,weight=weight))
+# Compute LCL,UCL,Nmin calculation with std formula for log-normal conf interval
+	Nbyocc$estimate=data.frame(N=Nbyocc$estimate,se=Nbyocc$se)
+	C=exp(sqrt(log(1+(Nbyocc$estimate$se/Nbyocc$estimate$N)^2)))
+	Nbyocc$estimate$LCL=Nbyocc$estimate$N/C
+	Nbyocc$estimate$UCL=Nbyocc$estimate$N*C
+	Nbyocc$estimate$Nmin=with(Nbyocc$estimate,N/exp(0.864*sqrt(log(1+(se/N)^2))))
+	return(list(Nbyocc=Nbyocc,model.list=popan.results))
+	
+}
 }
 

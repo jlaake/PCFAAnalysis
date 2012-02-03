@@ -16,7 +16,7 @@
 \pagestyle{fancy}
 \fancyhf{}
  
-\lhead{SC/62/BRG32}
+\lhead{SC/64/BRG??}
 \rhead{\thepage}
 \end_preamble
 \use_default_options false
@@ -79,6 +79,7 @@ sweave
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\author -1173166803 "JLaake" 
 \end_header
 
 \begin_body
@@ -91,7 +92,7 @@ Abundance and population structure of seasonal gray whales in the Pacific
 \begin_inset Newline newline
 \end_inset
 
-(SC/???)
+(SC/64/BRG??)
 \end_layout
 
 \begin_layout Author
@@ -99,155 +100,13 @@ John Calambokidis, Jeffrey L.
  Laake, Amber Klimek
 \end_layout
 
-\begin_layout Abstract
-The existence of a small number of eastern North Pacific gray whales that
- spend the spring, summer and fall feeding in coastal waters of the Pacific
- Northwest has been known for some time and localized and short-term studies
- have examined aspects of the natural history of these animals.
- We report the results of a 13-year (1998-2010) collaborative study examining
- the abundance and the population structure of these animals conducted over
- a number of regions from Northern California to British Columbia using
- photographic identification.
- Some 12,679 identifications representing 872 unique gray whales were obtained.
- Gray whales seen after 1 June (after the northward migration) were more
- likely to be seen repeatedly and in multiple regions and years and 1 June
- was used as the seasonal start date for the data included in the abundance
- estimates.
- Gray whales using the Pacific Northwest in summer and fall include two
- groups: 1) whales that return frequently and account for the majority of
- the sightings and 2) apparent stragglers from the migration seen in only
- one year, generally for shorter periods and in more limited areas.
- Abundance estimates for whales present in summer and fall using three different
- methods and different geographic scales revealed the abundance of animals
- to be at most a few hundred individuals.
- The proportion of calves documented was generally low but varied dramatically
- among years and may have been biased downward by weaning of calves prior
- to much of the seasonal effort.
- Observations of calves returning to the Pacific Northwest in subsequent
- years documents one possible mechanism for recruitment.
- The results we present will be valuable in assessing the impacts of potential
- resumption of a gray whale hunt by the Makah Tribe, currently proposed
- to target migrating whales by hunting prior to 1 June.
-\end_layout
-
-\begin_layout Section
-Introduction
-\end_layout
-
-\begin_layout Standard
-Although most gray whales in the Eastern North Pacific stock migrate each
- spring from calving lagoons in Baja Mexico to feeding grounds in the arctic,
- the existence of gray whales that spend the spring, summer and fall feeding
- in coastal waters of the Paciﬁc Northwest has been known for some time.
- Starting in the 1970s, photographic identiﬁcation demonstrated that some
- whales returned regularly to feed off the west coast of Vancouver Island
- (
-\begin_inset CommandInset citation
-LatexCommand citealt
-key "Darling1984"
-
-\end_inset
-
-).
- The proximity of these whales to the traditional whale hunting grounds
- of the Makah Tribe coupled with the Tribe’s interest in resuming gray whale
- hunts in the 1990s made determination of the status and number of these
- whales of greater importance to management.
- 
-\end_layout
-
-\begin_layout Standard
-Beginning in 1998, a collaborative effort among a number of research groups
- was initiated to conduct a range-wide photographic identiﬁcation study
- of gray whales in the Paciﬁc Northwest (
-\begin_inset CommandInset citation
-LatexCommand citealt
-key "Calambokidis2000,Calambokidis2002"
-
-\end_inset
-
-).
- An initial publication of ﬁndings from 1998 demonstrated there was considerable
- movement of individual whales among sub-areas from northern California
- to southeastern Alaska (which we broadly refer to as the Pacific Northwest)
- and also provided initial estimates of the abundance of whales within that
- geographical area (
-\begin_inset CommandInset citation
-LatexCommand citealt
-key "Calambokidis2002a"
-
-\end_inset
-
-).
- The ability to look at movements and employ more sophisticated capture-recaptur
-e models, however, was restricted by the lack of multiple years of data
- with broad geographic coverage.
- A subsequent report by 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Calambokidis2004"
-
-\end_inset
-
- characterized the group of whales feeding in these survey areas during
- the summer-fall period as a “Pacific Coast Feeding Aggregation” (PCFA).
- They proposed that a smaller area within the PCFA survey areas – from Oregon
- to Southern Vancouver Island (OR-SVI) – was the most appropriate area for
- abundance estimation for managing a Makah gray whale hunt (
-\begin_inset CommandInset citation
-LatexCommand citealt
-key "Calambokidis2004"
-
-\end_inset
-
-).
- 
-\end_layout
-
-\begin_layout Standard
-The collaborative effort to collect photographic identiﬁcations of gray
- whales from California to Alaska has continued since 1998 and these data
- now cover 13 years (1998-2010) and span fifteen survey regions along the
- coast from Southern California to Kodiak, Alaska (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "FigMap"
-
-\end_inset
-
-).
- We provide estimates of abundance for the summer-fall seasons (1 June to
- 30 November) for survey regions comprising different combinations of subareas
- within this range.
-\end_layout
-
-\begin_layout Section
-Methods
-\end_layout
-
 \begin_layout Standard
 \begin_inset ERT
 status open
 
 \begin_layout Plain Layout
 
-
-\backslash
-SweaveOpts{echo=F}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<>>=
+<<echo=FALSE>>=
 \end_layout
 
 \begin_layout Plain Layout
@@ -321,52 +180,39 @@ data(ER)
 
 \begin_layout Plain Layout
 
-ER=ER[ER$Year>=1998,]
+rg=read.delim("researchgroup.txt",sep="
+\backslash
+t")[,1:2] 
 \end_layout
 
 \begin_layout Plain Layout
 
-ER$ResearchGroup=as.character(ER$ResearchGroup)
+maxyear=2010
 \end_layout
 
 \begin_layout Plain Layout
 
-ER$ResearchGroup[!ER$ResearchGroup%in%c("NMML","MAKAH","BG","BG/VD","VD","JD","W
-S","HSU","CRC","Uvic","UVIC","CERF")]="Other"
+minyear=1998
 \end_layout
 
 \begin_layout Plain Layout
 
-ER$ResearchGroup[ER$ResearchGroup%in%c("BG","BG/VD")]="B.
- Gisborne" 
+nyears=maxyear-minyear+1
 \end_layout
 
 \begin_layout Plain Layout
 
-ER$ResearchGroup[ER$ResearchGroup%in%c("JD")]="J.
- Darling" 
+ER=ER[ER$Year>=minyear,]
 \end_layout
 
 \begin_layout Plain Layout
 
-ER$ResearchGroup[ER$ResearchGroup%in%c("WS")]="W.
- Szanislo" 
+ER=merge(ER,rg,all.x=TRUE)
 \end_layout
 
 \begin_layout Plain Layout
 
-ER$ResearchGroup[ER$ResearchGroup%in%c("VD")]="V.
- Deecke" 
-\end_layout
-
-\begin_layout Plain Layout
-
-ER$ResearchGroup[ER$ResearchGroup%in%c("Uvic","UVIC")]="UVIC" 
-\end_layout
-
-\begin_layout Plain Layout
-
-ER$ResearchGroup=factor(ER$ResearchGroup)
+ER$ResearchGroup=ER$Research.Group
 \end_layout
 
 \begin_layout Plain Layout
@@ -392,67 +238,6 @@ RG.whales=colSums(RG.whales)
 \begin_layout Plain Layout
 
 years=as.numeric(colnames(RGbyYear.photos)) 
-\end_layout
-
-\begin_layout Plain Layout
-
-tally.contributions=function(rg)     return(list(photos=sum(RGbyYear.photos[rg,]),
-whales=RG.whales[rg],years=c(min(years[RGbyYear.photos[rg,]>0]),max(years[RGbyYear.
-photos[rg,]>0])))) 
-\end_layout
-
-\begin_layout Plain Layout
-
-NMML=tally.contributions("NMML") 
-\end_layout
-
-\begin_layout Plain Layout
-
-MAKAH=tally.contributions("MAKAH") 
-\end_layout
-
-\begin_layout Plain Layout
-
-BG=tally.contributions("B.
- Gisborne") 
-\end_layout
-
-\begin_layout Plain Layout
-
-VD=tally.contributions("V.
- Deecke") 
-\end_layout
-
-\begin_layout Plain Layout
-
-CRC=tally.contributions("CRC") 
-\end_layout
-
-\begin_layout Plain Layout
-
-JD=tally.contributions("J.
- Darling") 
-\end_layout
-
-\begin_layout Plain Layout
-
-UVIC=tally.contributions("UVIC") 
-\end_layout
-
-\begin_layout Plain Layout
-
-CERF=tally.contributions("CERF") 
-\end_layout
-
-\begin_layout Plain Layout
-
-WS=tally.contributions("W.
- Szanislo") 
-\end_layout
-
-\begin_layout Plain Layout
-
-HSU=tally.contributions("HSU") 
 \end_layout
 
 \begin_layout Plain Layout
@@ -483,17 +268,17 @@ xx=with(ER,table(ResearchGroup,Year))
 
 \begin_layout Plain Layout
 
-xx=cbind(rowSums(xx),RG.whales,xx) 
+xx=cbind(xx,RG.whales) 
 \end_layout
 
 \begin_layout Plain Layout
 
-colnames(xx)[1:2]=c("Photos","Whales") 
+colnames(xx)[ncol(xx)]=c("Whales") 
 \end_layout
 
 \begin_layout Plain Layout
 
-xx=rbind(xx,colSums(xx)) 
+xx=rbind(xx,c(colSums(xx[,1:(ncol(xx)-1)]),NA)) 
 \end_layout
 
 \begin_layout Plain Layout
@@ -518,7 +303,7 @@ year.whales=colSums(year.whales)
 
 \begin_layout Plain Layout
 
-xx=rbind(xx,c(NA,length(table(ER$ID)),year.whales)) 
+xx=rbind(xx,c(year.whales,length(table(ER$ID)))) 
 \end_layout
 
 \begin_layout Plain Layout
@@ -746,10 +531,267 @@ table7=move
 
 \end_layout
 
+\begin_layout Abstract
+The existence of a small number of eastern North Pacific gray whales that
+ spend the spring, summer and fall feeding in coastal waters of the Pacific
+ Northwest has been known for some time and localized and short-term studies
+ have examined aspects of the natural history of these animals.
+ We report the results of a 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears}
+\end_layout
+
+\end_inset
+
+-year (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+) collaborative study examining the abundance and the population structure
+ of these animals conducted over a number of regions from Northern California
+ to British Columbia using photographic identification.
+ Some 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{sum(year.photos)}
+\end_layout
+
+\end_inset
+
+ identifications representing 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{length(table(ER$ID))}
+\end_layout
+
+\end_inset
+
+ unique gray whales were obtained.
+ Gray whales seen after 1 June (after the northward migration) were more
+ likely to be seen repeatedly and in multiple regions and years and 1 June
+ was used as the seasonal start date for the data included in the abundance
+ estimates.
+ Gray whales using the Pacific Northwest in summer and fall include two
+ groups: 1) whales that return frequently and account for the majority of
+ the sightings and 2) apparent stragglers from the migration seen in only
+ one year, generally for shorter periods and in more limited areas.
+ Abundance estimates for whales present in summer and fall using three different
+ methods and different geographic scales revealed the abundance of animals
+ to be at most a few hundred individuals.
+ The proportion of calves documented was generally low but varied dramatically
+ among years and may have been biased downward by weaning of calves prior
+ to much of the seasonal effort.
+ Observations of calves returning to the Pacific Northwest in subsequent
+ years documents one possible mechanism for recruitment.
+ The results we present will be valuable in assessing the impacts of potential
+ resumption of a gray whale hunt by the Makah Tribe.
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+SweaveOpts{echo=FALSE}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Although most gray whales in the Eastern North Pacific stock migrate each
+ spring from calving lagoons in Baja Mexico to feeding grounds in the arctic,
+ the existence of gray whales that spend the spring, summer and fall feeding
+ in coastal waters of the Paciﬁc Northwest has been known for some time.
+ Starting in the 1970s, photographic identiﬁcation demonstrated that some
+ whales returned regularly to feed off the west coast of Vancouver Island
+ (
+\begin_inset CommandInset citation
+LatexCommand citealt
+key "Darling1984"
+
+\end_inset
+
+).
+ The proximity of these whales to the traditional whale hunting grounds
+ of the Makah Tribe coupled with the Tribe’s interest in resuming gray whale
+ hunts in the 1990s made determination of the status and number of these
+ whales of greater importance to management.
+ 
+\end_layout
+
+\begin_layout Standard
+Beginning in 1998, a collaborative effort among a number of research groups
+ was initiated to conduct a range-wide photographic identiﬁcation study
+ of gray whales in the Paciﬁc Northwest (
+\begin_inset CommandInset citation
+LatexCommand citealt
+key "Calambokidis2000,Calambokidis2002"
+
+\end_inset
+
+).
+ An initial publication of ﬁndings from 1998 demonstrated there was considerable
+ movement of individual whales among sub-areas from northern California
+ to southeastern Alaska (which we broadly refer to as the Pacific Northwest)
+ and also provided initial estimates of the abundance of whales within that
+ geographical area (
+\begin_inset CommandInset citation
+LatexCommand citealt
+key "Calambokidis2002a"
+
+\end_inset
+
+).
+ The ability to look at movements and employ more sophisticated capture-recaptur
+e models, however, was restricted by the lack of multiple years of data
+ with broad geographic coverage.
+ A subsequent report by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Calambokidis2004"
+
+\end_inset
+
+ characterized the group of whales feeding in these survey areas during
+ the summer-fall period as a “Pacific Coast Feeding Aggregation” (PCFA).
+ They proposed that a smaller area within the PCFA survey areas – from Oregon
+ to Southern Vancouver Island (OR-SVI) – was the most appropriate area for
+ abundance estimation for managing a Makah gray whale hunt (
+\begin_inset CommandInset citation
+LatexCommand citealt
+key "Calambokidis2004"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+The collaborative effort to collect photographic identiﬁcations of gray
+ whales from California to Alaska has continued since 1998 and these data
+ now cover 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears}
+\end_layout
+
+\end_inset
+
+ years (1998-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+) and span fifteen survey regions along the coast from Southern California
+ to Kodiak, Alaska (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "FigMap"
+
+\end_inset
+
+).
+ We provide estimates of abundance for the summer-fall seasons (1 June to
+ 30 November) for survey regions comprising different combinations of subareas
+ within this range.
+\end_layout
+
+\begin_layout Section
+Methods
+\end_layout
+
 \begin_layout Standard
 Gray whales were photographed during small boat surveys conducted from Californi
 a to Alaska by Cascadia Research, National Marine Mammal Laboratory and
- collaborating researchers between 1998 and 2010.
+ collaborating researchers between 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+.
  Gray whale identifications were divided into the following regions (Figure
  
 \begin_inset CommandInset ref
@@ -802,6 +844,8 @@ ref{tab2}
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -1173166803 1327703009
 o National Marine Mammal Laboratory: NMML obtained identification photographs
  of 
 \begin_inset ERT
@@ -863,6 +907,8 @@ Sexpr{NMML$years[2]}
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -1173166803 1327703009
 o Cascadia Research Collective: Cascadia obtained identifications photographs
  of gray whales on 
 \begin_inset ERT
@@ -897,6 +943,8 @@ Sexpr{CRC$whales}
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -1173166803 1327703009
 o Humboldt State University: HSU conducted surveys primarily off northern
  California from 
 \begin_inset ERT
@@ -955,6 +1003,8 @@ Sexpr{HSU$whales}
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -1173166803 1327703009
 o Brian Gisborne, Juan de Fuca Express: Brian Gisborne obtained identification
  photographs every year from 
 \begin_inset ERT
@@ -1015,6 +1065,8 @@ Sexpr{sum(BG$whales)}
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -1173166803 1327703009
 o Jim Darling, West Coast Whale Research Foundation: Jim Darling provided
  identification photographs obtained during surveys along the west coast
  of Vancouver Island primarily from Clayoquot Sound to Barkley Sound in
@@ -1049,6 +1101,8 @@ Sexpr{JD$whales}
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -1173166803 1327703009
 o Coastal Ecosystems Research Foundation: CERF conducted regular surveys
  from 
 \begin_inset ERT
@@ -1109,6 +1163,8 @@ Sexpr{CERF$whales}
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -1173166803 1327703009
 o University of Victoria: UVIC obtained identifications photographs from
  Clayoquot Sound north along the west side of Vancouver Island every year
  from 1998 to 2002 except 2001.
@@ -1142,6 +1198,8 @@ Sexpr{sum(UVIC$whales)}
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -1173166803 1327703009
 o Volker Deecke, independent researcher: Obtained identification photographs
  of gray whales from 1998 to 2001 and 2006 off British Columbia and in Southeast
  Alaska including 
@@ -1174,6 +1232,8 @@ Sexpr{VD$whales}
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -1173166803 1327703009
 o Wendy Szanislo, independent researcher: Wendy Szanislo obtained identification
  photographs of gray whales from 
 \begin_inset ERT
@@ -1232,6 +1292,8 @@ Sexpr{WS$whales}
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -1173166803 1327703009
 o Makah: Makah tribal biologists conducted surveys along the coast of Northern
  Washington and into the Strait of Juan de Fuca from 
 \begin_inset ERT
@@ -1290,12 +1352,42 @@ Sexpr{sum(MAKAH$whales)}
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -1173166803 1327703009
 o Other: Various independent researchers that have contributed photographs
  and related information.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
-Each year from 1998 to 2010, between 
+Each year from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+ to 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+, between 
 \begin_inset ERT
 status open
 
@@ -1407,7 +1499,14 @@ For photographic identification of gray whales, both left and right sides
  Markings used to distinguish whales included pigmentation of the skin,
  mottling, and scarring, which varied among individuals.
  These markings have provided a reliable means of identifying gray whales
- (Darling 1984).
+ (
+\begin_inset CommandInset citation
+LatexCommand citealt
+key "Darling1984"
+
+\end_inset
+
+).
  We also identified gray whales using the relative spacing between the knuckles
  along the ridge of the back behind the dorsal hump.
  The size and spacing of these bumps varies among whales and does not change
@@ -1503,12 +1602,51 @@ sampling period
 
 ) within the defined region were considered to be “captured” or “recaptured”.
  For each unique gray whale photographed, a capture history was constructed
- using the thirteen years of data from 1998-2010.
- For example, the capture history 01001001000 could represent a gray whale
+ using 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears}
+\end_layout
+
+\end_inset
+
+ years of data from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+.
+ For example, the capture history 0100100100000 could represent a gray whale
  photographed in 1999, 2002 and 2005 in the PCFA.
- The same gray whale may have had a capture history 01001000000 for a smaller
- spatial scale such as OR-SVI or may not have been seen at all (00000000000)
- and would not be used for the smaller spatial scale.
+ The same gray whale may have had a capture history 0100100000000 for a
+ smaller spatial scale such as OR-SVI or may not have been seen at all (00000000
+00000) and would not be used for the smaller spatial scale.
  
 \end_layout
 
@@ -1531,9 +1669,21 @@ Abundance using closed population models
 \begin_layout Standard
 Closed models for capture-recapture assume that the population is both geographi
 cally and demographically closed with no losses or gains.
- Due to births/immigration and mortality/emigration, closure would not be
- a reasonable assumption for the 11 year period but previous analysis has
- assumed closure for two consecutive years (e.g., 
+ Closure would not be a reasonable assumption for the entire 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears}
+\end_layout
+
+\end_inset
+
+ year period but previous analysis has assumed closure for two consecutive
+ years (e.g., 
 \begin_inset CommandInset citation
 LatexCommand citealt
 key "Calambokidis2004"
@@ -1550,15 +1700,31 @@ key "Seber1982"
 
 ) was used in which each of the consecutive years (June-November) was a
  sampling occasion.
- Thus, it was assumed that all whales that were available to be photographed
- from June-November, 1998 were also available to be photographed from June-Novem
-ber 1999 and vice versa.
- If new whales joined in 1999 or whales from 1998 did not return in 1999,
- the closure assumption would be violated.
- A sequence of abundance estimates can be constructed using each consecutive
- pair of years (e.g., 1998-1999,1999-2000, etc).
- It is well known that the LP estimator can be unbiased even if there are
- losses or gains (
+ Those estimates were based on the assumption that all whales that were
+ available to be photographed in year 
+\shape italic
+y
+\shape default
+ were also available to be photographed in year 
+\shape italic
+y
+\shape default
++1 and vice versa.
+ If new whales joined in 
+\shape italic
+y
+\shape default
++1 or whales seen in year 
+\shape italic
+y
+\shape default
+ did not return in 
+\shape italic
+y
+\shape default
++1, the closure assumption would be violated.
+ It is well known that the LP estimator is unbiased if there are only losses
+ or only gains (
 \begin_inset CommandInset citation
 LatexCommand citealt
 key "Seber1982"
@@ -1572,10 +1738,11 @@ key "Kendall1999"
 
 \end_inset
 
-) except for a completely random movement model.
- A completely random movement model is unlikely in this case because with
- more than 20,000 whales there would be few if any matches between years
- if movement in and out of the area was completely random.
+).
+ The only exception is a population with completely random movement into
+ and out of the population but that is not plausible with gray whales because
+ there are more than 20,000 whales and there would be few if any matches
+ between years if movement in and out of the PCFA was completely random.
  
 \end_layout
 
@@ -1595,12 +1762,12 @@ transient
  For each pair of years in the computation of abundance with the LP estimator,
  we only used whales that were seen in one or more years other than the
  years being considered.
- For example, in computing an abundance estimate for 1999-2000 we only used
- whales that were also seen in 1998 or at least one year after 2000.
+ For example, in computing an abundance estimate with 1999 and 2000 we only
+ used whales that were also seen in 1998 or at least one year after 2000.
  This removed any transients that would have only been seen in either 1999
  or 2000.
  It also removes those seen only in both years; while these are technically
- not transients their removal was unavoidable using this approach.
+ not single-year transients their removal was unavoidable using this approach.
  This was done for each year pairing and we have called this estimation
  method 
 \begin_inset Quotes eld
@@ -1619,7 +1786,20 @@ Abundance using open population models
 
 \begin_layout Standard
 In addition to the closed models, we fitted open population models to the
- 11 year time series of capture history data for each spatial scale to estimate
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears}
+\end_layout
+
+\end_inset
+
+ year time series of capture history data for each spatial scale to estimate
  abundance and survival.
  Open models allow gains due to births/immigration and losses due to deaths/emig
 ration.
@@ -1737,11 +1917,23 @@ Newly seen
 \begin_inset Quotes erd
 \end_inset
 
- is not a particularly useful concept for the first year of the study (1998),
- because all whales are being seen for the first time.
+ is not a particularly useful concept for the first year of the study (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+), because all whales are being seen for the first time.
  Thus, we also considered a model that allowed for a different first year
- survival and effect of MT for 1998 than for 1999-2007 and another model
- in which each cohort had a different first year survival.
+ survival and effect of MT for 1998 than for years after 1998 and another
+ model in which each cohort had a different first year survival.
  We also considered models that allowed a different first-year survival
  for whales identified as calves under the presumption that their true survival
  might be lower but that there probability of returning to the PCFA might
@@ -1922,7 +2114,33 @@ nwhales=length(unique(ERd$ID))
 \end_layout
 
 \begin_layout Standard
-The database from all thirteen years (1998-2010) contains 
+The database from all thirteen years (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+) contains 
 \begin_inset ERT
 status open
 
@@ -2064,12 +2282,12 @@ opt=options()
 
 \begin_layout Plain Layout
 
-oldwhales=unique(ER$ID[ER$Year<1998])
+oldwhales=unique(ER$ID[ER$Year<minyear])
 \end_layout
 
 \begin_layout Plain Layout
 
-ER=subset(ER,subset=Year>=1998)
+ER=subset(ER,subset=Year>=minyear)
 \end_layout
 
 \begin_layout Plain Layout
@@ -2460,12 +2678,12 @@ data(ER)
 
 \begin_layout Plain Layout
 
-ER=ER[ER$Year>=1998,] 
+ER=ER[ER$Year>=minyear,] 
 \end_layout
 
 \begin_layout Plain Layout
 
-PCFA=PCFA[PCFA$Year>=1998,] 
+PCFA=PCFA[PCFA$Year>=minyear,] 
 \end_layout
 
 \begin_layout Plain Layout
@@ -3220,7 +3438,7 @@ data(PCFA)
 
 \begin_layout Plain Layout
 
-PCFA=PCFA[PCFA$Year>=1998,]
+PCFA=PCFA[PCFA$Year>=minyear,]
 \end_layout
 
 \begin_layout Plain Layout
@@ -3387,7 +3605,8 @@ xx$fac = factor(as.numeric(xx$cohort != min(x$Year)))
 
 \begin_layout Plain Layout
 
-levels(xx$fac)=c("First seen 1998","First seen after 1998") 
+levels(xx$fac)=c(paste("First seen",minyear),paste("First seen after",minyear))
+ 
 \end_layout
 
 \begin_layout Plain Layout
@@ -3505,8 +3724,8 @@ key "Calambokidis2004"
 
 ).
  Of the whales sighted in regions from SOR to NBC, depending on the region,
- from 57-73% of the whales were seen at some point within MUA-SVI (Figure
- 
+ from CODE THIS 57-73% of the whales were seen at some point within MUA-SVI
+ (Figure 
 \begin_inset ERT
 status open
 
@@ -3526,7 +3745,19 @@ ref{Fig4}
 \end_layout
 
 \begin_layout Standard
-If we look at latitudes of sightings of individual whales across the 11
+If we look at latitudes of sightings of individual whales across the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears}
+\end_layout
+
+\end_inset
+
  years using whales that have been sighted on at least 6 different days
  (Figure 
 \begin_inset ERT
@@ -3546,7 +3777,8 @@ ref{Fig7}
  We defined each whales primary range by the 75% inner quantile which is
  the middle of the range that includes 75% of the locations.
  The length of the 75% inner quantile in nautical miles exceeded 60 nautical
- miles (or 1 degree of latitude) for 40% of the whales (Figure 
+ miles (or 1 degree of latitude) for 40% CODE THIS of the whales (Figure
+ 
 \begin_inset ERT
 status open
 
@@ -3559,7 +3791,8 @@ ref{Fig8}
 
 \end_inset
 
-) and it was more than 180 nautical miles for more than 15% of the whales.
+) and it was more than 180 nautical miles for more than 15% CODE THIS of
+ the whales.
  Thus, it makes little sense to compute an estimate of abundance for any
  region that spans less than a degree of latitude.
 \end_layout
@@ -3580,10 +3813,35 @@ ref{tab5}
 \end_inset
 
 ).
- Most whales that were seen during June-November 1998-2010 in the PCFA (NCA
- to NBC) were only seen in one year and the whales that were seen in more
- years were sighted more often each year and therefore represented a large
- proportion of the sightings (Figure 
+ Most whales that were seen during June-November 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ in the PCFA (NCA to NBC) were only seen in one year and the whales that
+ were seen in more years were sighted more often each year and therefore
+ represented a large proportion of the sightings (Figure 
 \begin_inset ERT
 status open
 
@@ -3621,8 +3879,21 @@ first
 \begin_inset Quotes erd
 \end_inset
 
- seen in 1998 includes some whales that were truly new to the PCFA in that
- year but many were only 
+ seen in 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+ includes some whales that were truly new to the PCFA in that year but many
+ were only 
 \begin_inset Quotes eld
 \end_inset
 
@@ -3644,7 +3915,20 @@ ref{FigMT}
 
 \end_inset
 
-) in the much higher proportions for 1998 than for the other years.
+) in the much higher proportions for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+ than for the other years.
  These relationships are important in capture-recapture models for abundance
  estimation.
  For example, in an open population model, whales that do not return after
@@ -3672,7 +3956,20 @@ reference "tab:moms"
 ).
  Two individuals were sighted with calves in three years, the most we documented
 , however, in both cases one of these calves was documented outside the
- 1998 to 2010 primary study period.
+ 1998 to 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ primary study period.
  One individual (ID#81) was observed with a calf in 2001, 2003, and 2009
  (not all data from 2009 has been analyzed) and the other individual (ID#67)
  was seen with a calf in 1995, 2002 and 2004.
@@ -3681,7 +3978,19 @@ reference "tab:moms"
 \begin_layout Standard
 Four of the 41 calves occurred outside our primary study period, three prior
  to 1998 and one known female who was known to have a calf in 2009, leaving
- 37 or just over three per year during our primary study period 1998-2010
+ 37 or just over three per year during our primary study period 1998-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
  (Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3779,7 +4088,20 @@ One important question in evaluating the population structure of the gray
  in the first year of life or animals that did not continue to feed in the
  Pacific Northwest in future years.
  There were 39 calves or suspected calves identified with their mothers
- through 2010 in the study area.
+ through 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ in the study area.
  Just under half of these (18) had been seen only in the year they were
  calves and 21 (54%) had been resighted in years after they were calves.
  Using only the 30 calves seen through 2004 (to allow a follow up period
@@ -3835,7 +4157,7 @@ status open
 
 \begin_layout Plain Layout
 
-  PCFA=PCFA[PCFA$Year>=1998,]
+  PCFA=PCFA[PCFA$Year>=minyear,]
 \end_layout
 
 \begin_layout Plain Layout
@@ -4113,7 +4435,8 @@ I","NBC"))
 
 \begin_layout Plain Layout
 
-  muasvi.proc=process.data(ch.muasvi,model="POPAN",begin.time=1998,groups="cohort")
+  muasvi.proc=process.data(ch.muasvi,model="POPAN",begin.time=minyear,groups="cohort
+")
 \end_layout
 
 \begin_layout Plain Layout
@@ -4123,7 +4446,7 @@ I","NBC"))
 
 \begin_layout Plain Layout
 
-  muasvi.proc=process.data(ch.muasvi,model="POPAN",begin.time=1998)
+  muasvi.proc=process.data(ch.muasvi,model="POPAN",begin.time=minyear)
 \end_layout
 
 \begin_layout Plain Layout
@@ -4133,7 +4456,7 @@ I","NBC"))
 
 \begin_layout Plain Layout
 
-  all.proc=process.data(ch.all,model="POPAN",begin.time=1998,groups="cohort")
+  all.proc=process.data(ch.all,model="POPAN",begin.time=minyear,groups="cohort")
 \end_layout
 
 \begin_layout Plain Layout
@@ -4143,7 +4466,7 @@ I","NBC"))
 
 \begin_layout Plain Layout
 
-  all.proc=process.data(ch.all,model="POPAN",begin.time=1998)
+  all.proc=process.data(ch.all,model="POPAN",begin.time=minyear)
 \end_layout
 
 \begin_layout Plain Layout
@@ -4159,7 +4482,7 @@ I","NBC"))
 
 \begin_layout Plain Layout
 
-  nbc.proc=process.data(ch.nbc,model="POPAN",begin.time=1998,groups="cohort")
+  nbc.proc=process.data(ch.nbc,model="POPAN",begin.time=minyear,groups="cohort")
 \end_layout
 
 \begin_layout Plain Layout
@@ -4169,7 +4492,7 @@ I","NBC"))
 
 \begin_layout Plain Layout
 
-  nbc.proc=process.data(ch.nbc,model="POPAN",begin.time=1998)
+  nbc.proc=process.data(ch.nbc,model="POPAN",begin.time=minyear)
 \end_layout
 
 \begin_layout Plain Layout
@@ -4185,7 +4508,7 @@ I","NBC"))
 
 \begin_layout Plain Layout
 
-  orsvi.proc=process.data(ch.orsvi,model="POPAN",begin.time=1998,groups="cohort")
+  orsvi.proc=process.data(ch.orsvi,model="POPAN",begin.time=minyear,groups="cohort")
 \end_layout
 
 \begin_layout Plain Layout
@@ -4195,7 +4518,7 @@ I","NBC"))
 
 \begin_layout Plain Layout
 
-  orsvi.proc=process.data(ch.orsvi,model="POPAN",begin.time=1998,)
+  orsvi.proc=process.data(ch.orsvi,model="POPAN",begin.time=minyear)
 \end_layout
 
 \begin_layout Plain Layout
@@ -4289,7 +4612,7 @@ I","NBC"))
 
 \begin_layout Plain Layout
 
-MT.S=function(index,x,yr,calf=0,q=c(.05,.25,.5,.75,.95))
+MT.S=function(index,x,yr,calf=0,q=c(.05,.25,.5,.75,.95),y=NULL)
 \end_layout
 
 \begin_layout Plain Layout
@@ -4299,18 +4622,33 @@ MT.S=function(index,x,yr,calf=0,q=c(.05,.25,.5,.75,.95))
 
 \begin_layout Plain Layout
 
-  x=x-median(x)
+	if(is.null(y))
 \end_layout
 
 \begin_layout Plain Layout
 
-return(eval(parse(text=paste("covariate.predictions(muasvi.open$model.list,data=dat
-a.frame(index=c(rep(index,length(q))),
+	   x=x-median(x)
 \end_layout
 
 \begin_layout Plain Layout
 
-Calf=rep(calf,length(q)),min",yr,"=quantile(x,q)))",sep=""))))
+    else
+\end_layout
+
+\begin_layout Plain Layout
+
+	   x=x-median(y)
+\end_layout
+
+\begin_layout Plain Layout
+
+	return(eval(parse(text=paste("covariate.predictions(muasvi.open$model.list,data=da
+ta.frame(index=c(rep(index,length(q))),
+\end_layout
+
+\begin_layout Plain Layout
+
+											Calf=rep(calf,length(q)),min",yr,"=quantile(x,q)))",sep=""))))
 \end_layout
 
 \begin_layout Plain Layout
@@ -4320,52 +4658,6 @@ Calf=rep(calf,length(q)),min",yr,"=quantile(x,q)))",sep=""))))
 
 \begin_layout Plain Layout
 
-S.1998=MT.S(1,ch.muasvi$min1998[ch.muasvi$min1998>0],1998)
-\end_layout
-
-\begin_layout Plain Layout
-
-S.1999=MT.S(12,ch.muasvi$min1999[ch.muasvi$min1999>0],1999)
-\end_layout
-
-\begin_layout Plain Layout
-
-S.2000=MT.S(23,ch.muasvi$min2000[ch.muasvi$min2000>0],2000)
-\end_layout
-
-\begin_layout Plain Layout
-
-S.2001=MT.S(34,ch.muasvi$min2001[ch.muasvi$min2001>0],2001)
-\end_layout
-
-\begin_layout Plain Layout
-
-S.2002=MT.S(45,ch.muasvi$min2002[ch.muasvi$min2002>0],2002)
-\end_layout
-
-\begin_layout Plain Layout
-
-S.2003=MT.S(56,ch.muasvi$min2003[ch.muasvi$min2003>0],2003)
-\end_layout
-
-\begin_layout Plain Layout
-
-S.2004=MT.S(67,ch.muasvi$min2004[ch.muasvi$min2004>0],2004)
-\end_layout
-
-\begin_layout Plain Layout
-
-S.2005=MT.S(78,ch.muasvi$min2005[ch.muasvi$min2005>0],2005)
-\end_layout
-
-\begin_layout Plain Layout
-
-S.2006=MT.S(89,ch.muasvi$min2006[ch.muasvi$min2006>0],2006)
-\end_layout
-
-\begin_layout Plain Layout
-
-S.2007=MT.S(100,ch.muasvi$min2007[ch.muasvi$min2007>0],2007)
 \end_layout
 
 \begin_layout Plain Layout
@@ -4374,19 +4666,100 @@ S.2007=MT.S(100,ch.muasvi$min2007[ch.muasvi$min2007>0],2007)
 
 \begin_layout Plain Layout
 
-S.df=data.frame(Cohort=factor(rep(1998:2007,each=5)),MT=c(S.1998$estimates[,6]+medi
-an(ch.muasvi$min1998[ch.muasvi$min1998>0]),S.1999$estimates[,6]+median(ch.muasvi$min
-1999[ch.muasvi$min1999>0]),S.2000$estimates[,6]+median(ch.muasvi$min2000[ch.muasvi$m
-in2000>0]),S.2001$estimates[,6]+median(ch.muasvi$min2001[ch.muasvi$min2001>0]),S.200
-2$estimates[,6]+median(ch.muasvi$min2002[ch.muasvi$min2002>0]),S.2003$estimates[,6]
-+median(ch.muasvi$min2003[ch.muasvi$min2003>0]),S.2004$estimates[,6]+median(ch.muasv
-i$min2004[ch.muasvi$min2004>0]),S.2005$estimates[,6]+median(ch.muasvi$min2005[ch.mua
-svi$min2005>0]),S.2006$estimates[,6]+median(ch.muasvi$min2006[ch.muasvi$min2006>0])
-,S.2007$estimates[,6]+median(ch.muasvi$min2007[ch.muasvi$min2007>0])), Survival=c(S.
-1998$estimates$estimate,S.1999$estimates$estimate,S.2000$estimates$estimate,S.2001$
-estimates$estimate,S.2002$estimates$estimate,S.2003$estimates$estimate,S.2004$estim
-ates$estimate,S.2005$estimates$estimate,S.2006$estimates$estimate,S.2007$estimates$
-estimate))
+select=as.numeric(muasvi.open$model.list[[11]]$design.data$Phi$cohort)==as.numeric(mu
+asvi.open$model.list[[11]]$design.data$Phi$time)
+\end_layout
+
+\begin_layout Plain Layout
+
+indices=as.numeric(row.names(muasvi.open$model.list[[11]]$design.data$Phi[select,]))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+S.1998=MT.S(indices[1],ch.muasvi$min1998[ch.muasvi$min1998>0],1998)
+\end_layout
+
+\begin_layout Plain Layout
+
+S.1999=MT.S(indices[2],ch.muasvi$min1999[ch.muasvi$min1999>0],1999)
+\end_layout
+
+\begin_layout Plain Layout
+
+S.2000=MT.S(indices[3],ch.muasvi$min2000[ch.muasvi$min2000>0],2000)
+\end_layout
+
+\begin_layout Plain Layout
+
+S.2001=MT.S(indices[4],ch.muasvi$min2001[ch.muasvi$min2001>0],2001)
+\end_layout
+
+\begin_layout Plain Layout
+
+S.2002=MT.S(indices[5],ch.muasvi$min2002[ch.muasvi$min2002>0],2002)
+\end_layout
+
+\begin_layout Plain Layout
+
+S.2003=MT.S(indices[6],ch.muasvi$min2003[ch.muasvi$min2003>0],2003)
+\end_layout
+
+\begin_layout Plain Layout
+
+S.2004=MT.S(indices[7],ch.muasvi$min2004[ch.muasvi$min2004>0],2004)
+\end_layout
+
+\begin_layout Plain Layout
+
+S.2005=MT.S(indices[8],ch.muasvi$min2005[ch.muasvi$min2005>0],2005)
+\end_layout
+
+\begin_layout Plain Layout
+
+S.2006=MT.S(indices[9],ch.muasvi$min2006[ch.muasvi$min2006>0],2006)
+\end_layout
+
+\begin_layout Plain Layout
+
+S.2007=MT.S(indices[10],ch.muasvi$min2007[ch.muasvi$min2007>0],2007)
+\end_layout
+
+\begin_layout Plain Layout
+
+S.2008=MT.S(indices[11],ch.muasvi$min2008[ch.muasvi$min2008>0],2008)
+\end_layout
+
+\begin_layout Plain Layout
+
+S.2009=MT.S(indices[12],ch.muasvi$min2009[ch.muasvi$min2009>0],2009) 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+S.df=data.frame(Cohort=factor(rep(minyear:2009,each=5)),MT=c(S.1998$estimates[,6]+m
+edian(ch.muasvi$min1998[ch.muasvi$min1998>0]),S.1999$estimates[,6]+median(ch.muasvi$
+min1999[ch.muasvi$min1999>0]),S.2000$estimates[,6]+median(ch.muasvi$min2000[ch.muasv
+i$min2000>0]),S.2001$estimates[,6]+median(ch.muasvi$min2001[ch.muasvi$min2001>0]),S.
+2002$estimates[,6]+median(ch.muasvi$min2002[ch.muasvi$min2002>0]),S.2003$estimates[
+,6]+median(ch.muasvi$min2003[ch.muasvi$min2003>0]),S.2004$estimates[,6]+median(ch.mu
+asvi$min2004[ch.muasvi$min2004>0]),S.2005$estimates[,6]+median(ch.muasvi$min2005[ch.
+muasvi$min2005>0]),S.2006$estimates[,6]+median(ch.muasvi$min2006[ch.muasvi$min2006>
+0]),S.2007$estimates[,6]+median(ch.muasvi$min2007[ch.muasvi$min2007>0]),S.2008$estim
+ates[,6]+median(ch.muasvi$min2008[ch.muasvi$min2008>0]),S.2009$estimates[,6]+median
+(ch.muasvi$min2009[ch.muasvi$min2009>0])), Survival=c(S.1998$estimates$estimate,S.19
+99$estimates$estimate,S.2000$estimates$estimate,S.2001$estimates$estimate,S.2002$es
+timates$estimate,S.2003$estimates$estimate,S.2004$estimates$estimate,S.2005$estimat
+es$estimate,S.2006$estimates$estimate,S.2007$estimates$estimate,S.2008$estimates$es
+timate,S.2009$estimates$estimate))
 \end_layout
 
 \begin_layout Plain Layout
@@ -4396,7 +4769,7 @@ estimate))
 \begin_layout Plain Layout
 
 Survival.plot=ggplot(S.df,aes(MT,Survival,groups=Cohort,shape=Cohort))+geom_line()
-+geom_point()+scale_shape_manual(value=c(1:5,9,11,15,16,17))+xlab("
++geom_point()+scale_shape_manual(value=c(1:5,9,11,15,16,17,18,19))+xlab("
 \backslash
 nMinimum tenure (days)")+ylab("First year survival
 \backslash
@@ -4409,42 +4782,50 @@ n")
 
 \begin_layout Plain Layout
 
-S.1998=MT.S(1,ch.muasvi$min1998[ch.muasvi$min1998>0],1998,calf=1,q=c(0.05,.5,.95))
+S.1998=MT.S(indices[1],ch.muasvi$min1998[ch.muasvi$min1998>0&ch.muasvi$Calf==1],1998,
+calf=1,q=c(0.05,.5,.95),ch.muasvi$min1998[ch.muasvi$min1998>0])
 \end_layout
 
 \begin_layout Plain Layout
 
-S.2001=MT.S(34,ch.muasvi$min2001[ch.muasvi$min2001>0],2001,calf=1,q=c(0.05,.5,.95))
+S.2001=MT.S(indices[4],ch.muasvi$min2001[ch.muasvi$min2001>0&ch.muasvi$Calf==1],2001,
+calf=1,q=c(0.05,.5,.95),ch.muasvi$min2001[ch.muasvi$min2001>0])
 \end_layout
 
 \begin_layout Plain Layout
 
-S.2002=MT.S(45,ch.muasvi$min2002[ch.muasvi$min2002>0],2002,calf=1,q=c(0.05,.5,.95))
+S.2002=MT.S(indices[5],ch.muasvi$min2002[ch.muasvi$min2002>0&ch.muasvi$Calf==1],2002,
+calf=1,q=c(0.05,.5,.95),ch.muasvi$min2002[ch.muasvi$min2002>0])
 \end_layout
 
 \begin_layout Plain Layout
 
-S.2003=MT.S(56,ch.muasvi$min2003[ch.muasvi$min2003>0],2003,calf=1,q=c(0.05,.5,.95))
+S.2003=MT.S(indices[6],ch.muasvi$min2003[ch.muasvi$min2003>0&ch.muasvi$Calf==1],2003,
+calf=1,q=c(0.05,.5,.95),ch.muasvi$min2003[ch.muasvi$min2003>0])
 \end_layout
 
 \begin_layout Plain Layout
 
-S.2004=MT.S(67,ch.muasvi$min2004[ch.muasvi$min2004>0],2004,calf=1,q=c(0.05,.5,.95))
+S.2004=MT.S(indices[7],ch.muasvi$min2004[ch.muasvi$min2004>0&ch.muasvi$Calf==1],2004,
+calf=1,q=c(0.05,.5,.95),ch.muasvi$min2004[ch.muasvi$min2004>0])
 \end_layout
 
 \begin_layout Plain Layout
 
-S.2005=MT.S(78,ch.muasvi$min2005[ch.muasvi$min2005>0],2005,calf=1,q=c(0.05,.5,.95))
+S.2005=MT.S(indices[8],ch.muasvi$min2005[ch.muasvi$min2005>0&ch.muasvi$Calf==1],2005,
+calf=1,q=c(0.05,.5,.95),ch.muasvi$min2005[ch.muasvi$min2005>0])
 \end_layout
 
 \begin_layout Plain Layout
 
-S.2006=MT.S(89,ch.muasvi$min2006[ch.muasvi$min2006>0],2006,calf=1,q=c(0.05,.5,.95))
+S.2007=MT.S(indices[10],ch.muasvi$min2007[ch.muasvi$min2007>0&ch.muasvi$Calf==1],2007
+,calf=1,q=c(0.05,.5,.95),ch.muasvi$min2007[ch.muasvi$min2007>0])
 \end_layout
 
 \begin_layout Plain Layout
 
-S.2007=MT.S(100,ch.muasvi$min2007[ch.muasvi$min2007>0],2007,calf=1,q=c(0.05,.5,.95))
+S.2008=MT.S(indices[11],ch.muasvi$min2008[ch.muasvi$min2008>0&ch.muasvi$Calf==1],2008
+,calf=1,q=c(0.05,.5,.95),ch.muasvi$min2008[ch.muasvi$min2008>0]) 
 \end_layout
 
 \begin_layout Plain Layout
@@ -4453,22 +4834,17 @@ S.2007=MT.S(100,ch.muasvi$min2007[ch.muasvi$min2007>0],2007,calf=1,q=c(0.05,.5,.
 
 \begin_layout Plain Layout
 
-\end_layout
-
-\begin_layout Plain Layout
-
-S.df=data.frame(Cohort=factor(rep(c(1998,2001:2007),each=3)),MT=c(S.1998$estimates[
-,6]+median(ch.muasvi$min1998[ch.muasvi$Calf==1&ch.muasvi$min1998>0]),S.2001$estimate
-s[,6]+median(ch.muasvi$min2001[ch.muasvi$Calf==1&ch.muasvi$min2001>0]),S.2002$estima
-tes[,6]+median(ch.muasvi$min2002[ch.muasvi$Calf==1&ch.muasvi$min2002>0]),S.2003$esti
-mates[,6]+median(ch.muasvi$min2003[ch.muasvi$Calf==1&ch.muasvi$min2003>0]),S.2004$es
-timates[,6]+median(ch.muasvi$min2004[ch.muasvi$Calf==1&ch.muasvi$min2004>0]),S.2005$
-estimates[,6]+median(ch.muasvi$min2005[ch.muasvi$Calf==1&ch.muasvi$min2005>0]),S.200
-6$estimates[,6]+median(ch.muasvi$min2006[ch.muasvi$Calf==1&ch.muasvi$min2006>0]),S.2
-007$estimates[,6]+median(ch.muasvi$min2007[ch.muasvi$Calf==1&ch.muasvi$min2007>0]))
-, Survival=c(S.1998$estimates$estimate,S.2001$estimates$estimate,S.2002$estimates$e
-stimate,S.2003$estimates$estimate,S.2004$estimates$estimate,S.2005$estimates$estima
-te,S.2006$estimates$estimate,S.2007$estimates$estimate))
+S.df=data.frame(Cohort=factor(rep(c(minyear,2001:2005,2007:2008),each=3)),MT=c(S.19
+98$estimates[,6]+median(ch.muasvi$min1998[ch.muasvi$min1998>0]),S.2001$estimates[,6
+]+median(ch.muasvi$min2001[ch.muasvi$min2001>0]),S.2002$estimates[,6]+median(ch.muas
+vi$min2002[ch.muasvi$min2002>0]),S.2003$estimates[,6]+median(ch.muasvi$min2003[ch.mu
+asvi$min2003>0]),S.2004$estimates[,6]+median(ch.muasvi$min2004[ch.muasvi$Calf==1&ch.
+muasvi$min2004>0]),S.2005$estimates[,6]+median(ch.muasvi$min2005[ch.muasvi$min2005>
+0]),S.2007$estimates[,6]+median(ch.muasvi$min2007[ch.muasvi$min2007>0]),S.2008$estim
+ates[,6]+median(ch.muasvi$min2008[ch.muasvi$min2008>0])), Survival=c(S.1998$estimat
+es$estimate,S.2001$estimates$estimate,S.2002$estimates$estimate,S.2003$estimates$es
+timate,S.2004$estimates$estimate,S.2005$estimates$estimate,S.2007$estimates$estimat
+e,S.2008$estimates$estimate))
 \end_layout
 
 \begin_layout Plain Layout
@@ -4478,7 +4854,7 @@ te,S.2006$estimates$estimate,S.2007$estimates$estimate))
 \begin_layout Plain Layout
 
 CSurvival.plot=ggplot(S.df,aes(MT,Survival,groups=Cohort,shape=Cohort))+geom_line(
-)+geom_point()+scale_shape_manual(value=c(1,4:5,9,11,15,16,17))+xlab("
+)+geom_point()+scale_shape_manual(value=c(1,4:5,9,11,15,16,17,18))+xlab("
 \backslash
 nMinimum tenure (days)")+ylab("First year survival
 \backslash
@@ -4613,57 +4989,80 @@ ata.frame(index=c(rep(index,5)),pmin",
 
 \begin_layout Plain Layout
 
-p.1999=MT.p(112,ch.muasvi$pmin1999[ch.muasvi$pmin1999>0],1999)
+maxPhiIndex=max(as.numeric(row.names(muasvi.open$model.list[[11]]$design.data$Phi)))
 \end_layout
 
 \begin_layout Plain Layout
 
-p.2000=MT.p(113,ch.muasvi$pmin2000[ch.muasvi$pmin2000>0],2000)
+p.1999=MT.p(maxPhiIndex+2,ch.muasvi$pmin1999[ch.muasvi$pmin1999>0],1999)
 \end_layout
 
 \begin_layout Plain Layout
 
-p.2001=MT.p(114,ch.muasvi$pmin2001[ch.muasvi$pmin2001>0],2001)
+p.2000=MT.p(maxPhiIndex+3,ch.muasvi$pmin2000[ch.muasvi$pmin2000>0],2000)
 \end_layout
 
 \begin_layout Plain Layout
 
-p.2002=MT.p(115,ch.muasvi$pmin2002[ch.muasvi$pmin2002>0],2002)
+p.2001=MT.p(maxPhiIndex+4,ch.muasvi$pmin2001[ch.muasvi$pmin2001>0],2001)
 \end_layout
 
 \begin_layout Plain Layout
 
-p.2003=MT.p(116,ch.muasvi$pmin2003[ch.muasvi$pmin2003>0],2003)
+p.2002=MT.p(maxPhiIndex+5,ch.muasvi$pmin2002[ch.muasvi$pmin2002>0],2002)
 \end_layout
 
 \begin_layout Plain Layout
 
-p.2004=MT.p(117,ch.muasvi$pmin2004[ch.muasvi$pmin2004>0],2004)
+p.2003=MT.p(maxPhiIndex+6,ch.muasvi$pmin2003[ch.muasvi$pmin2003>0],2003)
 \end_layout
 
 \begin_layout Plain Layout
 
-p.2005=MT.p(118,ch.muasvi$pmin2005[ch.muasvi$pmin2005>0],2005)
+p.2004=MT.p(maxPhiIndex+7,ch.muasvi$pmin2004[ch.muasvi$pmin2004>0],2004)
 \end_layout
 
 \begin_layout Plain Layout
 
-p.2006=MT.p(119,ch.muasvi$pmin2006[ch.muasvi$pmin2006>0],2006)
+p.2005=MT.p(maxPhiIndex+8,ch.muasvi$pmin2005[ch.muasvi$pmin2005>0],2005)
 \end_layout
 
 \begin_layout Plain Layout
 
-p.2007=MT.p(120,ch.muasvi$pmin2007[ch.muasvi$pmin2007>0],2007)
+p.2006=MT.p(maxPhiIndex+9,ch.muasvi$pmin2006[ch.muasvi$pmin2006>0],2006)
 \end_layout
 
 \begin_layout Plain Layout
 
-p.2008=MT.p(121,ch.muasvi$pmin2008[ch.muasvi$pmin2008>0],2008)
+p.2007=MT.p(maxPhiIndex+10,ch.muasvi$pmin2007[ch.muasvi$pmin2007>0],2007)
 \end_layout
 
 \begin_layout Plain Layout
 
-p.df=data.frame(Year=factor(rep(1999:2008,each=5)), MT=c(p.1999$estimates[,5]+media
+p.2008=MT.p(maxPhiIndex+11,ch.muasvi$pmin2008[ch.muasvi$pmin2008>0],2008)
+\end_layout
+
+\begin_layout Plain Layout
+
+p.2009=MT.p(maxPhiIndex+12,ch.muasvi$pmin2009[ch.muasvi$pmin2009>0],2009)
+\end_layout
+
+\begin_layout Plain Layout
+
+p.2010=MT.p(maxPhiIndex+13,ch.muasvi$pmin2010[ch.muasvi$pmin2010>0],2010) 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+p.df=data.frame(Year=factor(rep(1999:2010,each=5)), MT=c(p.1999$estimates[,5]+media
 n(ch.muasvi$pmin1999[ch.muasvi$pmin1999>0]),p.2000$estimates[,5]+median(ch.muasvi$pm
 in2000[ch.muasvi$pmin2000>0]),p.2001$estimates[,5]+median(ch.muasvi$pmin2001[ch.muas
 vi$pmin2001>0]),p.2002$estimates[,5]+median(ch.muasvi$pmin2002[ch.muasvi$pmin2002>0
@@ -4672,16 +5071,18 @@ mates[,5]+median(ch.muasvi$pmin2004[ch.muasvi$pmin2004>0]),p.2005$estimates[,5]+
 ian(ch.muasvi$pmin2005[ch.muasvi$pmin2005>0]),p.2006$estimates[,5]+median(ch.muasvi$
 pmin2006[ch.muasvi$pmin2006>0]),p.2007$estimates[,5]+median(ch.muasvi$pmin2007[ch.mu
 asvi$pmin2007>0]),p.2008$estimates[,5]+median(ch.muasvi$pmin2008[ch.muasvi$pmin2008
->0])), p=c(p.1999$estimates$estimate,p.2000$estimates$estimate,p.2001$estimates$est
-imate,p.2002$estimates$estimate,p.2003$estimates$estimate,p.2004$estimates$estimate
-,p.2005$estimates$estimate,p.2006$estimates$estimate,p.2007$estimates$estimate,p.200
-8$estimates$estimate))
+>0]),p.2009$estimates[,5]+median(ch.muasvi$pmin2009[ch.muasvi$pmin2009>0]),p.2010$es
+timates[,5]+median(ch.muasvi$pmin2010[ch.muasvi$pmin2010>0])), p=c(p.1999$estimates
+$estimate,p.2000$estimates$estimate,p.2001$estimates$estimate,p.2002$estimates$esti
+mate,p.2003$estimates$estimate,p.2004$estimates$estimate,p.2005$estimates$estimate,
+p.2006$estimates$estimate,p.2007$estimates$estimate,p.2008$estimates$estimate,p.2009
+$estimates$estimate,p.2010$estimates$estimate))
 \end_layout
 
 \begin_layout Plain Layout
 
 capturep.plot=ggplot(p.df,aes(MT,p,groups=Year,shape=Year))+geom_line()+geom_point
-()+scale_shape_manual(value=c(1:5,9,11,15,16,17))+xlab("
+()+scale_shape_manual(value=c(1:5,9,11,15:19))+xlab("
 \backslash
 nMinimum tenure (days)")+ylab("Capture probability
 \backslash
@@ -5315,7 +5716,6 @@ format="f"),
 
 \begin_layout Plain Layout
 
-nyears=13
 \end_layout
 
 \begin_layout Plain Layout
@@ -5389,8 +5789,9 @@ JS.data.all=cbind(formatC(estN[(3*nyears+1):(4*nyears),1],digits=0,format="f"),
 
 \begin_layout Plain Layout
 
-abundance.plot2=ggplot(estN,aes(1998:2010,N,ymin=LCL,ymax=UCL))+geom_errorbar(wid
-th=0.2)+geom_point()+scale_x_continuous(breaks=1998:2010)+geom_line()+xlab("
+abundance.plot2=ggplot(estN,aes(minyear:maxyear,N,ymin=LCL,ymax=UCL))+geom_errorb
+ar(width=0.2)+geom_point()+scale_x_continuous(breaks=minyear:2010)+geom_line()+xl
+ab("
 \backslash
 nYear")+ylab("Abundance
 \backslash
@@ -5403,31 +5804,32 @@ n")+facet_grid(Region~.)
 
 \begin_layout Plain Layout
 
-x1=data.frame(Year=rep(1999:2010,3),N=c(muasvi.closed$LP$Nhat,muasvi.open$Nbyocc$es
-timate$N[-1],muasvi.closed$limited.LP$Nhat),type=factor(c(rep("LP",nyears-1),rep("
+x1=data.frame(Year=rep(1999:maxyear,3),N=c(muasvi.closed$LP$Nhat,muasvi.open$Nbyocc
+$estimate$N[-1],muasvi.closed$limited.LP$Nhat),type=factor(c(rep("LP",nyears-1),re
+p("Open",nyears-1),rep("Limited LP",nyears-1)),levels=c("LP","Open","Limited
+ LP")))
+\end_layout
+
+\begin_layout Plain Layout
+
+x2=data.frame(Year=rep(1999:maxyear,3),N=c(orsvi.closed$LP$Nhat,orsvi.open$Nbyocc$e
+stimate$N[-1],orsvi.closed$limited.LP$Nhat),type=factor(c(rep("LP",nyears-1),rep("
 Open",nyears-1),rep("Limited LP",nyears-1)),levels=c("LP","Open","Limited
  LP")))
 \end_layout
 
 \begin_layout Plain Layout
 
-x2=data.frame(Year=rep(1999:2010,3),N=c(orsvi.closed$LP$Nhat,orsvi.open$Nbyocc$esti
-mate$N[-1],orsvi.closed$limited.LP$Nhat),type=factor(c(rep("LP",nyears-1),rep("Ope
-n",nyears-1),rep("Limited LP",nyears-1)),levels=c("LP","Open","Limited LP")))
+x3=data.frame(Year=rep(1999:maxyear,3),N=c(nbc.closed$LP$Nhat,nbc.open$Nbyocc$estim
+ate$N[-1],nbc.closed$limited.LP$Nhat),type=factor(c(rep("LP",nyears-1),rep("Open",
+nyears-1),rep("Limited LP",nyears-1)),levels=c("LP","Open","Limited LP")))
 \end_layout
 
 \begin_layout Plain Layout
 
-x3=data.frame(Year=rep(1999:2010,3),N=c(nbc.closed$LP$Nhat,nbc.open$Nbyocc$estimate
-$N[-1],nbc.closed$limited.LP$Nhat),type=factor(c(rep("LP",nyears-1),rep("Open",nye
-ars-1),rep("Limited LP",nyears-1)),levels=c("LP","Open","Limited LP")))
-\end_layout
-
-\begin_layout Plain Layout
-
-x4=data.frame(Year=rep(1999:2010,3),N=c(all.closed$LP$Nhat,all.open$Nbyocc$estimate
-$N[-1],all.closed$limited.LP$Nhat),type=factor(c(rep("LP",nyears-1),rep("Open",nye
-ars-1),rep("Limited LP",nyears-1)),levels=c("LP","Open","Limited LP")))
+x4=data.frame(Year=rep(1999:maxyear,3),N=c(all.closed$LP$Nhat,all.open$Nbyocc$estim
+ate$N[-1],all.closed$limited.LP$Nhat),type=factor(c(rep("LP",nyears-1),rep("Open",
+nyears-1),rep("Limited LP",nyears-1)),levels=c("LP","Open","Limited LP")))
 \end_layout
 
 \begin_layout Plain Layout
@@ -5445,12 +5847,31 @@ R-NBC","NCA-SEAK"))
 \begin_layout Plain Layout
 
 abundance.plot1=ggplot(x,aes(Year,N,group=type))+geom_point(aes(group=type,shape=
-type,colour=type))+scale_x_continuous(breaks=1998:2010)+geom_line(aes(group=type
-,colour=type,linetype=type))+xlab("
+type,colour=type))+scale_x_continuous(breaks=minyear:maxyear)+geom_line(aes(grou
+p=type,colour=type,linetype=type))+xlab("
 \backslash
 nYear")+ylab("Abundance
 \backslash
 n") + facet_grid(Region~.)+opts(legend.background=theme_rect(colour=NA))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+pdf("abundance.pdf",width=7,height=6)
+\end_layout
+
+\begin_layout Plain Layout
+
+print(abundance.plot1)
+\end_layout
+
+\begin_layout Plain Layout
+
+dd=dev.off()
 \end_layout
 
 \begin_layout Plain Layout
@@ -5510,8 +5931,46 @@ ref{tabPopan-1}
 \end_inset
 
 ).
- Estimates are only shown for 1999-2010 because with the closed models only
- 12 estimates can be constructed with the 13 years of data.
+ Estimates are only shown for 1999-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ because with the closed models only 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears-1}
+\end_layout
+
+\end_inset
+
+ estimates can be constructed with the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears}
+\end_layout
+
+\end_inset
+
+ years of data.
  In general, the estimates from the POPAN models are intermediate between
  the higher estimates from LP and lower estimates of Limited LP.
  This was expected because Limited LP estimates the abundance of whales
@@ -5533,9 +5992,22 @@ new
 
  whales that will permanently emigrate and thus should be higher than the
  Limited LP estimate which excludes transients.
- The abundance estimates from Limited LP for 2010 are biased low because
- new whales that enter that year have no chance to be re-sighted and thus
- they excluded even though some may return in the ensuing years.
+ The abundance estimates from Limited LP for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ are biased low because new whales that enter that year have no chance to
+ be re-sighted and thus they excluded even though some may return in the
+ ensuing years.
  To a lesser degree, the estimates of 2009 and possibly 2008 are influenced
  in a similar manner because the whales may have been simply not seen yet
  even though they are returning.
@@ -5544,7 +6016,20 @@ new
 
 \begin_layout Standard
 Excluding the LP estimator which will be biased high and the Limited LP
- estimates for 2010 which will be biased low, the most recent
+ estimates for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ which will be biased low, the most recent
 \family roman
 \series medium
 \shape up
@@ -5630,7 +6115,20 @@ ref{tabnseen}
 \end_inset
 
 ).
- In MUA-SVI from 1999-2010, an average of 
+ In MUA-SVI from 1999-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ , an average of 
 \begin_inset ERT
 status open
 
@@ -6001,11 +6499,12 @@ status open
 
 \begin_layout Plain Layout
 
-print(xtable(table1,digits=0,caption="Contributions of numbers of photos
- and resulting number of uniquely identified whales by reseach group for
- 1998-2010.
- Totals for whales are unique whales across all research groups.",label="tab1"),c
-aption.placement="top",latex.environments="",floating.environment="sidewaystable")
+print(xtable(table1,digits=0,caption=paste("Contributions of numbers of
+ photos by reseach group for ",minyear,"-",maxyear,"and resulting number
+ of uniquely identified whales.
+ Totals for whales are unique whales across all research groups.",sep=""),label="
+tab1"),caption.placement="top",latex.environments="",floating.environment="sideways
+table")
 \end_layout
 
 \begin_layout Plain Layout
@@ -6019,13 +6518,13 @@ clearpage")
 
 \begin_layout Plain Layout
 
-print(xtable(table2,digits=0,caption="Regional distribution of numbers of
- photos and resulting number of uniquely identified whales by reseach group
- for 1998-2010.
+print(xtable(table2,digits=0,caption=paste("Regional distribution of numbers
+ of photos and resulting number of uniquely identified whales by reseach
+ group for ",minyear,"-",maxyear,"2010.
  Totals for whales are unique whales across all research groups.
  NPS is northern Puget Sound and PS includes southern Puget Sound, San Juan
- Islands, Hood Canal and Boundary Bay.",label="tab2"),caption.placement="top",late
-x.environments="",floating.environment="sidewaystable")
+ Islands, Hood Canal and Boundary Bay.",sep=""),label="tab2"),caption.placement="t
+op",latex.environments="",floating.environment="sidewaystable")
 \end_layout
 
 \begin_layout Plain Layout
@@ -7168,7 +7667,20 @@ Model specifications for survival (
 
 ) parameters in POPAN models for gray whale photo-identification data.
  Fy is 1 if it is year the whale was first seen and 0 otherwise.
- Fc is 1 for 1998 cohort and 0 otherwise.
+ Fc is 1 for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+ cohort and 0 otherwise.
  C is 1 if identified as a calf in its first year and 0 otherwise.
  MT is minimum tenure (centered so median is 0 each year) of a whale in
  its first year and 0 otherwise.
@@ -7176,12 +7688,63 @@ Model specifications for survival (
 \begin_inset Formula $\beta_{Fy,1999}$
 \end_inset
 
- is for cohorts 1999-2007 and 
+ is for cohorts 1999-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear-1}
+\end_layout
+
+\end_inset
+
+ and 
 \begin_inset Formula $\beta_{Fy,C}$
 \end_inset
 
- represents 9 cohort specific parameters for 1999-2007 (for the first year
- survival).
+ represents 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears-2}
+\end_layout
+
+\end_inset
+
+ cohort specific parameters for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear+1}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear-2}
+\end_layout
+
+\end_inset
+
+ (for the first year survival).
  
 \begin_inset Formula $\beta_{CF}$
 \end_inset
@@ -7195,12 +7758,76 @@ Model specifications for survival (
 \begin_inset Formula $\beta_{t}$
 \end_inset
 
- has 9 levels for t=2000,...2010 and 
+ has 9 levels for t=2000,...
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ and 
 \begin_inset Formula $\beta_{0}$
 \end_inset
 
- represents 1998 and 1999 value.
- Each POPAN model includes 13 parameters for the initial sizes of the 13
+ represents 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear+1}
+\end_layout
+
+\end_inset
+
+ value.
+ Each POPAN model includes 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears}
+\end_layout
+
+\end_inset
+
+ parameters for the initial sizes of the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears}
+\end_layout
+
+\end_inset
+
  year cohorts.
 \end_layout
 
@@ -7697,33 +8324,18 @@ status open
 
 \begin_layout Plain Layout
 
-print(xtable(table2b,digits=0,caption="Regional distribution of numbers
- of whales seen by month for 1998-2010.",label="tab2b"),caption.placement="top",la
-tex.environments="center",floating.environment="sidewaystable")
+print(xtable(table2b,digits=0,caption=paste("Regional distribution of numbers
+ of whales seen by month for ",minyear,"-",maxyear,".",sep=""),label="tab2b"),cap
+tion.placement="top",latex.environments="center",floating.environment="sidewaystabl
+e")
 \end_layout
 
 \begin_layout Plain Layout
 
-print(xtable(table2a,digits=0,caption="Regional distribution of numbers
- of whales seen during June-November for 1998-2010.",label="tab2a"),caption.placem
-ent="top",latex.environments="center",floating.environment="sidewaystable")
-\end_layout
-
-\begin_layout Plain Layout
-
-cat("
-\backslash
-
-\backslash
-clearpage")
-\end_layout
-
-\begin_layout Plain Layout
-
-print(xtable(table2c,digits=0,caption="Number of days in which whales were
- seen for each region and year from 1998-2010 from  1 June - 30 November.",
- label="tab2c"),caption.placement="top",latex.environments="center",floating.enviro
-nment="sidewaystable")
+print(xtable(table2a,digits=0,caption=paste("Regional distribution of numbers
+ of whales seen during June-November for ",minyear,"-",maxyear,".",sep=""),label=
+"tab2a"),caption.placement="top",latex.environments="center",floating.environment="
+sidewaystable")
 \end_layout
 
 \begin_layout Plain Layout
@@ -7737,12 +8349,10 @@ clearpage")
 
 \begin_layout Plain Layout
 
-print(xtable(table7,digits=0,caption="Interchange of whales across regions
- for all years (1998-2010) for June-November.
- The diagonal is the number of unique whales seen in that region over the
- 11 year time span.
- Here PS includes NPS and CA represents SCA and CCA." ,label="tab7"),caption.place
-ment="top",latex.environments="center",floating.environment="sidewaystable")
+print(xtable(table2c,digits=0,caption=paste("Number of days in which whales
+ were seen for each region and year from ",minyear,"-",maxyear,"from  1
+ June - 30 November.",sep=""), label="tab2c"),caption.placement="top",latex.environ
+ments="center",floating.environment="sidewaystable")
 \end_layout
 
 \begin_layout Plain Layout
@@ -7756,9 +8366,30 @@ clearpage")
 
 \begin_layout Plain Layout
 
-print(xtable(table5[seq(1,nrow(table5),21),],digits=0,caption="Number of
- photographs by month in all regions and years(1998-2010)for a sample of
- whale IDs.",label="tab5"),caption.placement="top",latex.environments="")
+print(xtable(table7,digits=0,caption=paste("Interchange of whales across
+ regions for all years (",minyear,"-",maxyear,") for June-November.
+ The diagonal is the number of unique whales seen in that region over the",nyear
+s," year time span.
+ Here PS includes NPS and CA represents SCA and CCA.",sep="") ,label="tab7"),capt
+ion.placement="top",latex.environments="center",floating.environment="sidewaystable
+")
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+
+\backslash
+clearpage")
+\end_layout
+
+\begin_layout Plain Layout
+
+print(xtable(table5[seq(1,nrow(table5),21),],digits=0,caption=paste("Number
+ of photographs by month in all regions and years(",minyear,"-",maxyear,")for
+ a sample of whale IDs.",sep=""),label="tab5"),caption.placement="top",latex.enviro
+nments="")
 \end_layout
 
 \begin_layout Plain Layout
@@ -23480,7 +24111,7 @@ RELEASE goodness of fit results for 3 regions using pooled and separate
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="31" columns="6">
+<lyxtabular version="3" rows="25" columns="6">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -24040,190 +24671,6 @@ Sexpr{muasvi.gofc[1,3]}
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Test 3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{muasvi.gofc[2,1]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{muasvi.gofc[2,2]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{muasvi.gofc[2,3]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Total
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{muasvi.gofc[3,1]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{muasvi.gofc[3,2]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{muasvi.gofc[3,3]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 OR-SVI
 \end_layout
 
@@ -24704,190 +25151,6 @@ Sexpr{orsvi.gofc[1,3]}
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Test 3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{orsvi.gofc[2,1]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{orsvi.gofc[2,2]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{orsvi.gofc[2,3]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Total
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{orsvi.gofc[3,1]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{orsvi.gofc[3,2]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{orsvi.gofc[3,3]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 OR-NBC
 \end_layout
 
@@ -25353,190 +25616,6 @@ status open
 
 \backslash
 Sexpr{nbc.gofc[1,3]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Test 3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{nbc.gofc[2,1]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{nbc.gofc[2,2]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{nbc.gofc[2,3]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Total
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{nbc.gofc[3,1]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{nbc.gofc[3,2]}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{nbc.gofc[3,3]}
 \end_layout
 
 \end_inset
@@ -26061,7 +26140,33 @@ name "tabnseen"
 
 Number of whales seen each year, number that were new that year, and number
  that were new and were seen in a subsequent year for whales seen between
- June-November 1998-2010 in each region.
+ June-November 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ in each region.
 \end_layout
 
 \end_inset
@@ -26849,7 +26954,7 @@ Sexpr{seen.muasvi[13,2]}
 \begin_inset Text
 
 \begin_layout Plain Layout
-Non-calf: New and Re-sighted
+Non-calf: New/Resighted
 \end_layout
 
 \end_inset
@@ -27435,7 +27540,7 @@ Sexpr{seen.muasvi[13,4]}
 \begin_inset Text
 
 \begin_layout Plain Layout
-Calf: New and Re-sighted
+Calf: New/Resighted
 \end_layout
 
 \end_inset
@@ -28314,7 +28419,7 @@ Sexpr{seen.orsvi[13,2]}
 \begin_inset Text
 
 \begin_layout Plain Layout
-Non-calf: New and Re-sighted
+Non-calf: New/Resighted
 \end_layout
 
 \end_inset
@@ -28900,7 +29005,7 @@ Sexpr{seen.orsvi[13,4]}
 \begin_inset Text
 
 \begin_layout Plain Layout
-Calf: New and Re-sighted
+Calf: New/Resighted
 \end_layout
 
 \end_inset
@@ -29779,7 +29884,7 @@ Sexpr{seen.nbc[13,2]}
 \begin_inset Text
 
 \begin_layout Plain Layout
-Non-calf: New and Re-sighted
+Non-calf: New/Resighted
 \end_layout
 
 \end_inset
@@ -30365,7 +30470,7 @@ Sexpr{seen.nbc[13,4]}
 \begin_inset Text
 
 \begin_layout Plain Layout
-Calf: New and Re-sighted
+Calf: New/Resighted
 \end_layout
 
 \end_inset
@@ -31244,7 +31349,7 @@ Sexpr{seen.all[13,2]}
 \begin_inset Text
 
 \begin_layout Plain Layout
-Non-calf: New and Re-sighted
+Non-calf: New/Resighted
 \end_layout
 
 \end_inset
@@ -31830,7 +31935,7 @@ Sexpr{seen.all[13,4]}
 \begin_inset Text
 
 \begin_layout Plain Layout
-Calf: New and Re-sighted
+Calf: New/Resighted
 \end_layout
 
 \end_inset
@@ -34656,7 +34761,32 @@ Number of whales seen in each year and number seen in both years and abundance
 \begin_inset Formula $N_{min}=\widehat{N}e^{-0.864\sqrt{log(1+(se(\widehat{N})/\widehat{N})^{2}}}$
 \end_inset
 
- for Lincoln-Petersen estimator applied to consecutive years from 1998-2010
+ for Lincoln-Petersen estimator applied to consecutive years from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
  in MUA-SVI and OR-SVI regions.
  
 \end_layout
@@ -38310,7 +38440,32 @@ Number of whales seen in each year and number seen in both years and abundance
 \begin_inset Formula $N_{min}=\widehat{N}e^{-0.864\sqrt{log(1+(se(\widehat{N})/\widehat{N})^{2}}}$
 \end_inset
 
- for Lincoln-Petersen estimator applied to consecutive years from 1998-2010
+ for Lincoln-Petersen estimator applied to consecutive years from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
  in OR-NBC and NCA-SEAK regions.
  
 \end_layout
@@ -41965,7 +42120,33 @@ Number of whales seen in each year and number seen in both years and abundance
 \end_inset
 
  for limited Lincoln-Petersen estimator applied to consecutive years from
- 1998-2010 in MUA-SVI and OR-SVI regions.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ in MUA-SVI and OR-SVI regions.
  
 \end_layout
 
@@ -45623,7 +45804,33 @@ Number of whales seen in each year and number seen in both years and abundance
 \end_inset
 
  for limited Lincoln-Petersen estimator applied to consecutive years from
- 1998-2010 in OR-NBC and NCA-SEAK regions.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ in OR-NBC and NCA-SEAK regions.
  
 \end_layout
 
@@ -49279,8 +49486,33 @@ Abundance estimate (
 \begin_inset Formula $N_{min}=\widehat{N}e^{-0.864\sqrt{log(1+(se(\widehat{N})/\widehat{N})^{2}}}$
 \end_inset
 
- averaged over open population POPAN models using data from 1998-2010 in
- MUA-SVI and OR-SVI regions.
+ averaged over open population POPAN models using data from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ in MUA-SVI and OR-SVI regions.
  
 \end_layout
 
@@ -51563,8 +51795,33 @@ Abundance estimate (
 \begin_inset Formula $N_{min}=\widehat{N}e^{-0.864\sqrt{log(1+(se(\widehat{N})/\widehat{N})^{2}}}$
 \end_inset
 
- averaged over open population POPAN models using data from 1998-2010 in
- OR-NBC and NCA-SEAK regions.
+ averaged over open population POPAN models using data from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ in OR-NBC and NCA-SEAK regions.
  
 \end_layout
 
@@ -53986,8 +54243,33 @@ name "Fig1"
 
 Monthly measures of proportion of whales that were seen in more than one
  region, seen on more than one day and seen in more than one year.
- The values include sightings from 1998-2010 in all regions from California
- to Alaska.
+ The values include sightings from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ in all regions from California to Alaska.
  Lower values imply whales were simply migrating through the area in a short
  time frame and were thus less likely to be seen at other times and in other
  regions.
@@ -54047,8 +54329,33 @@ name "Fig2"
 
 Region and monthly measures of proportion of whales that were seen in more
  than one region, seen on more than one day and seen in more than one year.
- The values include sightings from 1998-2010 in all regions from California
- to Alaska.
+ The values include sightings from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ in all regions from California to Alaska.
  Lower values imply whales were simply migrating through the area in a short
  time frame and were thus less likely to be seen at other times and in other
  regions.
@@ -54118,7 +54425,33 @@ name "Fig3"
 
 Proportion of the 14 whales seen in NWA during the spring and in the PCFA
  after 1 June that were seen in each PCFA sub-region after 1 June at least
- once from 1998-2010.
+ once from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \end_inset
@@ -54183,7 +54516,33 @@ name "Fig4"
 \end_inset
 
 Proportion of whales in PCFA sub-regions that have been seen in the MUA-SVI
- using sightings after 1 June from 1998-2010.
+ using sightings after 1 June from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \end_inset
@@ -54241,8 +54600,34 @@ name "Fig7"
 \end_inset
 
 Distribution of latitudes of sightings (points) for whales with 6 or more
- sightings after 1 June from 1998-2010, the 75% inner quantile (solid thick
- line), and full range (light dashed line).
+ sightings after 1 June from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+, the 75% inner quantile (solid thick line), and full range (light dashed
+ line).
  Each position on the x axis represents an individual whale.
  Whales have been arranged on the plot by sorting first on the lower bound
  of the inner quantile (to a half-degree) and then the upper bound of the
@@ -54310,7 +54695,33 @@ name "Fig8"
 \end_inset
 
 Distribution of ranges of 75% inner quantiles of latitudes expressed in
- nautical miles for whales sighted on 6 or more days during 1998-2010.
+ nautical miles for whales sighted on 6 or more days during 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \end_inset
@@ -54373,7 +54784,33 @@ name "FigJohn"
 
 Average number of sightings per year and distribution of whales and numbers
  of sightings based on numbers of years a whale was seen in NCA-NBC between
- June-November during 1998-2010.
+ June-November during 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+.
  
 \end_layout
 
@@ -54440,11 +54877,102 @@ name "FigMT"
 
 Influence of minimum tenure (MT) in the first year the whale was photographed
  on the probability it will be re-sighted in one or more following years
- for whales seen in NCA-NBC for June-November 1998-2010.
- The bar graphs are divided for 1998 and >1998 because 1998 is the start
- of the study and it may not be the first year for many of those whales.
- Re-sightings for xxxx are used but initial sightings for xxxx are excluded
- because there are no data beyond to evaluate re-sighting probability.
+ for whales seen in NCA-NBC for June-November 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+.
+ The bar graphs are divided for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+ and >
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+ because 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+ is the start of the study and it may not be the first year for many of
+ those whales.
+ Re-sightings for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ are used but initial sightings for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ are excluded because there are no data beyond to evaluate re-sighting probabili
+ty.
 \end_layout
 
 \end_inset
@@ -54508,9 +55036,35 @@ name "FigSurvival"
 
 \end_inset
 
-For MUA-SVI analysis of 1998-2010 data, model-averaged estimates of first
- year survival of non-calves for each cohort at 5%, 25%, 50%, 75%, and 95%
- quantiles of minimum tenure values for that cohort.
+For MUA-SVI analysis of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ data, model-averaged estimates of first year survival of non-calves for
+ each cohort at 5%, 25%, 50%, 75%, and 95% quantiles of minimum tenure values
+ for that cohort.
 \end_layout
 
 \end_inset
@@ -54574,9 +55128,35 @@ name "FigSurvival-Calves"
 
 \end_inset
 
-For MUA-SVI analysis of 1998-2010 data, model-averaged estimates of first
- year survival of calves for each cohort at 5%, 50%, and 95% quantiles of
- minimum tenure values for that cohort of calves.
+For MUA-SVI analysis of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ data, model-averaged estimates of first year survival of calves for each
+ cohort at 5%, 50%, and 95% quantiles of minimum tenure values for that
+ cohort of calves.
  Cohorts 1999 and 2000 are not shown because no calves were identified in
  those years.
 \end_layout
@@ -54642,9 +55222,35 @@ name "Figcapturep"
 
 \end_inset
 
-For MUA-SVI analysis of 1998-2010 data, model-averaged estimates of capture
- probability for each year at 5%, 25%, 50%, 75%, and 95% quantiles of minimum
- tenure values for whales in the previous year.
+For MUA-SVI analysis of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ data, model-averaged estimates of capture probability for each year at
+ 5%, 25%, 50%, 75%, and 95% quantiles of minimum tenure values for whales
+ in the previous year.
 \end_layout
 
 \end_inset
@@ -54676,12 +55282,14 @@ status open
 
 \begin_layout Plain Layout
 
-<<fig=T>>=
+
+\backslash
+includegraphics[width=7in,height=6in]
 \end_layout
 
 \begin_layout Plain Layout
 
-print(abundance.plot1)
+ {abundance.pdf}
 \end_layout
 
 \begin_layout Plain Layout
@@ -54708,9 +55316,35 @@ name "Fig5"
 
 \end_inset
 
-Annual abundance estimates for 1999-2010 in three sub-regions using closed
- population models, Lincoln-Petersen (LP) and Limited LP and the model averaged
- estimates for the open POPAN (Jolly-Seber) models.
+Annual abundance estimates for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear+1}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ in three sub-regions using closed population models, Lincoln-Petersen (LP)
+ and Limited LP and the model averaged estimates for the open POPAN (Jolly-Seber
+) models.
  
 \end_layout
 
