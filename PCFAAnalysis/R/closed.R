@@ -26,7 +26,10 @@
 #' string of 0s & 1s
 #' @param nocc number of consecutive occasions to include in each abundance
 #' estimate
+#' @param begin.time time (year) for first occasion
 #' @param plot produces plot of estimates if TRUE
+#' @param formula formula for p as string; default is "~-1+group:time which is the same
+#' as doing each estimator separately with no sharing of p estimates across years
 #' @return For \code{closed} \item{Nhat}{vector containing sequence of
 #' abundance estimates} \item{Nse}{vector containing standard errors of
 #' abundance estimates} \item{Nch}{list containing table of capture histories
@@ -36,31 +39,35 @@
 #' estimates} \item{Nse}{vector containing standard errors of abundance
 #' estimates}
 #' 
-#' For \code{closed.set}, each list contains a list with Nhat and Nse for all
-#' and Nch for all except for \code{limited.LP} \item{LP}{Lincoln-Petersen
+#' For \code{closed.set}, each list contains a list with Nhat and Nse for \item{LP}{Lincoln-Petersen
 #' sequence of abundance estimates} \item{limited.LP}{limited Lincoln-Petersen
 #' sequence of abundance estimates} \item{Darroch3}{Darroch estimator with 3
 #' occasions} \item{Darroch4}{Darroch estimator with 4 occasions}
 #' \item{Darroch5}{Darroch estimator with 5 occasions}
 #' @author Jeff Laake
-closed <-function(x,nocc)
+closed <-function(x,nocc,begin.time=1998,formula="~-1+time:group")
 {
 # closed population estimators  -- nocc = number of occasions  
-  nest=nchar(x$ch)[1]-nocc+1
-  Nhat=vector("numeric",length=nest)
-  Nse=vector("numeric",length=nest)
-  Nch=vector("list",length=nest)
-  for(i in 1:nest)
-  {
-     xx=x
-     xx$ch=substr(xx$ch,i,i+nocc-1)
-     xx=xx[xx$ch!=paste(rep("0",nocc),collapse=""),,drop=FALSE]
-     ss=summary(mark(xx,model="Closed",model.parameters=list(p=list(formula=~time,share=TRUE)),output=FALSE,delete=TRUE),se=TRUE)$real$N
-     Nhat[i]=ss$estimate
-     Nse[i]=ss$se
-     Nch[[i]]=table(xx$ch)
-  }
-return(list(Nhat=Nhat,Nse=Nse,Nch=Nch))
+	nest=nchar(x$ch)[1]-nocc+1
+	df=NULL
+	Nch=vector("list",length=nest)
+	for(i in 1:nest)
+	{
+		xx=x
+		xx$ch=substr(xx$ch,i,i+nocc-1)
+		xx=xx[xx$ch!=paste(rep("0",nocc),collapse=""),,drop=FALSE]
+		xx=subset(xx,select=c("ch","cohort"))
+		xx$cohort=i+begin.time-1
+		df=rbind(df,xx)
+		Nch[[i]]=table(xx$ch)
+	}
+	df$cohort=factor(df$cohort)
+	df.proc=process.data(df,model="Closed",groups="cohort",begin.time=begin.time-1+1:nest)
+	df.ddl=make.design.data(df.proc)
+	df.ddl$p$time2=factor(rep(c(1:nocc),nest))
+	df.ddl$c$time2=factor(rep(2:nocc,nest),levels=c(1:nocc))
+	ss=summary(mark(df.proc,df.ddl,model="Closed",model.parameters=list(p=list(formula=as.formula(formula),share=TRUE,link="sin"),N=list(formula=~-1+group)),output=FALSE,delete=TRUE),se=TRUE)$real$N
+	return(list(Nhat=ss$estimate,Nse=ss$se,Nch=Nch))
 }
 # Create simple function for closed estimators
 closed.set=function(x,plot=FALSE)
@@ -83,137 +90,24 @@ closed.set=function(x,plot=FALSE)
   return(list(LP=LP,limited.LP=limited.lp,Darroch3=Darroch3,Darroch4=Darroch4,Darroch5=Darroch5))
 }
 limited.LP <-
-function(x)
+function(x,begin.time=1998,formula="~-1+time:group")
 {
 nyears=nchar(x$ch[1])
-xmat=strsplit(x$ch,"")
-xmat=do.call(rbind,xmat)
-dimx=dim(xmat)
-xmat=as.numeric(xmat)
-dim(xmat)=dimx
-x1=as.numeric(rowSums(xmat[,3:nyears])>0)
-x2=as.numeric(rowSums(xmat[,c(1,4:nyears)])>0)
-x3=as.numeric(rowSums(xmat[,c(1:2,5:nyears)])>0)
-if(nyears>=5)
-	if(nyears>5)
-		x4=as.numeric(rowSums(xmat[,c(1:3,6:nyears)])>0)
-    else
-		x4=as.numeric(rowSums(xmat[,c(1:3)])>0)
-if(nyears>=6)
-	if(nyears>6)
-	   x5=as.numeric(rowSums(xmat[,c(1:4,7:nyears)])>0)
-    else
-	   x5=as.numeric(rowSums(xmat[,c(1:4)])>0)
-if(nyears>=7)
-	if(nyears>7)
-		x6=as.numeric(rowSums(xmat[,c(1:5,8:nyears)])>0)
-    else
-		x6=as.numeric(rowSums(xmat[,c(1:5)])>0)
-if(nyears>=8)
-	if(nyears>8)
-		x7=as.numeric(rowSums(xmat[,c(1:6,9:nyears)])>0)
-    else
-		x7=as.numeric(rowSums(xmat[,c(1:6)])>0)
-if(nyears>=9)
-	if(nyears>9)
-		x8=as.numeric(rowSums(xmat[,c(1:7,10:nyears)])>0)
-    else
-		x8=as.numeric(rowSums(xmat[,c(1:7)])>0)
-if(nyears>=10)
-	if(nyears>10)
-		x9=as.numeric(rowSums(xmat[,c(1:8,11:nyears)])>0)
-    else
-		x9=as.numeric(rowSums(xmat[,c(1:8)])>0)	
-if(nyears>=11)
-	if(nyears>11)
-		x10=as.numeric(rowSums(xmat[,c(1:9,12:nyears)])>0)
-    else
-        x10=as.numeric(rowSums(xmat[,c(1:9)])>0)
-if(nyears>=12)
-	if(nyears>12)
-		x11=as.numeric(rowSums(xmat[,c(1:10,13:nyears)])>0)
-    else
-        x11=as.numeric(rowSums(xmat[,c(1:10)])>0)
-if(nyears>=13)x12=as.numeric(rowSums(xmat[,c(1:11)])>0)
-Nhat=vector("numeric",nyears-1)
-Nse=vector("numeric",nyears-1)
-Nch=vector("numeric",nyears-1)
-xx=closed(x[x1==1,],2)
-Nhat[1]=xx$Nhat[1]
-Nse[1]=xx$Nse[1]
-Nch[1]=xx$Nch[1]
-xx=closed(x[x2==1,],2)
-Nhat[2]=xx$Nhat[2]
-Nse[2]=xx$Nse[2]
-Nch[2]=xx$Nch[2]
-xx=closed(x[x3==1,],2)
-Nhat[3]=xx$Nhat[3]
-Nse[3]=xx$Nse[3]
-Nch[3]=xx$Nch[3]
-if(nyears>=5)
+xmat=t(sapply(strsplit(x$ch,""),as.numeric))
+df=NULL
+Nch=vector("list",length=(nyears-1))
+for(i in 1:(nyears-1))
 {
-	xx=closed(x[x4==1,],2)
-	Nhat[4]=xx$Nhat[4]
-	Nse[4]=xx$Nse[4]
-	Nch[4]=xx$Nch[4]
+	ch=substr(x$ch[rowSums(xmat[,-(i:(i+1))])>0],i,i+1)
+	ch=ch[ch!="00"]
+	Nch[[i]]=table(ch)
+	df=rbind(df,data.frame(ch=ch,cohort=rep(i+begin.time-1,length(ch)),stringsAsFactors=FALSE))
 }
-if(nyears>=6)
-{
-	xx=closed(x[x5==1,],2)
-	Nhat[5]=xx$Nhat[5]
-	Nse[5]=xx$Nse[5]
-	Nch[5]=xx$Nch[5]
+df$cohort=factor(df$cohort)
+df.proc=process.data(df,model="Closed",groups="cohort",begin.time=begin.time-1+1:(nyears-1))
+df.ddl=make.design.data(df.proc)
+df.ddl$p$time2=factor(rep(c(1:2),nyears-1))
+df.ddl$c$time2=factor(rep(2,nyears-1),levels=c(1:2))
+ss=summary(mark(df.proc,df.ddl,model="Closed",model.parameters=list(p=list(formula=as.formula(formula),link="sin",share=TRUE),N=list(formula=~-1+group)),output=FALSE,delete=TRUE),se=TRUE)$real$N
+return(list(Nhat=ss$estimate,Nse=ss$se,Nch=Nch))
 }
-if(nyears>=7)
-{
-	xx=closed(x[x6==1,],2)
-	Nhat[6]=xx$Nhat[6]
-	Nse[6]=xx$Nse[6]
-	Nch[6]=xx$Nch[6]
-}
-if(nyears>=8)
-{
-	xx=closed(x[x7==1,],2)
-	Nhat[7]=xx$Nhat[7]
-	Nse[7]=xx$Nse[7]
-	Nch[7]=xx$Nch[7]
-}
-if(nyears>=9)
-{
-	xx=closed(x[x8==1,],2)
-	Nhat[8]=xx$Nhat[8]
-	Nse[8]=xx$Nse[8]
-	Nch[8]=xx$Nch[8]
-}
-if(nyears>=10)
-{
-	xx=closed(x[x9==1,],2)
-	Nhat[9]=xx$Nhat[9]
-	Nse[9]=xx$Nse[9]
-	Nch[9]=xx$Nch[9]
-}
-if(nyears>=11)
-{
-	xx=closed(x[x10==1,],2)
-	Nhat[10]=xx$Nhat[10]
-	Nse[10]=xx$Nse[10]
-	Nch[10]=xx$Nch[10]
-}
-if(nyears>=12)
-{
-	xx=closed(x[x11==1,],2)
-	Nhat[11]=xx$Nhat[11]
-	Nse[11]=xx$Nse[11]
-	Nch[11]=xx$Nch[11]
-}
-if(nyears>=13)
-{
-	xx=closed(x[x12==1,],2)
-	Nhat[12]=xx$Nhat[12]
-	Nse[12]=xx$Nse[12]
-	Nch[12]=xx$Nch[12]
-}
-return(list(Nhat=Nhat,Nse=Nse,Nch=Nch))
-}
-
-
