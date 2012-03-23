@@ -6,6 +6,7 @@
 #' string of 0s & 1s
 #' @param model fitted model
 #' @param minyear first year of data
+#' @param Calf if FALSE they are excluded in the estimate in the year first seen
 #' @return List of results
 #' @author Jeff Laake
 
@@ -46,7 +47,7 @@ abundance.surv=function(x,model,minyear)
 	return(list(N=NbyYear,N.vcv=vcv))
 }
 
-abundance.p=function(x,model,minyear)
+abundance.p=function(x,model,minyear,calf=TRUE)
 {
 	ch=x$ch
 #   Start off by creating dataframe for Phi estimates for interval after initial sighting	
@@ -78,6 +79,13 @@ abundance.p=function(x,model,minyear)
 	surv=covariate.predictions(model,x)
 	estimates=cbind(estimate=surv$estimates$estimate,x)
 	n=length(ch)
+	if(!calf)
+	{
+	   include=!(estimates$Calf==1&estimates$cohort==estimates$year)
+	   estimates=estimates[include,]
+	   surv$vcv=surv$vcv[include,include]
+	   n=sum(include[1:n])
+    }
 	phi=estimates$estimate[1:n]
 	Nmat=with(estimates[1:n,],tapply(estimate,list(ID,cohort),sum))
 	Nmat[is.na(Nmat)]=0
@@ -102,3 +110,4 @@ abundance.p=function(x,model,minyear)
 	return(list(N=NbyYear,N.vcv=vcv,cor=vcv/outer(sqrt(diag(vcv)),sqrt(diag(vcv)),"*"),
 					lnN=log(NbyYear),lnN.vcv=lnvcv,ln.cor=lnvcv/outer(sqrt(diag(lnvcv)),sqrt(diag(lnvcv)),"*"),Pcfg=Pcfg,NonPcfg=NonPcfg))
 }
+

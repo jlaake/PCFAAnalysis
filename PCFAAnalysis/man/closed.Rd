@@ -5,7 +5,8 @@
 \title{Computes sequence of closed population estimates for a specified number of
 consecutive years in the capture history.}
 \usage{
-  closed(x, nocc)
+  closed(x, nocc, begin.time = 1998,
+    formula = "~-1+time:group")
 }
 \arguments{
   \item{x}{dataframe with a field \code{ch} which is the
@@ -14,7 +15,13 @@ consecutive years in the capture history.}
   \item{nocc}{number of consecutive occasions to include in
   each abundance estimate}
 
+  \item{begin.time}{time (year) for first occasion}
+
   \item{plot}{produces plot of estimates if TRUE}
+
+  \item{formula}{formula for p as string; default is
+  "~-1+group:time which is the same as doing each estimator
+  separately with no sharing of p estimates across years}
 }
 \value{
   For \code{closed} \item{Nhat}{vector containing sequence
@@ -28,8 +35,7 @@ consecutive years in the capture history.}
   containing standard errors of abundance estimates}
 
   For \code{closed.set}, each list contains a list with
-  Nhat and Nse for all and Nch for all except for
-  \code{limited.LP} \item{LP}{Lincoln-Petersen sequence of
+  Nhat and Nse for \item{LP}{Lincoln-Petersen sequence of
   abundance estimates} \item{limited.LP}{limited
   Lincoln-Petersen sequence of abundance estimates}
   \item{Darroch3}{Darroch estimator with 3 occasions}

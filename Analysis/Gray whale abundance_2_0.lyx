@@ -18,7 +18,7 @@
  \usepackage{latexsym}
 \usepackage{pdflscape}
 
-\lhead{SC/M12/AWMP2}
+\lhead{SC/M12/AWMP2-Rev}
 \rhead{\thepage}
 \end_preamble
 \use_default_options false
@@ -76,7 +76,7 @@ sweave
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
-\tracking_changes false
+\tracking_changes true
 \output_changes false
 \html_math_output 0
 \html_css_as_file 0
@@ -94,7 +94,7 @@ Updated analysis of abundance and population structure of seasonal gray
 \begin_inset Newline newline
 \end_inset
 
-(SC/M12/AWMP2)
+(SC/M12/AWMP2-Rev)
 \end_layout
 
 \begin_layout Author
@@ -618,6 +618,17 @@ Sexpr{length(table(ER$ID))}
  Abundance estimates for whales present in summer and fall using four different
  methods over different geographic scales revealed the abundance of animals
  to be at most a few hundred individuals.
+ All of estimators except those based on Lincoln-Petersen, which was likely
+ biased by the violation of population closure, showed an increase in abundance
+ in the late 1990s and early 2000s.
+ This was during the period the eastern North Pacific gray whale population
+ was experiencing a high mortality event and this created an apparent influx
+ of animals into the area.
+ While estimates during that period may have been altered by this event,
+ the abundance since then has been very stable.
+ Recent matches of photo-identified gray whales from the Pacific Northwest
+ to other regions have provided new insights into the movement of some of
+ these individuals.
  The proportion of calves documented was generally low but varied dramatically
  among years and may have been biased downward by weaning of calves prior
  to much of the collaborative seasonal effort.
@@ -2024,7 +2035,19 @@ y modeled by MT.
  for whales identified as calves under the presumption that their true survival
  might be lower but that their probability of returning to the PCFG might
  be higher.
- In total we considered 10 models for survival (Table 
+ Discussion at the 2012 intersessional AWMP meeting led to consideration
+ of an additional covariate which split whales into 2 groups for estimation
+ of post-first-year survival.
+ Whales seen initially as calves and any whale newly seen in 1998 or was
+ in the CRC catalog because it had been seen prior to 1998 were put in one
+ group and the remaining whales newly seen in 1999 or later were put in
+ another group.
+ The expectation was that the first group would have higher post-first-year
+ survival because many of the newly seen whales that entered after the stranding
+ event in 1999/2000 might eventually emigrate.
+ When this covariate was included it made such a large improvement that
+ any model without it would have no support.
+ Therefore, it was included in all 10 models for survival (Table 
 \begin_inset ERT
 status collapsed
 
@@ -3359,11 +3382,11 @@ reference "Fig2"
 \begin_layout Standard
 The proposed Makah gray whale hunt in the Makah Usual and Accustomed area
  (NWA and SJF) may occur in NWA after 30 November and prior to 1 June.
- A hunt conducted in spring potentially could take whales from the PCFG
- although those chances are less in NWA than in SJF.
+ A hunt conducted in spring (March-May) potentially could take whales from
+ the PCFG although those chances are less in NWA than in SJF.
  There have been 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -3376,21 +3399,21 @@ Sexpr{length(springwhalesNWA)}
 
  whale sightings in NWA prior to 1 June of which 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
 
 \backslash
 Sexpr{100*(as.numeric(formatC(length(springwhalesNWA.PCFA)/length(springwhalesNWA)
-,digits=3)))}
+,digits=0)))}
 \end_layout
 
 \end_inset
 
 % (
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -3402,9 +3425,17 @@ Sexpr{length(springwhalesNWA.PCFA)}
 \end_inset
 
 ) were of whales that were seen in the PCFG after 1 June at some time.
- All of those whales were sighted after 1 June in SVI and over 80% (
+ We tested whether this result was biased by the quality of photographs
+ or the selection process by also looking at the resighting rate of only
+ a subset of the animals with highest quality photographic identifications
+ from that period.
+ We found 17 of 48 (35%) were resighted after 1 June, fairly close to the
+ 30% found with all whales.
+ 
+\change_deleted -1173166803 1332528917
+All of those whales were sighted after 1 June in SVI and over 80% (
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -3425,7 +3456,7 @@ reference "Fig3"
 ).
  Of those 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -3476,6 +3507,8 @@ Sexpr{SS.NWASJF}
 \end_inset
 
  whale was seen in SJF that was not seen in NWA.
+
+\change_unchanged
  In comparison, 
 \begin_inset ERT
 status collapsed
@@ -3491,14 +3524,14 @@ Sexpr{length(springwhalesSJF)}
 
  whale sightings were in SJF prior to 1 June of which 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
 
 \backslash
 Sexpr{100*(as.numeric(formatC(length(springwhalesSJF.PCFA)/length(springwhalesSJF)
-,digits=3)))}
+,digits=0)))}
 \end_layout
 
 \end_inset
@@ -3519,12 +3552,16 @@ Sexpr{length(springwhalesSJF.PCFA)}
 ) were of whales that were seen in the PCFG after 1 June at sometime, emphasizin
 g the importance of restricting a hunt to coastal waters of the MUA (i.e.,
  the NWA) to limit the take of whales from the PCFG.
- Therefore, with a proposed hunt in the winter/spring in NWA, an assessment
+ 
+\change_deleted -1173166803 1332528926
+Therefore, with a proposed hunt in the winter/spring in NWA, an assessment
  of impact on whales in the PCFG needs to consider a target population of
  whales contained in MUA and SVI after 1 June because all or most of the
  whales seen in the NWA before 1 June and seen after 1 June in the PCFG
  are likely to be found in the MUA and SVI.
  
+\change_unchanged
+
 \end_layout
 
 \begin_layout Subsection
@@ -4574,7 +4611,7 @@ Open Population Capture-Recapture Models
 
 \begin_layout Standard
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -4816,6 +4853,46 @@ I","NBC"))
 
 \begin_layout Plain Layout
 
+  ch.all$nt=ch.all$Calf+as.numeric(ch.all$cohort==1998)+ch.all$old
+\end_layout
+
+\begin_layout Plain Layout
+
+  ch.all$nt=ifelse(ch.all$nt>0,1,0) 
+\end_layout
+
+\begin_layout Plain Layout
+
+  ch.muasvi$nt=ch.muasvi$Calf+as.numeric(ch.muasvi$cohort==1998)+ch.muasvi$old
+\end_layout
+
+\begin_layout Plain Layout
+
+  ch.muasvi$nt=ifelse(ch.muasvi$nt>0,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+  ch.orsvi$nt=ch.orsvi$Calf+as.numeric(ch.orsvi$cohort==1998)+ch.orsvi$old
+\end_layout
+
+\begin_layout Plain Layout
+
+  ch.orsvi$nt=ifelse(ch.orsvi$nt>0,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+  ch.nbc$nt=ch.nbc$Calf+as.numeric(ch.nbc$cohort==1998)+ch.nbc$old
+\end_layout
+
+\begin_layout Plain Layout
+
+  ch.nbc$nt=ifelse(ch.nbc$nt>0,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
  if(runit)
 \end_layout
 
@@ -4975,6 +5052,26 @@ I","NBC"))
 \begin_layout Plain Layout
 
   orsvi.gof=release.gof(orsvi.proc)
+\end_layout
+
+\begin_layout Plain Layout
+
+  nc.all.list=noCalf_Abundance(ch.all,all.open$model.list,all.gofc[3,1]/all.gofc[3,2])
+\end_layout
+
+\begin_layout Plain Layout
+
+  nc.all=nc.all.list$Nbyocc$estimate
+\end_layout
+
+\begin_layout Plain Layout
+
+  nc.orsvi.list=noCalf_Abundance(ch.orsvi,orsvi.open$model.list,1)
+\end_layout
+
+\begin_layout Plain Layout
+
+  nc.orsvi=nc.orsvi.list$Nbyocc$estimate
 \end_layout
 
 \begin_layout Plain Layout
@@ -5575,22 +5672,55 @@ n")
 
 \begin_layout Plain Layout
 
-TrueS.mua=model.average(muasvi.open$model.list, indices=c(2))
+TrueS.mua=covariate.predictions(muasvi.open$model.list,data=data.frame(nt=1),indices=
+2)$estimates
 \end_layout
 
 \begin_layout Plain Layout
 
-TrueS.or=model.average(orsvi.open$model.list, indices=c(2))
+TrueS.or=covariate.predictions(orsvi.open$model.list,data=data.frame(nt=1),indices=2)
+$estimates
 \end_layout
 
 \begin_layout Plain Layout
 
-TrueS.nbc=model.average(nbc.open$model.list, indices=c(2))
+TrueS.nbc=covariate.predictions(nbc.open$model.list,data=data.frame(nt=1),indices=2)$
+estimates
 \end_layout
 
 \begin_layout Plain Layout
 
-TrueS.all=model.average(all.open$model.list, indices=c(2))
+TrueS.all=covariate.predictions(all.open$model.list,data=data.frame(nt=1),indices=2)$
+estimates
+\end_layout
+
+\begin_layout Plain Layout
+
+# Survival for post 1998 non-calves
+\end_layout
+
+\begin_layout Plain Layout
+
+TrueS1999.mua=covariate.predictions(muasvi.open$model.list,data=data.frame(nt=0),indi
+ces=2)$estimates
+\end_layout
+
+\begin_layout Plain Layout
+
+TrueS1999.or=covariate.predictions(orsvi.open$model.list,data=data.frame(nt=0),indice
+s=2)$estimates
+\end_layout
+
+\begin_layout Plain Layout
+
+TrueS1999.nbc=covariate.predictions(nbc.open$model.list,data=data.frame(nt=0),indices
+=2)$estimates
+\end_layout
+
+\begin_layout Plain Layout
+
+TrueS1999.all=covariate.predictions(all.open$model.list,data=data.frame(nt=0),indices
+=2)$estimates
 \end_layout
 
 \begin_layout Plain Layout
@@ -5786,6 +5916,52 @@ key "Calambokidis2010"
 \end_layout
 
 \begin_layout Standard
+There was large year to year variation in capture probability.
+ The values for MUA-SVI ranged from 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(min(p.df$p),format="f",digits=2)}
+\end_layout
+
+\end_inset
+
+ to 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(max(p.df$p),format="f",digits=2)}
+\end_layout
+
+\end_inset
+
+ depending on the year and value of MT (Figure 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{Figcapturep}
+\end_layout
+
+\end_inset
+
+).
+ The lowest values were from 2007 which reflects the temporary emigration
+ of whales from MUA and SVI to waters offshore of Oregon in that year.
+\end_layout
+
+\begin_layout Standard
 First year survival estimates were dominated by permanent emigration.
  For MUA-SVI, the estimates varied from 
 \begin_inset ERT
@@ -5855,9 +6031,11 @@ ref{FigSurvival}
 ).
  For calves, they were slightly higher but there was little support for
  a different first year calf survival.
- Survival subsequent to the first year was assumed to be constant and represent
- true survival assuming there was little permanent emigration after the
- first year.
+ Survival subsequent to the first year was assumed to be constant but was
+ less for non-calf whales that were newly seen in 1999 or later.
+ Post-first-year suvival for calves and whales present in 1998 or earlier
+ presumably represents true survival assuming there was little permanent
+ emigration after the first year.
  Those estimates were 
 \begin_inset ERT
 status collapsed
@@ -5963,50 +6141,112 @@ Sexpr{formatC(TrueS.all$se,format="f",digits=4)}
 \end_inset
 
 ) for MUA-SVI, OR-SVI, OR-NBC, NCA-NBC respectively.
- For the analysis of MUA-SVI, there was large year to year variation in
- capture probability from 
+ The post-first-year survival estimates for whales that entered in 1999
+ or later and not identified as a calf were 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
 
 \backslash
-Sexpr{formatC(min(p.df$p),format="f",digits=2)}
+Sexpr{formatC(TrueS1999.mua$estimate,digits=3)}
 \end_layout
 
 \end_inset
 
- to 
+ (se=
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
 
 \backslash
-Sexpr{formatC(max(p.df$p),format="f",digits=2)}
+Sexpr{formatC(TrueS1999.mua$se,format="f",digits=4)}
 \end_layout
 
 \end_inset
 
- depending on the year and value of MT (Figure 
+), 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
 
 \backslash
-ref{Figcapturep}
+Sexpr{formatC(TrueS1999.or$estimate,digits=3)}
 \end_layout
 
 \end_inset
 
-).
- The lowest values were from 2007 which reflects the temporary emigration
- of whales from MUA and SVI to waters offshore of Oregon in that year.
- 
+ (se=
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(TrueS1999.or$se,format="f",digits=4)}
+\end_layout
+
+\end_inset
+
+), 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(TrueS1999.nbc$estimate,digits=3)}
+\end_layout
+
+\end_inset
+
+ (se=
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(TrueS1999.nbc$se,format="f",digits=4)}
+\end_layout
+
+\end_inset
+
+) and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(TrueS1999.all$estimate,digits=3)}
+\end_layout
+
+\end_inset
+
+ (se=
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(TrueS1999.all$se,format="f",digits=4)}
+\end_layout
+
+\end_inset
+
+) for MUA-SVI, OR-SVI, OR-NBC, NCA-NBC respectively.
 \end_layout
 
 \begin_layout Subsection
@@ -6015,7 +6255,7 @@ Abundance and Recruitment
 
 \begin_layout Standard
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -6741,6 +6981,30 @@ dd=dev.off()
 
 \begin_layout Plain Layout
 
+JS1nc.data.all=cbind(formatC(nc.all$N,digits=0,format="f"), formatC(nc.all$se,digits
+=1,format="f"))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+JS1nc.data.or=cbind(formatC(nc.orsvi$N,digits=0,format="f"), formatC(nc.orsvi$se,dig
+its=1,format="f"))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
 @
 \end_layout
 
@@ -7151,7 +7415,7 @@ Sexpr{maxyear}
 
  , an average of 
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -7234,6 +7498,30 @@ Sexpr{formatC(max(seen.muasvi[2:(nyears-1),3]),format="f",digits=1)}
  for the last 8 or 9 years.
  Presumably if there was a directed harvest recruitment would increase but
  if the take was 2-4 whales, it will take 5 to 10 years to see much change.
+\end_layout
+
+\begin_layout Standard
+The AWMP implementation trials for the gray whale assessment is based on
+ 1+ abundance.
+ It is not possible to identify every calf when they entered and many were
+ likely missed because much of the survey effort was conducted when calves
+ could have been weaned.
+ As an approximation to the 1+ abundance, we removed observed calves from
+ the 
+\begin_inset Formula $u_{j}$
+\end_inset
+
+ in JS1.
+ For NCA-NBC, there were 37 observed calves during the 13 years, but the
+ total reduction in abundance across all years was approximately 20 because
+ the JS1 estimator discounts newly seen whales based on their predicted
+ survival probability.
+ The reduction for OR-SVI is less because there were fewer calves observed
+ in the smaller region.
+ The sequence of estimates for NCA-NBC and OR-SVI are provided in Table
+ .
+ These estimates do not exclude whales first seen as calves in the abundance
+ estimates when they were age 1 or older.
 \end_layout
 
 \begin_layout Subsection
@@ -9322,7 +9610,7 @@ ts as with the PCFG gray whales, the LP estimator produced a flat trend
 \begin_inset Formula $N$
 \end_inset
 
- but only a proportion
+ but only a proportion 
 \begin_inset Formula $\delta$
 \end_inset
 
@@ -9487,7 +9775,7 @@ Of greater significance to the potential status of PCFG whales, two matches
  Five of these were identified in August 2006 and four in August and early
  September of 2010.
  Two of these were determined to be whales identified in other regions.
- Most surprisingly, one of the whales identified in 2006 off Barrow (CRC
+ Most surprisingly, one of the whales identified in 2010 off Barrow (CRC
  ID 850) had been seen in the PCFG area three years in the summer and fall.
  Sightings included a total of 10 resightings: two days in September and
  October 2004 and September and October 2006 in the Strait of Juan de Fuca
@@ -9675,7 +9963,7 @@ e estimating abundance.
  reliable assessment of trend in the non-transient abundance and the best
  estimate of current abundance in 
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -9763,17 +10051,14 @@ key "Steeves2001"
  They found significant differences in the haplotype frequencies between
  that sample and mtDNA sequence data reported for ENP gray whales, most
  of which were animals that stranded along the migratory route.
-  The 
+ The 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "frasier"
 
 \end_inset
 
- study has some limitations including samples taken from a single primary
- location off Vancouver Island and no verification by microsatellite analysis
- that whales have not been duplicated.
- 
+ samples were from a relatively small area; however,
 \begin_inset CommandInset citation
 LatexCommand citet
 key "lang2011"
@@ -9881,6 +10166,32 @@ Even though the population structure of gray whales off the Pacific Northwest
  for feeding through the summer is at most a couple hundred animals depending
  on the estimating method and how broadly the region is defined geographically.
  
+\end_layout
+
+\begin_layout Standard
+The apparent rapid increase in the abundance estimates derived from the
+ limited LP and Jolly-Seber models in the first five years of this study
+ appear incompatible with this being a relatively distinct group since it
+ would require a high rate of external recruitment, however, the exact rate
+ of this increase should be viewed with caution.
+ This rapid increase at the start of our study occurred during a period
+ the overall eastern North Pacific gray whale population was experiencing
+ a high mortality event that included unusually high numbers of gray whales
+ showing up in areas they were not common.
+ The simulation did show that the initial estimates were negatively biased
+ low and would over-estimate recruitment but reflected the general trend.
+ We did expand the analysis to include the 1996 and 1997 data and the 1998
+ estimate did increase by about 7% but the sampling prior to 1998 was opportunis
+tic and not broad scale, so it is possible that some of the “new” whales
+ seen during 1999-2001 may have been present in the PCFG prior to 1998 in
+ areas that were not sampled and included in the CRC database.
+ The high rate of increase in the late 1990s and early 2000s should be verified
+ with additional data such as compiling photographic identifications for
+ this area from multiple sources to attempt to verify if the abundance of
+ animals prior to the start of our study was as low as suggested by these
+ trends.
+ Even though the rate of increase may be too high, we believe the abundance
+ did increase and now appears to be relatively stable since 2002.
 \end_layout
 
 \begin_layout Section*
@@ -11139,6 +11450,13 @@ Sexpr{minyear}
 
  cohort and 0 otherwise.
  C is 1 if identified as a calf in its first year and 0 otherwise.
+ R is 1 for calves or any whale seen in 1998 or was already in the catalog
+ prior to 1998 and 0 otherwise.
+ 
+\begin_inset Formula $\beta_{r}$
+\end_inset
+
+ is an adjustment to post-first-year survival.
  MT is minimum tenure value of a whale and 
 \begin_inset Formula $\beta_{M}$
 \end_inset
@@ -11304,7 +11622,7 @@ Sexpr{minyear}
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 Model
 \end_layout
 
@@ -11315,7 +11633,7 @@ Model
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 Parameter Logit Formula
 \end_layout
 
@@ -11326,7 +11644,7 @@ Parameter Logit Formula
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 Number of parameters
 \end_layout
 
@@ -11339,7 +11657,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 \begin_inset Formula $\varphi$
 \end_inset
 
@@ -11373,7 +11691,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 1
 \end_layout
 
@@ -11384,8 +11702,8 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
-\begin_inset Formula $\beta_{0}+\beta_{Fy}Fy$
+\size footnotesize
+\begin_inset Formula $\beta_{0}+\beta_{Fy}Fy+\beta_{r}R(1-Fy)$
 \end_inset
 
 
@@ -11398,7 +11716,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 2
 \end_layout
 
@@ -11411,7 +11729,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 2
 \end_layout
 
@@ -11422,8 +11740,8 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
-\begin_inset Formula $\beta_{0}+\beta_{Fy}Fy+\beta_{M}MT\, Fy$
+\size footnotesize
+\begin_inset Formula $\beta_{0}+\beta_{Fy}Fy+\beta_{M}MT\, Fy+\beta_{r}R(1-Fy)$
 \end_inset
 
 
@@ -11436,7 +11754,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 3
 \end_layout
 
@@ -11449,7 +11767,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 3
 \end_layout
 
@@ -11460,8 +11778,8 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
-\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}Fy+\beta_{Fy,1999}(1-Fc)Fy$
+\size footnotesize
+\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}Fy+\beta_{Fy,1999}(1-Fc)Fy+\beta_{r}R(1-Fy)$
 \end_inset
 
 
@@ -11474,7 +11792,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 3
 \end_layout
 
@@ -11487,7 +11805,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 4
 \end_layout
 
@@ -11498,8 +11816,8 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
-\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}Fy+\beta_{Fy,1999}(1-Fc)Fy+\beta_{M}MT\, Fy$
+\size footnotesize
+\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}Fy+\beta_{Fy,1999}(1-Fc)Fy+\beta_{M}MT\, Fy+\beta_{r}R(1-Fy)$
 \end_inset
 
 
@@ -11512,7 +11830,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 4
 \end_layout
 
@@ -11525,7 +11843,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 5
 \end_layout
 
@@ -11536,8 +11854,8 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
-\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}\, Fy+\beta_{Fy,1999}(1-Fc)\, Fy+\beta_{M,1998}MT\, Fy+\beta_{M,1999}(1-Fc)\, MT\, Fy$
+\size footnotesize
+\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}\, Fy+\beta_{Fy,1999}(1-Fc)\, Fy+\beta_{M,1998}MT\, Fy+\beta_{M,1999}(1-Fc)\, MT\, Fy+\beta_{r}R(1-Fy)$
 \end_inset
 
 
@@ -11550,7 +11868,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 5
 \end_layout
 
@@ -11563,7 +11881,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 6
 \end_layout
 
@@ -11574,8 +11892,8 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
-\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}Fy+\beta_{Fy,c}Fy\,(1-Fc)+\beta_{M}MT\, Fy$
+\size footnotesize
+\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}Fy+\beta_{Fy,c}Fy\,(1-Fc)+\beta_{M}MT\, Fy+\beta_{r}R(1-Fy)$
 \end_inset
 
 
@@ -11588,7 +11906,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 14
 \end_layout
 
@@ -11601,7 +11919,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 7
 \end_layout
 
@@ -11612,8 +11930,8 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
-\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}Fy+\beta_{Fy,c}Fy\,(1-Fc)+\beta_{M}MT\, Fy+\beta_{CF}C\, F_{y}$
+\size footnotesize
+\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}Fy+\beta_{Fy,c}Fy\,(1-Fc)+\beta_{M}MT\, Fy+\beta_{CF}C\, F_{y}+\beta_{r}R(1-Fy)$
 \end_inset
 
  
@@ -11626,7 +11944,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 15
 \end_layout
 
@@ -11639,7 +11957,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 8
 \end_layout
 
@@ -11650,8 +11968,8 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
-\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}Fy+\beta_{Fy,c}Fy\,(1-Fc)+\beta_{M}MT\, Fy+\beta_{CF}C\, F_{y}+\beta_{CM}C\, MT$
+\size footnotesize
+\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}Fy+\beta_{Fy,c}Fy\,(1-Fc)+\beta_{M}MT\, Fy+\beta_{CF}C\, F_{y}+\beta_{CM}C\, MT+\beta_{r}R(1-Fy)$
 \end_inset
 
 
@@ -11664,7 +11982,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 16
 \end_layout
 
@@ -11677,7 +11995,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 9
 \end_layout
 
@@ -11688,8 +12006,8 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
-\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}\, Fy+\beta_{Fy,1999}(1-Fc)\, Fy+\beta_{M,1998}MT\, Fy+\beta_{M,1999}(1-Fc)\, MT\, Fy+\beta_{CF}C\, F_{y}$
+\size footnotesize
+\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}\, Fy+\beta_{Fy,1999}(1-Fc)\, Fy+\beta_{M,1998}MT\, Fy+\beta_{M,1999}(1-Fc)\, MT\, Fy+\beta_{CF}C\, F_{y}+\beta_{r}R(1-Fy)$
 \end_inset
 
 
@@ -11702,7 +12020,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 6
 \end_layout
 
@@ -11715,7 +12033,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 10
 \end_layout
 
@@ -11726,8 +12044,8 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
-\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}\, Fy+\beta_{Fy,1999}(1-Fc)\, Fy+\beta_{M,1998}MT\, Fy+\beta_{M,1999}(1-Fc)\, MT\, Fy+\beta_{CF}C\, F_{y}+\beta_{CM}C\, MT$
+\size footnotesize
+\begin_inset Formula $\beta_{0}+\beta_{Fy,1998}\, Fy+\beta_{Fy,1999}(1-Fc)\, Fy+\beta_{M,1998}MT\, Fy+\beta_{M,1999}(1-Fc)\, MT\, Fy+\beta_{CF}C\, F_{y}+\beta_{CM}C\, MT+\beta_{r}R(1-Fy)$
 \end_inset
 
 
@@ -11740,7 +12058,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 7
 \end_layout
 
@@ -11753,7 +12071,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 \begin_inset Formula $p$
 \end_inset
 
@@ -11787,7 +12105,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 1
 \end_layout
 
@@ -11798,7 +12116,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 \begin_inset Formula $\beta_{0}+\beta_{t}$
 \end_inset
 
@@ -11812,7 +12130,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 12
 \end_layout
 
@@ -11825,7 +12143,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 2
 \end_layout
 
@@ -11836,7 +12154,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 \begin_inset Formula $\beta_{0}+\beta_{t}+\beta_{M}MT$
 \end_inset
 
@@ -11850,7 +12168,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 13
 \end_layout
 
@@ -11863,7 +12181,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 3
 \end_layout
 
@@ -11874,7 +12192,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 \begin_inset Formula $\beta_{0}+\beta_{M}MT$
 \end_inset
 
@@ -11888,7 +12206,7 @@ Number of parameters
 
 \begin_layout Plain Layout
 
-\size small
+\size footnotesize
 2
 \end_layout
 
@@ -33241,9 +33559,9 @@ name "tabnseen"
 
 \end_inset
 
-Number of whales seen each year, number that were new that year, and number
- that were new and were seen in a subsequent year for whales seen between
- June-November 
+Number of whales seen each year, number that were new that year in that
+ region, and number that were new and were seen in a subsequent year for
+ whales seen between June-November 
 \begin_inset ERT
 status collapsed
 
@@ -33270,6 +33588,8 @@ Sexpr{maxyear}
 \end_inset
 
  in each region.
+ The year a whale was seen as new can vary across regions and if it differs
+ will be later in the smaller region.
 \end_layout
 
 \end_inset
@@ -39349,7 +39669,7 @@ name "tabmodelselect"
 
 \end_inset
 
-Delta AICc and QAICc (for NCA-NBC and NCA-SEAK models) for 30 models fitted
+Delta AICc and QAICc (for OR-NBC and NCA-NBC models) for 30 models fitted
  to each set of data.
 \end_layout
 
@@ -66359,6 +66679,1728 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
+name "tabJS1-nc"
+
+\end_inset
+
+JS1 abundance estimates (
+\begin_inset Formula $\widehat{N}$
+\end_inset
+
+) and standard errors in OR-SVI and NCA-NBC after exclusion of known calves
+ from the year in which they were identified as calves.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="27" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="right" valignment="top" width="0">
+<column alignment="right" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Region
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Year
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="bottom" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\widehat{N}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="bottom" topline="true" bottomline="true" usebox="none" width="2cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $se(\widehat{N})$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+OR-SVI
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\size small
+998
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[1,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[1,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1999
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[2,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[2,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[3,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[3,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2001
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[4,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[4,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2002
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[5,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[5,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2003
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[6,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[6,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2004
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[7,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[7,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2005
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[8,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[8,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2006
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[9,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[9,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2007
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[10,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[10,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2008
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[11,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[11,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2009
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[12,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[12,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[13,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.or[13,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NCA-NBC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\size small
+998
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[1,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[1,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1999
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[2,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[2,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[3,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[3,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2001
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[4,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[4,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2002
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[5,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[5,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2003
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[6,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[6,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2004
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[7,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[7,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2005
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[8,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[8,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2006
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[9,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[9,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2007
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[10,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[10,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2008
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[11,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[11,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2009
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[12,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[12,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[13,1]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{JS1nc.data.all[13,2]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "tab:Simgr"
 
 \end_inset
@@ -70881,7 +72923,7 @@ Sexpr{maxyear}
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset ERT
@@ -70976,7 +73018,7 @@ Sexpr{maxyear}
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset ERT
@@ -71047,7 +73089,7 @@ Simulation results for closed estimators with p=0.7 and 0.8 with an increasing
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset ERT
@@ -71092,8 +73134,8 @@ name "fig:SimulationOpen"
 Simulation results for JS estimators with p=0.7 and 0.8 with an increasing
  trend in non-transients and decreasing trend in transients (upper 2 plots)
  and no trend (lower 2 plots).
- The true average simulated non-transient N is shown with line and the average
- estimates for JS1 and JS2 are shown with symbols.
+ The true average simulated non-transient N is shown with the line and the
+ average estimates for JS1 and JS2 are shown with symbols.
  
 \end_layout
 

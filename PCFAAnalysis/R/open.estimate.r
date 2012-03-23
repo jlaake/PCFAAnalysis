@@ -1,9 +1,11 @@
 #' POPAN model fitting
 #' 
 #' 
-#' @export open.estimate alt.open.estimate
+#' @export open.estimate 
 #' @param er dataframe 
 #' @param delta value of delta aicc to use for model averaging set. Default is Inf to use all.
+#' @param alternate If TRUE do not median center MT and use JS1 approach for abundance estimation
+#' @param chat Overdispersion value
 #' @return List of results
 #' @author Jeff Laake
 open.estimate=function(er,delta=Inf,alternate=FALSE,chat=1)
@@ -74,10 +76,7 @@ er.ddl=make.design.data(er.proc)
 # create firstyr which is 1 if this is the whale's first year and 0 otherwise
 er.ddl$Phi$firstyr=0
 er.ddl$Phi$firstyr[as.character(er.ddl$Phi$group)==as.character(er.ddl$Phi$time)]=1
-#er.ddl$Phi$secondyr=0
-#er.ddl$Phi$secondyr[as.numeric(as.character(er.ddl$Phi$group))==(as.numeric(as.character(er.ddl$Phi$time))-1)]=1
-#er.ddl$Phi$thirdyr=0
-#er.ddl$Phi$thirdyr[as.numeric(as.character(er.ddl$Phi$group))==(as.numeric(as.character(er.ddl$Phi$time))-2)]=1
+er.ddl$Phi$notfirstyr=1-er.ddl$Phi$firstyr
 # create firstcohort which is 0 except for 1998 which has value 1 because it is the
 # first cohort and these are a mix of whales new in 1998 and others that have been there
 # in previous years.
@@ -117,20 +116,16 @@ else
 	p.2=list(formula=~-1+timebin+pmin)
 	p.3=list(formula=~pmin)
 }
-  Phi.1=list(formula=~firstyr)
-  Phi.2=list(formula=~firstyr+firstyr:min)
-  Phi.3=list(formula=~firstcohort:firstyr+firstyr)
-  Phi.4=list(formula=~firstcohort:firstyr+firstyr+min:firstyr)
-  Phi.5=list(formula=~firstcohort:firstyr+firstyr+firstyr:min+firstcohort:min)
-  Phi.6=list(formula=~cohort:firstyr+firstyr:min)
-  Phi.7=list(formula=~cohort:firstyr+Calf:firstyr+firstyr+firstyr:min)
-  Phi.8=list(formula=~cohort:firstyr+Calf:firstyr+ Calf:min:firstyr +firstyr:min)
-  Phi.9=list(formula=~firstcohort:firstyr+firstyr+firstyr:min+firstcohort:min + Calf:firstyr)
-  Phi.10=list(formula=~firstcohort:firstyr+firstyr+firstyr:min+firstcohort:min + Calf:firstyr+Calf:min:firstyr )
-#  Phi.11=list(formula=~cohort+firstcohort:firstyr+firstyr+min:firstyr)
-#  Phi.12=list(formula=~secondyr+firstcohort:firstyr+firstyr+min:firstyr)
-#  Phi.13=list(formula=~thirdyr+secondyr+firstcohort:firstyr+firstyr+min:firstyr)
-  
+  Phi.1=list(formula=~firstyr+nt:notfirstyr)
+  Phi.2=list(formula=~firstyr+firstyr:min+nt:notfirstyr)
+  Phi.3=list(formula=~firstcohort:firstyr+firstyr+nt:notfirstyr)
+  Phi.4=list(formula=~firstcohort:firstyr+firstyr+min:firstyr+nt:notfirstyr)
+  Phi.5=list(formula=~firstcohort:firstyr+firstyr+firstyr:min+firstcohort:min+nt:notfirstyr)
+  Phi.6=list(formula=~cohort:firstyr+firstyr:min+nt:notfirstyr)
+  Phi.7=list(formula=~cohort:firstyr+Calf:firstyr+firstyr+firstyr:min+nt:notfirstyr)
+  Phi.8=list(formula=~cohort:firstyr+Calf:firstyr+ Calf:min:firstyr +firstyr:min+nt:notfirstyr)
+  Phi.9=list(formula=~firstcohort:firstyr+firstyr+firstyr:min+firstcohort:min + Calf:firstyr+nt:notfirstyr)
+  Phi.10=list(formula=~firstcohort:firstyr+firstyr+firstyr:min+firstcohort:min + Calf:firstyr+Calf:min:firstyr+nt:notfirstyr )
   if(alternate)
 	  N.1=list(formula=~-1+group,fixed=0)
   else

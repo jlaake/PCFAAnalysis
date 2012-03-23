@@ -3,14 +3,13 @@
 \alias{PCFA}
 \title{Photo-identification data of gray whales in the PCFA which is defined as the
 area from N CA to Kodiak Alaska from 1 June to 30 November}
-\format{A data frame with 12018 observations on the following 24 variables.
+\format{A data frame with observations on the following 24 variables.
 \describe{ \item{list("ID")}{a numeric vector of CRC gray whale IDs}
 \item{list("ResearchGroup")}{research group that contributed the photo}
 \item{list("Year")}{a numeric vector of years photos were taken}
 \item{list("Date")}{vector of dates photos were taken} \item{list("Sreg")}{a
-region factor with levels \code{CCA} \code{GH+} \code{KAK} \code{NBC}
-\code{NCA} \code{NPS} \code{NWA} \code{OR} \code{PS-HC-BB-SJ} \code{SCA}
-\code{SEAK} \code{SJF} \code{SOR} \code{SVI} \code{WVI}}
+region factor with levels  \code{GH+} \code{KAK} \code{NBC}
+\code{NCA} \code{NWA} \code{OR} \code{SEAK} \code{SJF} \code{SOR} \code{SVI} \code{WVI}}
 \item{list("Reg")}{a numeric region factor with levels \code{1} \code{10}
 \code{11} \code{12} \code{13} \code{14} \code{2} \code{3} \code{4} \code{5}
 \code{6} \code{7} \code{8} \code{9}} \item{list("Lat")}{a numeric vector of
@@ -46,9 +45,8 @@ were taken with NWA/SJF collapsed to MUA} }}
 }
 \examples{
 data(ER)
-#########################################################################################
 # Define PCFA group which are whales seen from 1 June to 30 November except in Puget Sound, Hood Canal, etc
-PCFA=ER[ER$Month>=6&!is.na(ER$Month)&ER$Month<=11&!ER$Region\%in\%c("NPS","SCA","CCA"),]
+PCFA=ER[ER$Month>=6&!is.na(ER$Month)&ER$Month<=11&!ER$Region\%in\%c("NPS","SCA","CCA","NAK"),]
 oldwhales=unique(PCFA$ID[PCFA$Year<1998])
 # Add a field old to indicate the whale had been seen previous to 1998 in the PCFA
 PCFA$old=0
@@ -57,7 +55,7 @@ PCFA$old[PCFA$ID\%in\%oldwhales]=1
 PCFA$Region=PCFA$region
 PCFA$Region[PCFA$Region\%in\%c("NWA","SJF")]="MUA"
 PCFA$Region=factor(PCFA$Region,levels=c("NCA","SOR","OR","GH+","MUA","SVI","WVI","NBC","SEAK","KAK"))
+PCFA$Sreg=factor(PCFA$Sreg)
 }
-\keyword{dataset}
 \keyword{datasets}
 

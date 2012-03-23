@@ -2,13 +2,18 @@
 \alias{abundance.surv}
 \title{Alternative abundance estimators for open population models}
 \usage{
-  abundance.surv(x, model)
+  abundance.surv(x, model, minyear)
 }
 \arguments{
   \item{x}{dataframe with a field \code{ch} which is the
   capture history string of 0s & 1s}
 
   \item{model}{fitted model}
+
+  \item{minyear}{first year of data}
+
+  \item{Calf}{if FALSE they are excluded in the estimate in
+  the year first seen}
 }
 \value{
   List of results
