@@ -4,7 +4,8 @@
 #' @export open.estimate 
 #' @param er dataframe 
 #' @param delta value of delta aicc to use for model averaging set. Default is Inf to use all.
-#' @param alternate If TRUE do not median center MT and use JS1 approach for abundance estimation
+#' @param alternate If TRUE do not median center MT and instead use JS1 approach for abundance estimation; 
+#'                  alternate=FALSE was used in SC/62/BRG32
 #' @param chat Overdispersion value
 #' @return List of results
 #' @author Jeff Laake
@@ -69,7 +70,7 @@ if(!alternate)
    #er$ID=NULL
 er$NC=1-er$Calf
 years=as.numeric(levels(er$cohort))
-minyear=min(as.numeric(levels(ch.all$cohort)))
+minyear=min(years)
 # Process data and set up design data for RMark
 er.proc=process.data(er,model="POPAN",begin.time=minyear,groups="cohort")
 er.ddl=make.design.data(er.proc)
@@ -81,7 +82,7 @@ er.ddl$Phi$notfirstyr=1-er.ddl$Phi$firstyr
 # first cohort and these are a mix of whales new in 1998 and others that have been there
 # in previous years.
 er.ddl$Phi$firstcohort=0
-er.ddl$Phi$firstcohort[er.ddl$Phi$cohort%in%1996:1998]=1
+er.ddl$Phi$firstcohort[er.ddl$Phi$cohort%in%c(1996:1998,minyear)]=1
 # 1-firstyr = notfirstyr
 er.ddl$p$notfirstyr=1
 er.ddl$p$notfirstyr[as.character(er.ddl$p$group)==as.character(er.ddl$p$time)]=0
@@ -90,27 +91,21 @@ er.ddl$p$notfirstyr[as.character(er.ddl$p$group)==as.character(er.ddl$p$time)]=0
 fixed.pent.index=as.numeric(row.names(er.ddl$pent))
 fixed.pent.values=rep(0,length(fixed.pent.index))
 fixed.pent.values[as.character(er.ddl$pent$group)==as.character(er.ddl$pent$time)]=1
-
+# fix p to 1 for newly seen
 fixed.p.index=as.numeric(row.names(er.ddl$p))[as.character(er.ddl$p$group)==as.character(er.ddl$p$time)]
-fixed.p.values=rep(0,length(fixed.p.index))
 fixed.p.values=1
-
-if(!alternate)
-{
 # create a timebin field that lumps 1998-1999 so N1998 can be estimated; not used for alternate where p set to 1
-	er.ddl$p$timebin=cut(er.ddl$p$Time,c(-1,1:(max(years)-min(years))))
-	levels(er.ddl$p$timebin)=c("1998-1999",as.character(2000:max(years)))
-}
+er.ddl$p$timebin=cut(er.ddl$p$Time,c(-1,1:(max(years)-min(years))))
+levels(er.ddl$p$timebin)=c(paste(minyear,minyear+1,sep="-"),as.character((minyear+2):max(years)))
 # create function to fit various model sets
 do.popan=function(chat)
 {
 if(alternate)
 {
-   p.1=list(formula=~-1+time,fixed=list(index=fixed.p.index,value=fixed.p.values))
-   p.2=list(formula=~-1+time+pmin,fixed=list(index=fixed.p.index,value=fixed.p.values))
-   p.3=list(formula=~pmin,fixed=list(index=fixed.p.index,value=fixed.p.values))
-}
-else
+	p.1=list(formula=~-1+time,fixed=list(index=fixed.p.index,value=fixed.p.values))
+	p.2=list(formula=~-1+time+pmin,fixed=list(index=fixed.p.index,value=fixed.p.values))
+	p.3=list(formula=~pmin,fixed=list(index=fixed.p.index,value=fixed.p.values))
+}else
 {
 	p.1=list(formula=~-1+timebin)
 	p.2=list(formula=~-1+timebin+pmin)

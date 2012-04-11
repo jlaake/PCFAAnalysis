@@ -1,0 +1,3002 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{ragged2e}
+\RaggedRight
+\setlength{\parindent}{1 em}
+\usepackage{lmodern}
+\usepackage{rotating}
+\usepackage{longtable}
+\usepackage{fancyhdr}
+\date{}
+\setlength{\headheight}{15.2pt}
+\pagestyle{fancy}
+\fancyhf{}
+ \usepackage{latexsym}
+\usepackage{pdflscape}
+
+\lhead{SC/M12/AWMP2-Rev}
+\rhead{\thepage}
+\end_preamble
+\use_default_options false
+\begin_modules
+sweave
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding default
+\fontencoding global
+\font_roman palatino
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 0
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Evaluation of potential bias in abundance estimates for seasonal gray whales
+ in the Pacific Northwest 
+\size small
+
+\begin_inset Newline newline
+\end_inset
+
+(SC/BRG64/AWMP)
+\end_layout
+
+\begin_layout Author
+Jeffrey L.
+ Laake
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+<<echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+workspace="C:/Users/JLaake/git/PCFAAnalysis/Analysis/.Rdata"
+\end_layout
+
+\begin_layout Plain Layout
+
+load(workspace)
+\end_layout
+
+\begin_layout Plain Layout
+
+runit=FALSE
+\end_layout
+
+\begin_layout Plain Layout
+
+library(PCFAAnalysis) 
+\end_layout
+
+\begin_layout Plain Layout
+
+library(xtable)
+\end_layout
+
+\begin_layout Plain Layout
+
+library(RMark)
+\end_layout
+
+\begin_layout Plain Layout
+
+library(ggplot2)
+\end_layout
+
+\begin_layout Plain Layout
+
+data(ER) 
+\end_layout
+
+\begin_layout Plain Layout
+
+maxyear=2010
+\end_layout
+
+\begin_layout Plain Layout
+
+minyear=1998
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+SC/M12/AWMP2-Rev provided abundance estimates for gray whales in the Pacific
+ Coast Feeding Group (PCFG) that are being used in the current AWMP implementati
+on trials.
+ Some of the implementation trials propose that the increasing trend in
+ the abundance estimates from 1998-2002 is bias and there is no trend at
+ all in the abundance.
+ I evaluate the plausibility of those trials by expanding the range of simulatio
+ns conducted in SC/M12/AWMP2-Rev with a scenario of an underlying population
+ with no trend and another scenario of a population with a trend that matches
+ the PCFG estimates.
+ I also evaluate the bias proposition by several additional analyses of
+ the data that include additional data from 1996-1997 and that sequentially
+ exclude data from 1998 to 2001 to examine the affect on the estimates.
+ This evaluation is limited to the JS1 abundance estimator described in
+ SC/M12/AWMP2-Rev, which is based on the open Jolly-Seber population model
+ with an adjustment to handle the transient whales that are only present
+ in a single year.
+ Based on this evaluation I believe the bias is limited to the 1998 estimate
+ and the remainder of the increase from 1999-2002 is real.
+ 
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+SweaveOpts{echo=FALSE}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For the implementation trials, PCFG whales are defined as whales seen in
+ the area between 41-52N during 1 June - 31 December.
+ That area is part of the migratory corridor of the whales that migrate
+ further north into Alaska and while most migration will have ended prior
+ to 1 June some whales may continue to migrate north through the PCFG after
+ 1 June or south earlier than 30 November.
+ Thus, it is not surprising that some whales identified in the PCFG are
+ only seen in one year.
+ Transient animals are a problem for capture-recapture models and a true
+ robust design was not possible with these data.
+ SC/\SpecialChar \-
+M12/AWMP2-Rev provided abundance estimates for gray whales in the Pacific
+ Coast Feeding Group (PCFG) using 4 different approaches and recommended
+ using the JS1 abundance estimates which are based on the open Jolly-Seber
+ population model with an adjustment to 
+\begin_inset Quotes eld
+\end_inset
+
+remove
+\begin_inset Quotes erd
+\end_inset
+
+ the transient whales that are only seen in a single year.
+ Those JS1 abundance estimates are being used in the trials.
+ 
+\end_layout
+
+\begin_layout Standard
+To evaluate a range of conditions, some of the implementation trials are
+ based on the assumption that the increasing trend in the abundance estimates
+ from 1998-2002 is solely bias and there is no trend at all in the abundance.
+ In 1999-2000 conditions in the Bering were poor and there were large numbers
+ of gray whales stranding during the migration.
+ With whales migrating through the PCFG region, it is reasonable to expect
+ that some whales may have chosen to forage in the PCFG and not travel further
+ north.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Calambokidis2004"
+
+\end_inset
+
+ proposed that passing through the PCFG during the migration was a natural
+ mechanism for external recruitment into the PCFG and they suggested that
+ the relationship between the length of stay in their first year and their
+ continued return (
+\begin_inset Quotes eld
+\end_inset
+
+survival
+\begin_inset Quotes erd
+\end_inset
+
+) to the PCFG provided evidence that foraging success was the determinant
+ for recruitment.
+ Subsequently, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Calambokidis2010"
+
+\end_inset
+
+ documented internal recruitment through return of calves seen initially
+ with their mothers and argued that internal recruitment is likely to be
+ much higher than the documented level because many of the calves would
+ be weaned prior to most of the survey effort in the PCFG.
+\end_layout
+
+\begin_layout Standard
+There are two unanswered questions that are relevant to the treatment of
+ the PCFG as a stock.
+ First, what is the magnitude of recruitment into the PCFG especially during
+ the period between 1999-2002 when the JS1 abundance estimates increased.
+ Second, how much of the recruitment is internal versus external.
+ I only consider the first question and in particular I evaluate the plausibilit
+y of the bias trials by expanding the range of simulations conducted in
+ SC/M12/AWMP2-Rev with a scenario of an underlying population with no trend
+ and another scenario of a population with a trend that matches the PCFG
+ estimates.
+ I also evaluate the bias proposition by several additional analyses of
+ the data that include additional data from 1996-1997 and that sequentially
+ exclude data from 1998 to 2001 to examine the affect on the estimates.
+ 
+\end_layout
+
+\begin_layout Section
+Methods
+\end_layout
+
+\begin_layout Subsection
+Abundance estimation
+\end_layout
+
+\begin_layout Standard
+Transient behavior in which an animal is seen only once can be modeled by
+ including a different 
+\begin_inset Quotes eld
+\end_inset
+
+first year
+\begin_inset Quotes erd
+\end_inset
+
+ survival (
+\begin_inset CommandInset citation
+LatexCommand citealt
+key "Pradel1997"
+
+\end_inset
+
+) for the newly seen animals.
+ Survival in the time interval after being first seen is dominated by permanent
+ emigration rather than true mortality.
+ Survival in subsequent time intervals represents true survival under the
+ assumption that animals do not permanently emigrate except in their first
+ year.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Pradel1997"
+
+\end_inset
+
+were working with release-recapture data (Cormack-Jolly-Seber) where modeling
+ this transient effect on survival is straightforward because the initial
+ capture event is not modelled.
+ For a Jolly-Seber (JS) type analysis where the first capture event is also
+ modeled, the inclusion of a transient effect is less easily accommodated
+ because some of the whales may not be seen in their first year.
+ The JS1 approach assumes that all newly entering whales are seen and divides
+ the whales into cohorts based on the year in which they were first seen
+ (
+\begin_inset Quotes eld
+\end_inset
+
+newly seen
+\begin_inset Quotes erd
+\end_inset
+
+).
+ With the POPAN (
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Schwarz1996"
+
+\end_inset
+
+) formulation of the JS model, the JS1 estimator is constructed by fixing
+ probability of entry and capture probability to 1 for the first occasion
+ which effectively nullifies modelling the initial capture event with the
+ strong assumption that all new whales are seen.
+\end_layout
+
+\begin_layout Standard
+The JS1 estimator of abundance is a modification of the typical Jolly-Seber
+ estimator which for any year the estimator can be expressed as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\hat{N}=n/\hat{p}=(u+m)/\hat{p}\label{eq:1}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $n=u+m$
+\end_inset
+
+, 
+\begin_inset Formula $n$
+\end_inset
+
+ is the number seen in a year being composed of new animals (
+\begin_inset Formula $u$
+\end_inset
+
+=unmarked) and previously seen animals (
+\begin_inset Formula $m$
+\end_inset
+
+=marked), and 
+\begin_inset Formula $\hat{p}$
+\end_inset
+
+ is the capture probability estimate.
+ For the PCFG we are assuming that any new whale is sighted (
+\begin_inset Formula $p=1$
+\end_inset
+
+) and we are only interested in estimating the abundance of whales that
+ will remain part of the PCFG (non-transient).
+ We can modify the JS estimator for year j as follows to get the JS1 estimator:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\hat{N_{j}}=u_{j}\hat{\phi}_{j}+m_{j}/\hat{p_{j}}\label{eq:2}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\phi_{j}$
+\end_inset
+
+ is the first year survival rate of “new” whales.
+ When 
+\begin_inset Formula $\phi$
+\end_inset
+
+ and 
+\begin_inset Formula $p$
+\end_inset
+
+ contain whale specific covariates like minimum tenure (MT) the estimator
+ becomes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\hat{N_{j}}={\textstyle \sum_{i=1}^{u_{j}}\hat{\phi}_{ij}+{\textstyle \sum_{i=1}^{m_{j}}1/\hat{p}_{ij}}}.\label{eq:3}
+\end{equation}
+
+\end_inset
+
+To obtain an abundance estimate for 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+, we assumed that the parameter for first year survival intercept in that
+ year was the same as in 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear-1}
+\end_layout
+
+\end_inset
+
+.
+ A variance-covariance matrix for the abundance estimates was constructed
+ using the variance estimator in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "borchers1998"
+
+\end_inset
+
+ for a Horvitz-Thompson type estimator with an adaptation for the first
+ component of the abundance estimator for prediction of number of new whales
+ that do not permanently emigrate.
+ 
+\end_layout
+
+\begin_layout Standard
+SC/M12/AWMP2-Rev provides the details of the models for survival (
+\begin_inset Formula $\phi$
+\end_inset
+
+) and capture probability (
+\begin_inset Formula $p$
+\end_inset
+
+) that were fitted using the RMark interface (
+\begin_inset CommandInset citation
+LatexCommand citealt
+key "Laake2008"
+
+\end_inset
+
+) to program MARK (
+\begin_inset CommandInset citation
+LatexCommand citealt
+key "White1999"
+
+\end_inset
+
+) for the 1998-2010 PCFG photo-identification data set.
+ I use the same set of models here for additional analysis of an extended
+ data set from 1996-2010 and from subsets of the original data including
+ 1999 to 2010, 2000 to 2010 and 2001 to 2010.
+ Extending the data set to include 1996 and 1997 data allows estimation
+ of 
+\begin_inset Formula $p$
+\end_inset
+
+ for 1998 and inclusion of whales seen prior to 1998 but not seen in 1998.
+ Reducing the original data set provides an empirical evaluation of the
+ bias by comparing the estimates for years greater than 
+\begin_inset Formula $y$
+\end_inset
+
+ when 
+\begin_inset Formula $y$
+\end_inset
+
+ is included and excluded from the data (e.g., compare estimates for 1999
+ and 2000 when 1998 is included/excluded from the analysis).
+ 
+\end_layout
+
+\begin_layout Subsection
+Simulation
+\end_layout
+
+\begin_layout Standard
+SC/M12/AWMP2-Rev contained a simulation study to investigate the properties
+ of the various estimators of abundance.
+ I expanded that simulation to include a constant capture probability of
+ 
+\begin_inset Formula $p$
+\end_inset
+
+=0.5 and 0.6 in addition to 0.7 and 0.8 used in SC/M12/AWMP2-Rev.
+ I have limited the presentation to the JS1 estimator being used in the
+ implentation trials.
+ As in SC/M12/AWMP2-Rev, the simulation considered 2 scenarios with constant
+ 
+\begin_inset Formula $\phi$
+\end_inset
+
+=0.95 for non-transient whales and 
+\begin_inset Formula $\phi$
+\end_inset
+
+=0.0 for transient whales which are assumed to permanently emigrate and never
+ return.
+ In the first scenario, the population is at equilibrium in which the number
+ of new non-transients and transients match the expected number of mortalities
+ of non-transient whales (
+\begin_inset Formula $N(1-\phi)$
+\end_inset
+
+).
+ In the second scenario, I used the observed number of transients (seen
+ only in one year) and recruits to the non-transients from the PCFG gray
+ whale data from NCA-NBC area (41-52N) and a initial population size of
+ 120 non-transients from previous years still alive in 1998.
+ A single population entry structure was constructed for each scenario from
+ which 100 replicates of the survival and capture process were simulated.
+ Even though 
+\begin_inset Formula $p$
+\end_inset
+
+ was constant in the simulated data, a time varying 
+\begin_inset Formula $p$
+\end_inset
+
+ model was fitted to make it similar to the real data analysis.
+ I summarized the abundance time series for the 100 replicates for each
+ estimator to examine bias in abundance 
+\begin_inset Formula $\hat{N}-N$
+\end_inset
+
+ and bias in sequential estimates of trend 
+\begin_inset Formula $(\hat{N}_{t+1}-\hat{N}_{t})/\hat{N}_{t}-(N_{t+1}-N_{t})/N_{t}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Section
+Results
+\end_layout
+
+\begin_layout Subsection
+Simulation 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+<<>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+detach("package:PCFAAnalysis")
+\end_layout
+
+\begin_layout Plain Layout
+
+load("C:/Users/JLaake/git/PCFAAnalysis/simulation/.Rdata")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+if(runit)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+open.estimate=function(er,delta=Inf)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+# minyyyy is the minimum tenure measure for year yyyy if it was the
+\end_layout
+
+\begin_layout Plain Layout
+
+# whales first year seen; else 0
+\end_layout
+
+\begin_layout Plain Layout
+
+# The following centers each of those variables which subtracts the median
+ value
+\end_layout
+
+\begin_layout Plain Layout
+
+# of those whales with a non-zero value such that those with missing values
+ (0)
+\end_layout
+
+\begin_layout Plain Layout
+
+# can be set to the median value.
+\end_layout
+
+\begin_layout Plain Layout
+
+#
+\end_layout
+
+\begin_layout Plain Layout
+
+	years=as.numeric(levels(er$cohort))
+\end_layout
+
+\begin_layout Plain Layout
+
+# Process data and set up design data for RMark
+\end_layout
+
+\begin_layout Plain Layout
+
+	er.proc=process.data(er,model="POPAN",begin.time=1998,groups="cohort")
+\end_layout
+
+\begin_layout Plain Layout
+
+	er.ddl=make.design.data(er.proc)
+\end_layout
+
+\begin_layout Plain Layout
+
+# create firstyr which is 1 if this is the whale's first year and 0 otherwise
+\end_layout
+
+\begin_layout Plain Layout
+
+	er.ddl$Phi$firstyr=0
+\end_layout
+
+\begin_layout Plain Layout
+
+	er.ddl$Phi$firstyr[as.character(er.ddl$Phi$group)==as.character(er.ddl$Phi$time)]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+# create firstcohort which is 0 except for 1998 which has value 1 because
+ it is the
+\end_layout
+
+\begin_layout Plain Layout
+
+# first cohort and these are a mix of whales new in 1998 and others that
+ have been there
+\end_layout
+
+\begin_layout Plain Layout
+
+# in previous years.
+\end_layout
+
+\begin_layout Plain Layout
+
+	er.ddl$Phi$firstcohort=0
+\end_layout
+
+\begin_layout Plain Layout
+
+	er.ddl$Phi$firstcohort[er.ddl$Phi$cohort==1998]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+# 1-firstyr = notfirstyr
+\end_layout
+
+\begin_layout Plain Layout
+
+	er.ddl$p$notfirstyr=1
+\end_layout
+
+\begin_layout Plain Layout
+
+	er.ddl$p$notfirstyr[as.character(er.ddl$p$group)==as.character(er.ddl$p$time)]=0
+\end_layout
+
+\begin_layout Plain Layout
+
+# setup indices for prob entry to have a fixed value of 1 such that cohort
+ yyyy all
+\end_layout
+
+\begin_layout Plain Layout
+
+# enters at year yyyy.
+\end_layout
+
+\begin_layout Plain Layout
+
+	fixed.pent.index=as.numeric(row.names(er.ddl$pent))
+\end_layout
+
+\begin_layout Plain Layout
+
+	fixed.pent.values=rep(0,length(fixed.pent.index))
+\end_layout
+
+\begin_layout Plain Layout
+
+	fixed.pent.values[as.character(er.ddl$pent$group)==as.character(er.ddl$pent$time)]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	fixed.p.index=as.numeric(row.names(er.ddl$p))[as.character(er.ddl$p$group)==as.characte
+r(er.ddl$p$time)]
+\end_layout
+
+\begin_layout Plain Layout
+
+	fixed.p.values=1
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+# create function to fit various model sets
+\end_layout
+
+\begin_layout Plain Layout
+
+	do.popan=function()
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+		p.1=list(formula=~-1+time,fixed=list(index=fixed.p.index,value=fixed.p.values))
+\end_layout
+
+\begin_layout Plain Layout
+
+		Phi.1=list(formula=~cohort:firstyr)
+\end_layout
+
+\begin_layout Plain Layout
+
+		Phi.3=list(formula=~firstcohort:firstyr+firstyr)
+\end_layout
+
+\begin_layout Plain Layout
+
+		N.1=list(formula=~-1+group,fixed=0)
+\end_layout
+
+\begin_layout Plain Layout
+
+		pent.1=list(formula=~1,fixed=list(index=fixed.pent.index,value=fixed.pent.values))
+\end_layout
+
+\begin_layout Plain Layout
+
+		cml=create.model.list("POPAN")
+\end_layout
+
+\begin_layout Plain Layout
+
+		results=mark.wrapper(cml,data=er.proc,ddl=er.ddl,output=FALSE,delete=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+# Run set of models and store in popan.results
+\end_layout
+
+\begin_layout Plain Layout
+
+	popan.results=do.popan()
+\end_layout
+
+\begin_layout Plain Layout
+
+# Use top models with delta AICc <4 
+\end_layout
+
+\begin_layout Plain Layout
+
+	model.nums=as.numeric(row.names(popan.results$model.table[popan.results$model.table$De
+ltaAICc<delta,]))
+\end_layout
+
+\begin_layout Plain Layout
+
+	weight=popan.results$model.table$DeltaAICc[popan.results$model.table$DeltaAICc<delt
+a]
+\end_layout
+
+\begin_layout Plain Layout
+
+	weight=weight-min(weight)
+\end_layout
+
+\begin_layout Plain Layout
+
+	weight=exp(-.5*weight)/sum(exp(-.5*weight))
+\end_layout
+
+\begin_layout Plain Layout
+
+	nmodels=length(model.nums)
+\end_layout
+
+\begin_layout Plain Layout
+
+	N.vcv.list=vector("list",nmodels)
+\end_layout
+
+\begin_layout Plain Layout
+
+	Nest=matrix(NA,nrow=nmodels,ncol=nchar(er$ch[1]))
+\end_layout
+
+\begin_layout Plain Layout
+
+	lnN.vcv.list=vector("list",nmodels)
+\end_layout
+
+\begin_layout Plain Layout
+
+	lnNest=matrix(NA,nrow=nmodels,ncol=nchar(er$ch[1]))
+\end_layout
+
+\begin_layout Plain Layout
+
+	for(i in 1:nmodels)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+		mod=popan.results[[model.nums[i]]]
+\end_layout
+
+\begin_layout Plain Layout
+
+		xx=abundance.p(er,mod) 
+\end_layout
+
+\begin_layout Plain Layout
+
+		Nest[i,]=xx$N
+\end_layout
+
+\begin_layout Plain Layout
+
+		N.vcv.list[[i]]=xx$N.vcv
+\end_layout
+
+\begin_layout Plain Layout
+
+		lnNest[i,]=xx$lnN
+\end_layout
+
+\begin_layout Plain Layout
+
+		lnN.vcv.list[[i]]=xx$lnN.vcv
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	Nbyocc=model.average(list(estimates=Nest,vcv=N.vcv.list,weight=weight))
+\end_layout
+
+\begin_layout Plain Layout
+
+# Compute LCL,UCL,Nmin calculation with std formula for log-normal conf
+ interval
+\end_layout
+
+\begin_layout Plain Layout
+
+	Nbyocc$estimate=data.frame(N=Nbyocc$estimate,se=Nbyocc$se)
+\end_layout
+
+\begin_layout Plain Layout
+
+	C=exp(sqrt(log(1+(Nbyocc$estimate$se/Nbyocc$estimate$N)^2)))
+\end_layout
+
+\begin_layout Plain Layout
+
+	Nbyocc$estimate$LCL=Nbyocc$estimate$N/C
+\end_layout
+
+\begin_layout Plain Layout
+
+	Nbyocc$estimate$UCL=Nbyocc$estimate$N*C
+\end_layout
+
+\begin_layout Plain Layout
+
+	Nbyocc$estimate$Nmin=with(Nbyocc$estimate,N/exp(0.864*sqrt(log(1+(se/N)^2))))
+\end_layout
+
+\begin_layout Plain Layout
+
+	lnNbyocc=model.average(list(estimates=lnNest,vcv=lnN.vcv.list,weight=weight))
+\end_layout
+
+\begin_layout Plain Layout
+
+	lnNbyocc$estimate=data.frame(lnN=lnNbyocc$estimate,se=lnNbyocc$se)
+\end_layout
+
+\begin_layout Plain Layout
+
+	return(list(Nbyocc=Nbyocc,lnNbyocc=lnNbyocc,model.list=popan.results))
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+abundance.p=function(x,model)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+	ch=x$ch
+\end_layout
+
+\begin_layout Plain Layout
+
+#   Start off by creating dataframe for Phi estimates for interval after
+ initial sighting	
+\end_layout
+
+\begin_layout Plain Layout
+
+	nocc=nchar(ch[1])
+\end_layout
+
+\begin_layout Plain Layout
+
+	last=1998+nocc-1
+\end_layout
+
+\begin_layout Plain Layout
+
+#			x[x$cohort==last,paste("min",last-1,sep="")]=x$minstay[x$cohort==last]
+\end_layout
+
+\begin_layout Plain Layout
+
+#			x=subset(x,select=c("ID","cohort","Calf","old",paste("min",1998:(last-1),sep
+=""),paste("pmin",1999:last,sep="")))
+\end_layout
+
+\begin_layout Plain Layout
+
+	x$index=(as.numeric(x$cohort)-1)*(nocc-1)+as.numeric(x$cohort)
+\end_layout
+
+\begin_layout Plain Layout
+
+	x$index[x$cohort==last]=x$index[x$cohort==(last-1)][1]
+\end_layout
+
+\begin_layout Plain Layout
+
+	x$cohort=as.numeric(x$cohort)+1997
+\end_layout
+
+\begin_layout Plain Layout
+
+	x$year=x$cohort
+\end_layout
+
+\begin_layout Plain Layout
+
+#   Next add to dataframe the p estimates for each resigting event	
+\end_layout
+
+\begin_layout Plain Layout
+
+	occasions.seen=lapply(strsplit(ch,""),function(x) (as.numeric(x)*1:nocc)[as.numeri
+c(x)>0])
+\end_layout
+
+\begin_layout Plain Layout
+
+	baseindex=(nocc-1)*nocc
+\end_layout
+
+\begin_layout Plain Layout
+
+	addx=NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+	for(i in 1:nrow(x))
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+		nresight=length(occasions.seen[[i]])-1
+\end_layout
+
+\begin_layout Plain Layout
+
+		if(nresight>0)
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+			xtmp=x[rep(i,nresight),]
+\end_layout
+
+\begin_layout Plain Layout
+
+			xtmp$index=baseindex+nocc*(x$cohort[i]-1998)+occasions.seen[[i]][-1]
+\end_layout
+
+\begin_layout Plain Layout
+
+			xtmp$year=1997+occasions.seen[[i]][-1]
+\end_layout
+
+\begin_layout Plain Layout
+
+			addx=rbind(addx,xtmp)
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	x=rbind(x,addx)
+\end_layout
+
+\begin_layout Plain Layout
+
+#   Get predictions
+\end_layout
+
+\begin_layout Plain Layout
+
+	surv=covariate.predictions(model,x)
+\end_layout
+
+\begin_layout Plain Layout
+
+	estimates=cbind(estimate=surv$estimates$estimate,x)
+\end_layout
+
+\begin_layout Plain Layout
+
+	n=length(ch)
+\end_layout
+
+\begin_layout Plain Layout
+
+	phi=estimates$estimate[1:n]
+\end_layout
+
+\begin_layout Plain Layout
+
+	Nmat=with(estimates[1:n,],tapply(estimate,list(ID,cohort),sum))
+\end_layout
+
+\begin_layout Plain Layout
+
+	Nmat[is.na(Nmat)]=0
+\end_layout
+
+\begin_layout Plain Layout
+
+	NbyYear=colSums(Nmat,na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+	Nmat=with(estimates[(n+1):nrow(estimates),],tapply(1/estimate,list(ID,year),sum
+))
+\end_layout
+
+\begin_layout Plain Layout
+
+	NbyYear.r=c(0,colSums(Nmat,na.rm=TRUE))
+\end_layout
+
+\begin_layout Plain Layout
+
+	Nmat=with(estimates[(n+1):nrow(estimates),],tapply(1/estimate^2,list(ID,year),s
+um))
+\end_layout
+
+\begin_layout Plain Layout
+
+	NbyYear.sq=c(0,colSums(Nmat,na.rm=TRUE))
+\end_layout
+
+\begin_layout Plain Layout
+
+	NbyYear=NbyYear+NbyYear.r	
+\end_layout
+
+\begin_layout Plain Layout
+
+	deriv=matrix(0,nrow(estimates),ncol=nocc)
+\end_layout
+
+\begin_layout Plain Layout
+
+	for(j in 1:ncol(deriv))
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+		deriv[estimates$cohort==1998+j-1&row(estimates)[,1]<=n,j]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+		deriv[estimates$year==1998+j-1&row(estimates)[,1]>n,j]=-1/estimates$estimate[e
+stimates$year==1998+j-1&row(estimates)[,1]>n]^2
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	vcv=t(deriv)%*%surv$vcv%*%deriv
+\end_layout
+
+\begin_layout Plain Layout
+
+	diag(vcv)=diag(vcv)+NbyYear.sq-NbyYear.r 
+\end_layout
+
+\begin_layout Plain Layout
+
+	lnvcv=log(1+vcv/outer(NbyYear,NbyYear,"*"))
+\end_layout
+
+\begin_layout Plain Layout
+
+	NonPcfg=tapply(1-estimates$estimate[estimates$old==0&row(estimates)[,1]<=n],est
+imates$cohort[estimates$old==0&row(estimates)[,1]<=n],sum)
+\end_layout
+
+\begin_layout Plain Layout
+
+	Pcfg=tapply(estimates$estimate[estimates$old==0&row(estimates)[,1]<=n],estimate
+s$cohort[estimates$old==0&row(estimates)[,1]<=n],sum)
+\end_layout
+
+\begin_layout Plain Layout
+
+	return(list(N=NbyYear,N.vcv=vcv,cor=vcv/outer(sqrt(diag(vcv)),sqrt(diag(vcv)),"*
+"),
+\end_layout
+
+\begin_layout Plain Layout
+
+					lnN=log(NbyYear),lnN.vcv=lnvcv,ln.cor=lnvcv/outer(sqrt(diag(lnvcv)),sqrt(diag
+(lnvcv)),"*"),Pcfg=Pcfg,NonPcfg=NonPcfg))
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+simgw=function(p,trend=TRUE,nreps=100)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+# 
+\end_layout
+
+\begin_layout Plain Layout
+
+N=110
+\end_layout
+
+\begin_layout Plain Layout
+
+Phi=.95
+\end_layout
+
+\begin_layout Plain Layout
+
+k=13
+\end_layout
+
+\begin_layout Plain Layout
+
+if(trend)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+	nrecruit=c(10,17,31,28,30,16,13,11,2,8,12,9,10)
+\end_layout
+
+\begin_layout Plain Layout
+
+	ntransients=c(28,58,23,37,27,5,19,11,7,14,34,16,11)
+\end_layout
+
+\begin_layout Plain Layout
+
+}else
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+    nrecruit=rep(floor(N*(1-Phi)+1),13)
+\end_layout
+
+\begin_layout Plain Layout
+
+    ntransients=nrecruit
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+inpop=rep(paste(rep("1",k),collapse=""),N)
+\end_layout
+
+\begin_layout Plain Layout
+
+inpop=c(inpop,rep(paste(rep("1",k),collapse=""),(nrecruit[1]+ntransients[1])))
+\end_layout
+
+\begin_layout Plain Layout
+
+for(i in 2:k)
+\end_layout
+
+\begin_layout Plain Layout
+
+	inpop=c(inpop,rep(paste(c(rep("0",i-1),rep("1",k-i+1)),collapse=""),ntransients
+[i]))
+\end_layout
+
+\begin_layout Plain Layout
+
+for(i in 2:k)
+\end_layout
+
+\begin_layout Plain Layout
+
+	inpop=c(inpop,rep(paste(c(rep("0",i-1),rep("1",k-i+1)),collapse=""),nrecruit[i]
+))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+TotalN=length(inpop)
+\end_layout
+
+\begin_layout Plain Layout
+
+# assign Phi values depending on transient/resident
+\end_layout
+
+\begin_layout Plain Layout
+
+transient=c(rep(0,N+nrecruit[1]),rep(1,sum(ntransients)),rep(0,sum(nrecruit[-1])
+))
+\end_layout
+
+\begin_layout Plain Layout
+
+Phivalues=Phi*(1-transient)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+LPNreps=matrix(NA,nrow=nreps,ncol=k-1)
+\end_layout
+
+\begin_layout Plain Layout
+
+limitedLPNreps=matrix(NA,nrow=nreps,ncol=k-1)
+\end_layout
+
+\begin_layout Plain Layout
+
+openNreps=matrix(NA,nrow=nreps,ncol=k)
+\end_layout
+
+\begin_layout Plain Layout
+
+JSNreps=matrix(NA,nrow=nreps,ncol=k)
+\end_layout
+
+\begin_layout Plain Layout
+
+TrueNreps=matrix(NA,nrow=nreps,ncol=k)
+\end_layout
+
+\begin_layout Plain Layout
+
+AllNreps=matrix(NA,nrow=nreps,ncol=k)
+\end_layout
+
+\begin_layout Plain Layout
+
+for(i in 1:nreps)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+n REP *****",i,"
+\backslash
+n")
+\end_layout
+
+\begin_layout Plain Layout
+
+Phimat=t(sapply(Phivalues, function(x) rbinom(k-1,1,x)))
+\end_layout
+
+\begin_layout Plain Layout
+
+# split inpop to matrix
+\end_layout
+
+\begin_layout Plain Layout
+
+inpopmat=t(sapply(strsplit(inpop,""),function(x)as.numeric(x)))
+\end_layout
+
+\begin_layout Plain Layout
+
+# add initial release, so they start off alive at that point
+\end_layout
+
+\begin_layout Plain Layout
+
+Phimat=Phimat+(1-inpopmat[,1:(k-1)])
+\end_layout
+
+\begin_layout Plain Layout
+
+Phimat[Phimat>1]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+# create matrix of who is alive (1) and dead (0)
+\end_layout
+
+\begin_layout Plain Layout
+
+Phimat=t(apply(Phimat,1,cumprod))
+\end_layout
+
+\begin_layout Plain Layout
+
+Phimat=cbind(rep(1,TotalN),Phimat)
+\end_layout
+
+\begin_layout Plain Layout
+
+# create detection matrix
+\end_layout
+
+\begin_layout Plain Layout
+
+pmat=matrix(rbinom(k*TotalN,1,p),nrow=TotalN,ncol=k)
+\end_layout
+
+\begin_layout Plain Layout
+
+# create observation matrix
+\end_layout
+
+\begin_layout Plain Layout
+
+obsmat=inpopmat*Phimat*pmat
+\end_layout
+
+\begin_layout Plain Layout
+
+# compute true N over time
+\end_layout
+
+\begin_layout Plain Layout
+
+TrueNt=colSums((1-transient)*inpopmat*Phimat)
+\end_layout
+
+\begin_layout Plain Layout
+
+AllNt=colSums(inpopmat*Phimat)
+\end_layout
+
+\begin_layout Plain Layout
+
+# contstruct dataframe for analysis
+\end_layout
+
+\begin_layout Plain Layout
+
+df=data.frame(ch=apply(obsmat,1,paste,collapse=""),stringsAsFactors=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+ymat=obsmat
+\end_layout
+
+\begin_layout Plain Layout
+
+ymat[ymat==0]=NA
+\end_layout
+
+\begin_layout Plain Layout
+
+#  multiply nums matrix times the chmat	
+\end_layout
+
+\begin_layout Plain Layout
+
+nums=matrix(1:k,nrow=TotalN,ncol=k,byrow=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+nums=nums*ymat
+\end_layout
+
+\begin_layout Plain Layout
+
+nums=nums[!apply(nums,1,function(x)all(is.na(x))),]
+\end_layout
+
+\begin_layout Plain Layout
+
+#  use apply to get the minimum occasion + 1997 is the cohort
+\end_layout
+
+\begin_layout Plain Layout
+
+df=df[df$ch!=paste(rep("0",k),collapse=""),,drop=FALSE]
+\end_layout
+
+\begin_layout Plain Layout
+
+df$cohort=factor(apply(nums,1,min,na.rm=TRUE)+1997)
+\end_layout
+
+\begin_layout Plain Layout
+
+df$ID=factor(1:nrow(df))
+\end_layout
+
+\begin_layout Plain Layout
+
+    open.sim=try(open.estimate(df))
+\end_layout
+
+\begin_layout Plain Layout
+
+	openNreps[i,]=open.sim$Nbyocc$estimate$N
+\end_layout
+
+\begin_layout Plain Layout
+
+	TrueNreps[i,]=TrueNt
+\end_layout
+
+\begin_layout Plain Layout
+
+	AllNreps[i,]=AllNt
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+return(list(TrueNreps,AllNreps,LPNreps,limitedLPNreps,JSNreps,openNreps))
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+nRes1.5")
+\end_layout
+
+\begin_layout Plain Layout
+
+res1.5=simgw(p=.5)
+\end_layout
+
+\begin_layout Plain Layout
+
+save.image(workspace)
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+nRes1.6")
+\end_layout
+
+\begin_layout Plain Layout
+
+res1.6=simgw(p=.6)
+\end_layout
+
+\begin_layout Plain Layout
+
+save.image(workspace)
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+nRes1.7")
+\end_layout
+
+\begin_layout Plain Layout
+
+res1.7=simgw(p=.7)
+\end_layout
+
+\begin_layout Plain Layout
+
+save.image(workspace)
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+nRes1.8")
+\end_layout
+
+\begin_layout Plain Layout
+
+res1.8=simgw(p=.8)
+\end_layout
+
+\begin_layout Plain Layout
+
+save.image(workspace)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+nRes2.5")
+\end_layout
+
+\begin_layout Plain Layout
+
+res2.5=simgw(p=.5,trend=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+save.image(workspace)
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+nRes2.6")
+\end_layout
+
+\begin_layout Plain Layout
+
+res2.6=simgw(p=.6,trend=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+save.image(workspace)
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+nRes2.7")
+\end_layout
+
+\begin_layout Plain Layout
+
+res2.7=simgw(p=.7,trend=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+save.image(workspace)
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+nRes2.8")
+\end_layout
+
+\begin_layout Plain Layout
+
+res2.8=simgw(p=.8,trend=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+save.image(workspace)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Code for Bias evaluation paper
+\end_layout
+
+\begin_layout Plain Layout
+
+################################################################################
+######
+\end_layout
+
+\begin_layout Plain Layout
+
+open.simplot.be=function(TrueNreps,openNreps,ylim,main,x,y)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+	plot(1998:2010,colMeans(TrueNreps,na.rm=T),ylim=ylim,type="b",xlab="Year",ylab="
+Abundance",main=main)
+\end_layout
+
+\begin_layout Plain Layout
+
+	points(1998:2010,colMeans(openNreps,na.rm=T),pch=6)
+\end_layout
+
+\begin_layout Plain Layout
+
+	legend(x=x,y=y,legend=c("Non-transient N","JS1"),pch=c(1,6),bty="n")
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Trend plots
+\end_layout
+
+\begin_layout Plain Layout
+
+pdf("Simbiastrend.pdf") 
+\end_layout
+
+\begin_layout Plain Layout
+
+par(mfrow=c(2,2))
+\end_layout
+
+\begin_layout Plain Layout
+
+open.simplot.be(res1.5[[1]],res1.5[[6]],ylim=c(60,250),main="p=0.5",x=2002,y=100)
+\end_layout
+
+\begin_layout Plain Layout
+
+open.simplot.be(res1.6[[1]],res1.6[[6]],ylim=c(60,250),main="p=0.6",x=2002,y=100)
+\end_layout
+
+\begin_layout Plain Layout
+
+open.simplot.be(res1.7[[1]],res1.7[[6]],ylim=c(60,250),main="p=0.7",x=2002,y=100)
+\end_layout
+
+\begin_layout Plain Layout
+
+open.simplot.be(res1.8[[1]],res1.8[[6]],ylim=c(60,250),main="p=0.8",x=2002,y=100)
+\end_layout
+
+\begin_layout Plain Layout
+
+dd=dev.off()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# No trend plots
+\end_layout
+
+\begin_layout Plain Layout
+
+pdf("Simbiasnotrend.pdf")
+\end_layout
+
+\begin_layout Plain Layout
+
+par(mfrow=c(2,2))
+\end_layout
+
+\begin_layout Plain Layout
+
+open.simplot.be(res2.5[[1]],res2.5[[6]],ylim=c(50,225),main="p=0.5",x=2002,y=90)
+\end_layout
+
+\begin_layout Plain Layout
+
+open.simplot.be(res2.6[[1]],res2.6[[6]],ylim=c(50,225),main="p=0.6",x=2002,y=90)
+\end_layout
+
+\begin_layout Plain Layout
+
+open.simplot.be(res2.7[[1]],res2.7[[6]],ylim=c(50,225),main="p=0.7",x=2002,y=90)
+\end_layout
+
+\begin_layout Plain Layout
+
+open.simplot.be(res2.8[[1]],res2.8[[6]],ylim=c(50,225),main="p=0.8",x=2002,y=90)
+\end_layout
+
+\begin_layout Plain Layout
+
+dd=dev.off()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+trend_bias=function(Nhat,N)
+\end_layout
+
+\begin_layout Plain Layout
+
+	return(colMeans(t(apply(Nhat,1,diff))/Nhat[,-(ncol(Nhat))])-
+\end_layout
+
+\begin_layout Plain Layout
+
+				colMeans(t(apply(N,1,diff))/N[,-(ncol(N))]))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+bias_table=cbind(formatC(trend_bias(res1.5[[6]],res1.5[[1]]),format="f",digits=2),
+formatC(trend_bias(res1.6[[6]],res1.6[[1]]),format="f",digits=2),formatC(trend_bia
+s(res1.7[[6]],res1.7[[1]]),format="f",digits=2),formatC(trend_bias(res1.8[[6]],res1.
+8[[1]]),format="f",digits=2))
+\end_layout
+
+\begin_layout Plain Layout
+
+bias_table=rbind(bias_table,rep(NA,4),cbind(formatC(trend_bias(res2.5[[6]],res2.5[
+[1]]),format="f",digits=2),formatC(trend_bias(res2.6[[6]],res2.6[[1]]),format="f",
+digits=2),formatC(trend_bias(res2.7[[6]],res2.7[[1]]),,format="f",digits=2),format
+C(trend_bias(res2.8[[6]],res2.8[[1]]),format="f",digits=2)))
+\end_layout
+
+\begin_layout Plain Layout
+
+bias_table=rbind(c("Trend",rep(NA,4)),cbind(c(1998:2009,"No Trend",1998:2009),bi
+as_table))
+\end_layout
+
+\begin_layout Plain Layout
+
+colnames(bias_table)=c(" ",paste("p =",5:8/10))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+avgp=formatC(covariate.predictions(all.open96$model.list,data=data.frame(pmin1998=30
+,pmin1999=30,pmin2000=30,pmin2001=30,pmin2002=30),indices=213:217)$estimates$est
+imate,format="f",digits=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The simulation results (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:SimulationTrend"
+
+\end_inset
+
+-
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:SimulationNoTrend"
+
+\end_inset
+
+) clearly shows that abundance is under-estimated for the initial years
+ and the magnitude of the problem is worse for smaller 
+\begin_inset Formula $p$
+\end_inset
+
+ as expected.
+ However, if 
+\begin_inset Formula $p\geq$
+\end_inset
+
+ 0.7 and the initial estimate in 1998 is excluded, the bias in the trend
+ for the increasing scenario is less than 4% and for the stable scenario
+ it is less than 11% (Table 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{JS1-bias}
+\end_layout
+
+\end_inset
+
+).
+ While there is still some bias for higher 
+\begin_inset Formula $p$
+\end_inset
+
+ an assesment of population growth would not be altered substantially.
+ A fitted generalized logistic growth model would have bias for RMax, the
+ maximum rate of increase, and z, the exponent that controls the location
+ of the inflection point but it would not affect the conclusion that the
+ population is above MNPL for the increasing trend scenario.
+\end_layout
+
+\begin_layout Subsection
+Analysis of different data subsets
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+<<>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Subset analysis of the data
+\end_layout
+
+\begin_layout Plain Layout
+
+if(runit)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+library(PCFAAnalysis)
+\end_layout
+
+\begin_layout Plain Layout
+
+data(PCFA)
+\end_layout
+
+\begin_layout Plain Layout
+
+data(ER)
+\end_layout
+
+\begin_layout Plain Layout
+
+# store ch.all for 1998-2010 analysis
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.save=ch.all
+\end_layout
+
+\begin_layout Plain Layout
+
+# Analysis including 1996-1997
+\end_layout
+
+\begin_layout Plain Layout
+
+minyear=1996
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA=PCFA[PCFA$Year>=minyear,]
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA$year=factor(PCFA$Year)
+\end_layout
+
+\begin_layout Plain Layout
+
+# NCA to NBC
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA.all=PCFA[PCFA$NCA.NBC==1,]
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA.all$Region=factor(PCFA.all$Region,levels=c("NCA","SOR","OR","GH+","MUA","SVI"
+,"WVI","NBC"))
+\end_layout
+
+\begin_layout Plain Layout
+
+# create ch for summary stats
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all=create.chmat(PCFA.all)
+\end_layout
+
+\begin_layout Plain Layout
+
+# Merge variables created in ch.nbc with PCFA.NBC
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA.all=merge(PCFA.all,ch.all,by="ID")
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA$old[PCFA$ID%in%PCFA.all$ID[PCFA.all$cohort==1998]]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+calves=subset(PCFA.all,select=c("ID","Calf"))
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all=merge(ch.all,unique(calves),by="ID")
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all$Calf=ifelse(ch.all$cohort==ch.all$Calf,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all$nt=ch.all$Calf+as.numeric(ch.all$cohort==1998)+ch.all$old
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all$nt=ifelse(ch.all$nt>0,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+all.proc=process.data(ch.all,model="POPAN",begin.time=minyear,groups="cohort")
+\end_layout
+
+\begin_layout Plain Layout
+
+all.gofc96=release.gof(all.proc)
+\end_layout
+
+\begin_layout Plain Layout
+
+all.open96=open.estimate(ch.all,alternate=TRUE,chat=all.gofc96[3,1]/all.gofc96[3,2])
+\end_layout
+
+\begin_layout Plain Layout
+
+nc.all96.list=noCalf_Abundance(ch.all,all.open96$model.list,all.gofc96[3,1]/all.gofc96[
+3,2])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Analysis 1999-2010
+\end_layout
+
+\begin_layout Plain Layout
+
+minyear=1999
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA=PCFA[PCFA$Year>=minyear,]
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA$year=factor(PCFA$Year)
+\end_layout
+
+\begin_layout Plain Layout
+
+# NCA to NBC
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA.all=PCFA[PCFA$NCA.NBC==1,]
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA.all$Region=factor(PCFA.all$Region,levels=c("NCA","SOR","OR","GH+","MUA","SVI"
+,"WVI","NBC"))
+\end_layout
+
+\begin_layout Plain Layout
+
+# create ch for summary stats
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all=create.chmat(PCFA.all)
+\end_layout
+
+\begin_layout Plain Layout
+
+# Merge variables created in ch.nbc with PCFA.NBC
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA.all=merge(PCFA.all,ch.all,by="ID")
+\end_layout
+
+\begin_layout Plain Layout
+
+calves=subset(PCFA.all,select=c("ID","Calf"))
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all=merge(ch.all,unique(calves),by="ID")
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all$Calf=ifelse(ch.all$cohort==ch.all$Calf,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all$nt=ch.all$Calf+as.numeric(ch.all$cohort==1998)+ch.all$old
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all$nt=ifelse(ch.all$nt>0,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+all.proc=process.data(ch.all,model="POPAN",begin.time=minyear,groups="cohort")
+\end_layout
+
+\begin_layout Plain Layout
+
+all.gofc99=release.gof(all.proc)
+\end_layout
+
+\begin_layout Plain Layout
+
+all.open99=open.estimate(ch.all,alternate=TRUE,chat=all.gofc99[3,1]/all.gofc99[3,2])
+\end_layout
+
+\begin_layout Plain Layout
+
+nc.all99.list=noCalf_Abundance(ch.all,all.open99$model.list,all.gofc99[3,1]/all.gofc99[
+3,2])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Analysis 2000-2010
+\end_layout
+
+\begin_layout Plain Layout
+
+minyear=2000
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA=PCFA[PCFA$Year>=minyear,]
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA$year=factor(PCFA$Year)
+\end_layout
+
+\begin_layout Plain Layout
+
+# NCA to NBC
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA.all=PCFA[PCFA$NCA.NBC==1,]
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA.all$Region=factor(PCFA.all$Region,levels=c("NCA","SOR","OR","GH+","MUA","SVI"
+,"WVI","NBC"))
+\end_layout
+
+\begin_layout Plain Layout
+
+# create ch for summary stats
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all=create.chmat(PCFA.all)
+\end_layout
+
+\begin_layout Plain Layout
+
+# Merge variables created in ch.nbc with PCFA.NBC
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA.all=merge(PCFA.all,ch.all,by="ID")
+\end_layout
+
+\begin_layout Plain Layout
+
+calves=subset(PCFA.all,select=c("ID","Calf"))
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all=merge(ch.all,unique(calves),by="ID")
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all$Calf=ifelse(ch.all$cohort==ch.all$Calf,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all$nt=ch.all$Calf+as.numeric(ch.all$cohort==1998)+ch.all$old
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all$nt=ifelse(ch.all$nt>0,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+all.proc=process.data(ch.all,model="POPAN",begin.time=minyear,groups="cohort")
+\end_layout
+
+\begin_layout Plain Layout
+
+all.gofc00=release.gof(all.proc)
+\end_layout
+
+\begin_layout Plain Layout
+
+all.open00=open.estimate(ch.all,alternate=TRUE,chat=all.gofc00[3,1]/all.gofc00[3,2])
+\end_layout
+
+\begin_layout Plain Layout
+
+nc.all00.list=noCalf_Abundance(ch.all,all.open00$model.list,all.gofc00[3,1]/all.gofc00[
+3,2])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Analysis 2001-2010
+\end_layout
+
+\begin_layout Plain Layout
+
+minyear=2001
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA=PCFA[PCFA$Year>=minyear,]
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA$year=factor(PCFA$Year)
+\end_layout
+
+\begin_layout Plain Layout
+
+# NCA to NBC
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA.all=PCFA[PCFA$NCA.NBC==1,]
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA.all$Region=factor(PCFA.all$Region,levels=c("NCA","SOR","OR","GH+","MUA","SVI"
+,"WVI","NBC"))
+\end_layout
+
+\begin_layout Plain Layout
+
+# create ch for summary stats
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all=create.chmat(PCFA.all)
+\end_layout
+
+\begin_layout Plain Layout
+
+# Merge variables created in ch.nbc with PCFA.NBC
+\end_layout
+
+\begin_layout Plain Layout
+
+PCFA.all=merge(PCFA.all,ch.all,by="ID")
+\end_layout
+
+\begin_layout Plain Layout
+
+calves=subset(PCFA.all,select=c("ID","Calf"))
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all=merge(ch.all,unique(calves),by="ID")
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all$Calf=ifelse(ch.all$cohort==ch.all$Calf,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all$nt=ch.all$Calf+as.numeric(ch.all$cohort==1998)+ch.all$old
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all$nt=ifelse(ch.all$nt>0,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+all.proc=process.data(ch.all,model="POPAN",begin.time=minyear,groups="cohort")
+\end_layout
+
+\begin_layout Plain Layout
+
+all.gofc01=release.gof(all.proc)
+\end_layout
+
+\begin_layout Plain Layout
+
+all.open01=open.estimate(ch.all,alternate=TRUE,chat=all.gofc01[3,1]/all.gofc01[3,2])
+\end_layout
+
+\begin_layout Plain Layout
+
+nc.all01.list=noCalf_Abundance(ch.all,all.open01$model.list,all.gofc01[3,1]/all.gofc01[
+3,2])
+\end_layout
+
+\begin_layout Plain Layout
+
+# restore ch.all for 1998-2010 analysis
+\end_layout
+
+\begin_layout Plain Layout
+
+ch.all=ch.save
+\end_layout
+
+\begin_layout Plain Layout
+
+save.image(workspace)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+Ntable=cbind(formatC(nc.all96.list$Nbyocc$estimate$N,format="f",digits=0),c(NA,NA,
+formatC(nc.all$N,format="f",digits=0)),c(NA,NA,NA,formatC(nc.all99.list$Nbyocc$esti
+mate$N,format="f",digits=0)),c(rep(NA,4),formatC(nc.all00.list$Nbyocc$estimate$N,f
+ormat="f",digits=0)),c(rep(NA,5),formatC(nc.all01.list$Nbyocc$estimate$N,format="f
+",digits=0))) 
+\end_layout
+
+\begin_layout Plain Layout
+
+colnames(Ntable)=c("1996-2010","1998-2010","1999-2010","2000-2010","2001-2010")
+\end_layout
+
+\begin_layout Plain Layout
+
+rownames(Ntable)=1996:2010
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The abundance estimate for 1998 using the 1996-2010 data is 7% higher than
+ the same estimate using 1998-2010 (Table 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{JS1-series}
+\end_layout
+
+\end_inset
+
+) and the changes in the remainder of the estimates for 1999-2010 were minor.
+ Even the change in the 1998 estimate was not as large as might be expected
+ from the simulation results.
+ This can be explained by the high estimated detection probability for 1998
+ (
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{avgp[1]}
+\end_layout
+
+\end_inset
+
+).
+ Likewise, when the data were truncated at the beginnng of the sequence,
+ the abundance estimate at the beginning of the sequence was influenced
+ the most and for the 1999-2010 and 2000-2010 data sets, the negative bias
+ carried over to the second estimate in the sequence.
+ This can be explained by examining the estimates of 
+\begin_inset Formula $p$
+\end_inset
+
+ for 1999-2002 with an MT value of 30 days which were 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{paste(avgp,collapse=", ")}
+\end_layout
+
+\end_inset
+
+.
+ The two lowest estimates were for 1999 and 2000 so the impact was larger.
+\end_layout
+
+\begin_layout Standard
+The estimated values of 
+\begin_inset Formula $p$
+\end_inset
+
+ from the data provide a reference point for the simulation results.
+ However, it is important to understand that 
+\begin_inset Formula $p$
+\end_inset
+
+ is the probability of recapturing (resighting) a whale that was previously
+ seen and that a whale that was seen in a previous year may or may not have
+ returned in each year and may have instead spent the summer/fall north
+ or south of the PCFG.
+ Thus, 
+\begin_inset Formula $p$
+\end_inset
+
+ combines both the chances of seeing a whale that is present in the PCFG
+ and the probability that it is in the PCFG that year.
+ SC/M12/AWMP2-Rev demonstrated that the best model for 
+\begin_inset Formula $p$
+\end_inset
+
+ included variation across years and the covariate MT, minimum tenure from
+ the previous year.
+ The parameter for MT was positive, meaning that if a whale was seen in
+ the prior year for a longer period of time that it would be more likely
+ to be seen the following year.
+ MT could be incorporating both heterogeneity in capture probability based
+ on the whale's location and fidelity as well as the possibility that MT
+ represents a whale's foraging success in one year that impacts the whales
+ probability of return the following year in the same way that it influences
+ the chances of permanent emigration for newly seen whales.
+ The simulation bias is a function of 
+\begin_inset Formula $p$
+\end_inset
+
+ for the new immigrants which by definition are in the population; thus,
+ the estimates of 
+\begin_inset Formula $p$
+\end_inset
+
+ from the real data are likely lower than the probability of sighting a
+ whale that is present in the PCFG.
+ With the very high value of 
+\begin_inset Formula $p$
+\end_inset
+
+ in 1998, the bias in the estimates beyond 1998 should be minimal.
+ However, this conclusion needs to be tempered by the possibility of heterogenei
+ty in 
+\begin_inset Formula $p$
+\end_inset
+
+ that may have resulted from the lack of widespread survey coverage in 1996-1997.
+\end_layout
+
+\begin_layout Section
+Discussion
+\end_layout
+
+\begin_layout Standard
+Obviously we will never know the extent of bias in the JS1 sequence of abundance
+ estimates for non-transient PCFG gray whales; however, based on these results
+ it seems very unlikely that the trend in the true sequence was flat which
+ means that the B implementation trials are not plausible.
+ The I trials which allow for some bias with a pulse of recruitment during
+ the 1999-2000 stranding event seem far more reasonable.
+ The increase in the abundance estimates during 1999-2002 seems quite plausible.
+ We may never be able to assess how much of the increase was due to internal
+ (calves) versus external (immigration) recruitment although continued biopsy
+ and genetics work may provide some answers (Lang and Martien in prep).
+ Regardless, it is hard to imagine that there is not some level of external
+ recruitment into the PCFG with the entire ENP stock of whales migrating
+ through the area each year.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "pcfa"
+options "apalike"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<JS1-bias,results=tex>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+print(xtable(bias_table,caption="Bias in trend using sequential pairs of
+ abundance esimates and true abundance for the trend and no-trend simulation
+ scenarios with p=0.5 to 0.8.",label="JS1-bias", align=c("c","c",rep("r",4))),
+ include.rownames=FALSE,include.colnames=TRUE,caption.placement="top",latex.environm
+ents="")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+<<JS1-series,results=tex>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+print(xtable(Ntable,caption="Annual estimates of abundance using JS1 with
+ different ranges of data used in the analysis from 1996-2010 to 2001-2010.",labe
+l="JS1-series"),caption.placement="top",latex.environments="") 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=7in,height=6in]
+\end_layout
+
+\begin_layout Plain Layout
+
+{Simbiastrend.pdf}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:SimulationTrend"
+
+\end_inset
+
+Simulation results for JS1 estimators with p=0.5, 0.6, 0.7 and 0.8 with an increasin
+g trend and leveling in true abundance that mimics the pattern in the gray
+ whale abundance estimates.
+ The true average simulated non-transient N is shown with a line and the
+ average estimates for JS1 is shown with symbols.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=7in,height=6in]
+\end_layout
+
+\begin_layout Plain Layout
+
+{SimbiasNotrend.pdf}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:SimulationNoTrend"
+
+\end_inset
+
+Simulation results for JS1 estimators with p=0.5, 0.6, 0.7 and 0.8 with no trend
+ in true abundance.
+ The true average simulated non-transient N is shown with a line and the
+ average estimates for JS1 is shown with symbols.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

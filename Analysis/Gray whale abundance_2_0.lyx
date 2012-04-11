@@ -618,8 +618,12 @@ Sexpr{length(table(ER$ID))}
  Abundance estimates for whales present in summer and fall using four different
  methods over different geographic scales revealed the abundance of animals
  to be at most a few hundred individuals.
- All of estimators except those based on Lincoln-Petersen, which was likely
- biased by the violation of population closure, showed an increase in abundance
+ All of 
+\change_inserted -1173166803 1332773172
+the 
+\change_unchanged
+estimators except those based on Lincoln-Petersen, which was likely biased
+ by the violation of population closure, showed an increase in abundance
  in the late 1990s and early 2000s.
  This was during the period the eastern North Pacific gray whale population
  was experiencing a high mortality event and this created an apparent influx
@@ -628,10 +632,18 @@ Sexpr{length(table(ER$ID))}
  the abundance since then has been very stable.
  Recent matches of photo-identified gray whales from the Pacific Northwest
  to other regions have provided new insights into the movement of some of
- these individuals.
+ these individuals
+\change_inserted -1173166803 1332773347
+ including matches to Barrow, Alaska
+\change_unchanged
+.
  The proportion of calves documented was generally low but varied dramatically
  among years and may have been biased downward by weaning of calves prior
- to much of the collaborative seasonal effort.
+ to 
+\change_inserted -1173166803 1332773483
+entry in the study area or prior to 
+\change_unchanged
+much of the collaborative seasonal effort.
  Observations of calves returning to the Pacific Northwest in subsequent
  years documents one possible mechanism for recruitment.
  The results we present will be valuable in assessing the impacts of potential
