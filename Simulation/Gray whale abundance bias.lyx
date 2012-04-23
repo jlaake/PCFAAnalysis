@@ -18,7 +18,7 @@
  \usepackage{latexsym}
 \usepackage{pdflscape}
 
-\lhead{SC/M12/AWMP2-Rev}
+\lhead{SC/64/AWMP10}
 \rhead{\thepage}
 \end_preamble
 \use_default_options false
@@ -93,7 +93,7 @@ Evaluation of potential bias in abundance estimates for seasonal gray whales
 \begin_inset Newline newline
 \end_inset
 
-(SC/BRG64/AWMP)
+(SC/64/AWMP10)
 \end_layout
 
 \begin_layout Author
@@ -223,7 +223,7 @@ SweaveOpts{echo=FALSE}
 
 \begin_layout Standard
 For the implementation trials, PCFG whales are defined as whales seen in
- the area between 41-52N during 1 June - 31 December.
+ the area between 41-52N during 1 June - 30 November.
  That area is part of the migratory corridor of the whales that migrate
  further north into Alaska and while most migration will have ended prior
  to 1 June some whales may continue to migrate north through the PCFG after
@@ -287,8 +287,8 @@ key "Calambokidis2010"
 
  documented internal recruitment through return of calves seen initially
  with their mothers and argued that internal recruitment is likely to be
- much higher than the documented level because many of the calves would
- be weaned prior to most of the survey effort in the PCFG.
+ higher than the documented level because many of the calves would be weaned
+ prior to most of the survey effort in the PCFG.
 \end_layout
 
 \begin_layout Standard
@@ -302,8 +302,8 @@ y of the bias trials by expanding the range of simulations conducted in
  SC/M12/AWMP2-Rev with a scenario of an underlying population with no trend
  and another scenario of a population with a trend that matches the PCFG
  estimates.
- I also evaluate the bias proposition by several additional analyses of
- the data that include additional data from 1996-1997 and that sequentially
+ I also evaluate the bias hypothesis by several additional analyses of the
+ data that include additional data from 1996-1997 and that sequentially
  exclude data from 1998 to 2001 to examine the affect on the estimates.
  
 \end_layout
@@ -2764,7 +2764,14 @@ Obviously we will never know the extent of bias in the JS1 sequence of abundance
  The increase in the abundance estimates during 1999-2002 seems quite plausible.
  We may never be able to assess how much of the increase was due to internal
  (calves) versus external (immigration) recruitment although continued biopsy
- and genetics work may provide some answers (Lang and Martien in prep).
+ and genetics work may provide some answers (
+\begin_inset CommandInset citation
+LatexCommand citealt
+key "lang2011b"
+
+\end_inset
+
+).
  Regardless, it is hard to imagine that there is not some level of external
  recruitment into the PCFG with the entire ENP stock of whales migrating
  through the area each year.
