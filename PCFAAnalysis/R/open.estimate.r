@@ -31,7 +31,8 @@ if(!alternate)
    er$min2007[er$min2007>0]=er$min2007[er$min2007>0]-median(er$min2007[er$min2007>0])
    er$min2008[er$min2008>0]=er$min2008[er$min2008>0]-median(er$min2008[er$min2008>0])
    er$min2009[er$min2009>0]=er$min2009[er$min2009>0]-median(er$min2009[er$min2009>0])
-
+   er$min2010[er$min2010>0]=er$min2010[er$min2010>0]-median(er$min2009[er$min2010>0])
+   
    er$min1998[er$min1998>0]=er$min1998[er$min1998>0]/100
    er$min1999[er$min1999>0]=er$min1999[er$min1999>0]/100
    er$min2000[er$min2000>0]=er$min2000[er$min2000>0]/100
@@ -44,7 +45,8 @@ if(!alternate)
    er$min2007[er$min2007>0]=er$min2007[er$min2007>0]/100
    er$min2008[er$min2008>0]=er$min2008[er$min2008>0]/100
    er$min2009[er$min2009>0]=er$min2009[er$min2009>0]/100
-
+   er$min2010[er$min2010>0]=er$min2010[er$min2010>0]/100
+   
 # minyyyy is the minimum tenure measure for year yyyy-1 which is used to 
 # model probability of detection of the whale in year yyyy. If it was not
 # seen in year yyyy-1 then it is set to 0.  
@@ -66,6 +68,7 @@ if(!alternate)
    er$pmin2008[er$pmin2008>0]=er$pmin2008[er$pmin2008>0]-median(er$pmin2008[er$pmin2008>0]) 
    er$pmin2009[er$pmin2009>0]=er$pmin2009[er$pmin2009>0]-median(er$pmin2009[er$pmin2009>0])
    er$pmin2010[er$pmin2010>0]=er$pmin2010[er$pmin2010>0]-median(er$pmin2010[er$pmin2010>0])
+   er$pmin2011[er$pmin2011>0]=er$pmin2011[er$pmin2011>0]-median(er$pmin2011[er$pmin2011>0])
 }
    #er$ID=NULL
 er$NC=1-er$Calf
@@ -93,7 +96,11 @@ fixed.pent.values=rep(0,length(fixed.pent.index))
 fixed.pent.values[as.character(er.ddl$pent$group)==as.character(er.ddl$pent$time)]=1
 # fix p to 1 for newly seen
 fixed.p.index=as.numeric(row.names(er.ddl$p))[as.character(er.ddl$p$group)==as.character(er.ddl$p$time)]
-fixed.p.values=1
+fixed.p.values=rep(1,length(fixed.p.index))
+fixed.p.index2=as.numeric(row.names(er.ddl$p))[as.numeric(er.ddl$p$group)>as.numeric(er.ddl$p$time)]
+fixed.p.values=c(fixed.p.values,rep(0,length(fixed.p.index2)))
+fixed.p.index=c(fixed.p.index,fixed.p.index2)
+
 # create a timebin field that lumps 1998-1999 so N1998 can be estimated; not used for alternate where p set to 1
 er.ddl$p$timebin=cut(er.ddl$p$Time,c(-1,1:(max(years)-min(years))))
 levels(er.ddl$p$timebin)=c(paste(minyear,minyear+1,sep="-"),as.character((minyear+2):max(years)))

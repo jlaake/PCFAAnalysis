@@ -11,8 +11,9 @@
   \item{delta}{value of delta aicc to use for model
   averaging set. Default is Inf to use all.}
 
-  \item{alternate}{If TRUE do not median center MT and use
-  JS1 approach for abundance estimation}
+  \item{alternate}{If TRUE do not median center MT and
+  instead use JS1 approach for abundance estimation;
+  alternate=FALSE was used in SC/62/BRG32}
 
   \item{chat}{Overdispersion value}
 }
