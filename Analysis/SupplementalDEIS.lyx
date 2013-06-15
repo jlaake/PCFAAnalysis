@@ -1,0 +1,2445 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+
+\usepackage{amsthm}\usepackage{epsfig}\usepackage{psfrag}
+\usepackage{pdflscape}
+\usepackage{longtable}
+
+%\setlength{\evensidemargin}{0in} \setlength{\oddsidemargin}{0in}
+%\setlength{\topmargin}{0.0in} \setlength{\textwidth}{6.5in}
+%\setlength{\textheight}{9in} \setlength{\topskip}{0in}
+%\setlength{\headheight}{0in} \setlength{\headsep}{0in}
+\usepackage[labelfont=bf,labelsep=period]{caption}
+\usepackage{rotating}
+\usepackage{fancyhdr}
+\renewcommand{\headrulewidth}{0 in}
+\renewcommand{\footrulewidth}{0 in}
+\end_preamble
+\use_default_options true
+\begin_modules
+sweave
+\end_modules
+\maintain_unincluded_children false
+\begin_local_layout
+
+\end_local_layout
+\language english
+\language_package none
+\inputencoding latin9
+\fontencoding default
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_default_family rmdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 2
+\use_esint 1
+\use_mhchem 0
+\use_mathdots 0
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Supplemental Material for DEIS
+\end_layout
+
+\begin_layout Author
+John Calambokidis and Jeffrey Laake
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<echo=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(PCFAAnalysis)
+\end_layout
+
+\begin_layout Plain Layout
+
+library(xtable)
+\end_layout
+
+\begin_layout Plain Layout
+
+minyear=1996
+\end_layout
+
+\begin_layout Plain Layout
+
+maxyear=2011
+\end_layout
+
+\begin_layout Plain Layout
+
+nyears=maxyear-minyear+1
+\end_layout
+
+\begin_layout Plain Layout
+
+data(ER)
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgwhales=unique(ER$ID[ER$Month>=6&!is.na(ER$Month)&ER$Month<=11&!ER$Region%in%c
+("SCA","CCA","SEAK","KAK","NAK","NPS","MX")])
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgdata=ER[ER$ID%in%pcfgwhales&!is.na(ER$Month)&!ER$Region%in%c("SCA","CCA","SEA
+K","KAK","NAK","NPS","MX"),]
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgdata=droplevels(pcfgdata)
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgdata$Spring=ifelse(pcfgdata$Month%in%3:5,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgdata$pcfgtime=ifelse(pcfgdata$Month%in%6:11,1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgdata=pcfgdata[pcfgdata$Spring>0 | pcfgdata$pcfgtime>0,]
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgdata$ID=factor(pcfgdata$ID)
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgdata$Year=factor(pcfgdata$Year)
+\end_layout
+
+\begin_layout Plain Layout
+
+springtab=with(pcfgdata[pcfgdata$Spring==1,],table(ID,Year))
+\end_layout
+
+\begin_layout Plain Layout
+
+springtab[springtab>0]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgtab=with(pcfgdata[pcfgdata$pcfgtime==1,],table(ID,Year))
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgtab[pcfgtab>0]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+tottab=springtab+pcfgtab*2
+\end_layout
+
+\begin_layout Plain Layout
+
+numyears=apply(tottab,1,function(x)length(x[x>0]))
+\end_layout
+
+\begin_layout Plain Layout
+
+firstyear=sapply(apply(tottab,1,function(x)which(x>0)),min)
+\end_layout
+
+\begin_layout Plain Layout
+
+areas=with(pcfgdata,table(ID,Region,Year))
+\end_layout
+
+\begin_layout Plain Layout
+
+areas[areas>0]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+areas=apply(areas,c(1,2),sum)
+\end_layout
+
+\begin_layout Plain Layout
+
+numareas=areas
+\end_layout
+
+\begin_layout Plain Layout
+
+numareas[numareas>0]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+numareas=apply(numareas,1,sum)
+\end_layout
+
+\begin_layout Plain Layout
+
+tottab=cbind(tottab,"#years"=numyears,areas,"#areas"=numareas)
+\end_layout
+
+\begin_layout Plain Layout
+
+tottab[tottab==0]=NA
+\end_layout
+
+\begin_layout Plain Layout
+
+tottab=tottab[order(firstyear),]
+\end_layout
+
+\begin_layout Plain Layout
+
+rownames(tottab)=NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# mua table
+\end_layout
+
+\begin_layout Plain Layout
+
+data(PCFA)
+\end_layout
+
+\begin_layout Plain Layout
+
+mua=with(PCFA[PCFA$Sreg %in% c("NWA","SJF"),],table(factor(ID,levels=unique(PCFA
+$ID)),factor(Year,levels=1996:2011)))
+\end_layout
+
+\begin_layout Plain Layout
+
+mua[mua>0]=2
+\end_layout
+
+\begin_layout Plain Layout
+
+notmua=with(PCFA[!PCFA$Sreg %in% c("NWA","SJF","SEAK","KAK"),],table(factor(ID,l
+evels=unique(PCFA$ID)),factor(Year,levels=1996:2011)))
+\end_layout
+
+\begin_layout Plain Layout
+
+notmua[notmua>0]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+all=notmua+mua
+\end_layout
+
+\begin_layout Plain Layout
+
+mua.table=apply(all,1,function(x) if(any(x>1)) return(x) else return(NULL))
+\end_layout
+
+\begin_layout Plain Layout
+
+mua.table=do.call("rbind",mua.table)
+\end_layout
+
+\begin_layout Plain Layout
+
+cohort=apply(mua.table,1,function(x){
+\end_layout
+
+\begin_layout Plain Layout
+
+    x[x>0]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+    x[x==0]=3000
+\end_layout
+
+\begin_layout Plain Layout
+
+    return(min(x*1996:2011))})
+\end_layout
+
+\begin_layout Plain Layout
+
+mua.table=mua.table[order(cohort),]
+\end_layout
+
+\begin_layout Plain Layout
+
+mua.table[mua.table==0]=NA
+\end_layout
+
+\begin_layout Plain Layout
+
+rownames(mua.table)=NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ch=with(PCFA[PCFA$Year>=minyear&PCFA$Year<=maxyear&!PCFA$Region%in%c("SEAK","KAK
+"),], table(ID,Year)) 
+\end_layout
+
+\begin_layout Plain Layout
+
+ch[ch>0]=1 
+\end_layout
+
+\begin_layout Plain Layout
+
+firstyear=sapply(apply(ch,1,function(x)which(x>0)),min)
+\end_layout
+
+\begin_layout Plain Layout
+
+ch=ch[(firstyear+minyear-1)<maxyear,]
+\end_layout
+
+\begin_layout Plain Layout
+
+firstyear=sapply(apply(ch,1,function(x)which(x>0)),min)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgch=with(PCFA[PCFA$Year>=minyear&PCFA$Year<=maxyear&!PCFA$Region%in%c("SEAK",
+"KAK"),], table(ID,Year)) 
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgch[pcfgch>0]=1 
+\end_layout
+
+\begin_layout Plain Layout
+
+orsvich=with(PCFA[PCFA$Year>=minyear&PCFA$Year<=maxyear&PCFA$Region%in%c("SOR","
+OR","GH+","MUA","SVI"),], table(ID,Year)) 
+\end_layout
+
+\begin_layout Plain Layout
+
+orsvich[orsvich>0]=1 
+\end_layout
+
+\begin_layout Plain Layout
+
+muach=with(PCFA[PCFA$Year>=minyear&PCFA$Year<=maxyear&PCFA$Region%in%c("MUA"),],
+ table(ID,Year)) 
+\end_layout
+
+\begin_layout Plain Layout
+
+muach[muach>0]=1 
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgfirstyear=sapply(apply(pcfgch,1,function(x)which(x>0)),min)
+\end_layout
+
+\begin_layout Plain Layout
+
+muafirstyear=sapply(apply(muach,1,function(x)which(x>0)),min)
+\end_layout
+
+\begin_layout Plain Layout
+
+orsvifirstyear=sapply(apply(orsvich,1,function(x)which(x>0)),min)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Alaska
+\end_layout
+
+\begin_layout Plain Layout
+
+AKWhales=unique(PCFA$ID[PCFA$Region%in%c("SEAK","KAK")])
+\end_layout
+
+\begin_layout Plain Layout
+
+AKch=with(PCFA[PCFA$ID %in% AKWhales & PCFA$Region %in%c("SEAK","KAK"),],table(f
+actor(ID,levels=AKWhales),factor(Year,levels=1996:2011)))
+\end_layout
+
+\begin_layout Plain Layout
+
+AKch[AKch>0]=2
+\end_layout
+
+\begin_layout Plain Layout
+
+nonAKch=with(PCFA[PCFA$ID %in% AKWhales & !PCFA$Region %in%c("SEAK","KAK"),],tab
+le(factor(ID,levels=AKWhales),factor(Year,levels=1996:2011)))
+\end_layout
+
+\begin_layout Plain Layout
+
+nonAKch[nonAKch>0]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+sum(rowSums(nonAKch)>0)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SEAKWhales=unique(PCFA$ID[PCFA$Region%in%c("SEAK")])
+\end_layout
+
+\begin_layout Plain Layout
+
+KAKWhales=unique(PCFA$ID[PCFA$Region%in%c("KAK")])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+sum(rowSums(nonAKch[rownames(nonAKch)%in%SEAKWhales,])>0)/length(SEAKWhales)
+\end_layout
+
+\begin_layout Plain Layout
+
+sum(rowSums(nonAKch[rownames(nonAKch)%in%KAKWhales,])>0)/length(KAKWhales)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+AK.table=AKch+nonAKch
+\end_layout
+
+\begin_layout Plain Layout
+
+AK.table=AK.table[apply(AK.table,1,function(x) any(x%in%c(1,3))),]
+\end_layout
+
+\begin_layout Plain Layout
+
+AK.table[AK.table==0]=NA
+\end_layout
+
+\begin_layout Plain Layout
+
+Afirstyear=sapply(apply(AK.table,1,function(x)which(x>0)),min)
+\end_layout
+
+\begin_layout Plain Layout
+
+AK.table=AK.table[order(Afirstyear),]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+notmua=with(PCFA[!PCFA$Sreg %in% c("NWA","SJF","SEAK","KAK"),],table(factor(ID,l
+evels=unique(PCFA$ID)),factor(Year,levels=1996:2011)))
+\end_layout
+
+\begin_layout Plain Layout
+
+notmua[notmua>0]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+all=notmua+mua
+\end_layout
+
+\begin_layout Plain Layout
+
+mua.table=apply(all,1,function(x) if(any(x>1)) return(x) else return(NULL))
+\end_layout
+
+\begin_layout Plain Layout
+
+mua.table=do.call("rbind",mua.table)
+\end_layout
+
+\begin_layout Plain Layout
+
+cohort=apply(mua.table,1,function(x){
+\end_layout
+
+\begin_layout Plain Layout
+
+    x[x>0]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+    x[x==0]=3000
+\end_layout
+
+\begin_layout Plain Layout
+
+    return(min(x*1996:2011))})
+\end_layout
+
+\begin_layout Plain Layout
+
+mua.table=mua.table[order(cohort),]
+\end_layout
+
+\begin_layout Plain Layout
+
+mua.table[mua.table==0]=NA
+\end_layout
+
+\begin_layout Plain Layout
+
+rownames(mua.table)=NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+numyears=apply(pcfgtab,1,function(x)length(x[x>0]))
+\end_layout
+
+\begin_layout Plain Layout
+
+xfirstyear=sapply(apply(pcfgtab,1,function(x)which(x>0)),min)
+\end_layout
+
+\begin_layout Plain Layout
+
+areas=with(pcfgdata[pcfgdata$pcfgtime==1,],table(ID,Region,Year))
+\end_layout
+
+\begin_layout Plain Layout
+
+areas[areas>0]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+areas=apply(areas,c(1,2),sum)
+\end_layout
+
+\begin_layout Plain Layout
+
+numareas=areas
+\end_layout
+
+\begin_layout Plain Layout
+
+numareas[numareas>0]=1
+\end_layout
+
+\begin_layout Plain Layout
+
+numareas=apply(numareas,1,sum)
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgtabx=cbind(pcfgtab,"#years"=numyears,areas,"#areas"=numareas)
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgtabx[pcfgtabx==0]=NA
+\end_layout
+
+\begin_layout Plain Layout
+
+pcfgtabx=pcfgtabx[order(xfirstyear),]
+\end_layout
+
+\begin_layout Plain Layout
+
+rownames(pcfgtabx)=NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+morethan8=pcfgtabx[pcfgtabx[,"#years"]>8,]
+\end_layout
+
+\begin_layout Plain Layout
+
+fidelity=apply(morethan8[,33:41],1,max,na.rm=T)/morethan8[,"#years"]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+xx=rbind(colSums(muach),colSums(orsvich),colSums(pcfgch)) 
+\end_layout
+
+\begin_layout Plain Layout
+
+xx=cbind(xx,round(matrix(rowMeans(xx),ncol=1,nrow=3)))
+\end_layout
+
+\begin_layout Plain Layout
+
+colnames(xx)[ncol(xx)]="Average"
+\end_layout
+
+\begin_layout Plain Layout
+
+whalesbyyear=cbind(matrix(c("MUA","OR-SVI","PCFG"),ncol=1,nrow=3),xx ) 
+\end_layout
+
+\begin_layout Plain Layout
+
+colnames(whalesbyyear)[1]="Region"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+discovery=cbind(c("PCFG","ORSVI","MUA"),rbind(cumsum(table(pcfgfirstyear)),cumsu
+m(table(orsvifirstyear)),cumsum(table(muafirstyear))))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+discovery.recruit=cbind(c("PCFG-recruited","ORSVI-recruited","MUA-recruited"),rbi
+nd(cumsum(table(factor(pcfgfirstyear[rowSums(pcfgch)>1],levels=1:(nyears-1)))),c
+umsum(table(factor(orsvifirstyear[rowSums(orsvich)>1],levels=1:(nyears-1)))),cum
+sum(table(factor(muafirstyear[rowSums(muach)>1],levels=1:(nyears-1))))),rep(NA,3
+))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+discovery=rbind(discovery,discovery.recruit)
+\end_layout
+
+\begin_layout Plain Layout
+
+colnames(discovery)=c("Region",1996:2011)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This document provides supplemental material to support development of the
+ EIS for the Makah MMPA waiver request.
+ Tables 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{tab1}
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{tab2}
+\end_layout
+
+\end_inset
+
+ provide capture histories and summaries for whales in the PCFG and whales
+ seen in the MUA.
+ Additional material is covered below.
+\end_layout
+
+\begin_layout Standard
+Of the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nrow(ch)}
+\end_layout
+
+\end_inset
+
+ identified whales first seen before 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+ between 1 June and 30 November in the PCFG range (NCA-NBC), 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(100*sum(rowSums(ch)==1)/nrow(ch),digits=3)}
+\end_layout
+
+\end_inset
+
+ percent were seen in only one of the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears}
+\end_layout
+
+\end_inset
+
+ years, which demonstrates that many of the newly seen whales did not return
+ in subsequent years.
+ Some whales are seen in every year with 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(100*sum(rowSums(ch)==( nyears-firstyear+1 ))/nrow(ch),digits=2)}
+\end_layout
+
+\end_inset
+
+ percent that were seen in every summer after their initial identification,
+ including 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{sum(rowSums(ch)==nyears)}
+\end_layout
+
+\end_inset
+
+ whales that were seen in all 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nyears}
+\end_layout
+
+\end_inset
+
+ years.
+ The remaining 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(100*(1-sum(rowSums(ch)==1)/nrow(ch)-sum(rowSums(ch)==( nyears-firs
+tyear+1 ))/nrow(ch)),digits=3)}
+\end_layout
+
+\end_inset
+
+ percent were seen more than once but not in every year.
+ 
+\end_layout
+
+\begin_layout Standard
+Some of the latter whales were seen in Kodiak and Southeast Alaska in years
+ that they were not seen in the PCFG range (Table 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{tab3}
+\end_layout
+
+\end_inset
+
+).
+ Of the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{length(SEAKWhales)}
+\end_layout
+
+\end_inset
+
+ whales identified in Southeast Alaska and the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{length(KAKWhales)}
+\end_layout
+
+\end_inset
+
+ whales identified in Kodiak, Alaska, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{sum(rowSums(nonAKch[rownames(nonAKch)%in%SEAKWhales,])>0)}
+\end_layout
+
+\end_inset
+
+ (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(100*sum(rowSums(nonAKch[rownames(nonAKch)%in%SEAKWhales,])>0)/leng
+th(SEAKWhales) ,digits=3)}
+\end_layout
+
+\end_inset
+
+%) and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{sum(rowSums(nonAKch[rownames(nonAKch)%in%KAKWhales,])>0)}
+\end_layout
+
+\end_inset
+
+ (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(100*sum(rowSums(nonAKch[rownames(nonAKch)%in%KAKWhales,])>0)/lengt
+h(KAKWhales),digits=3)}
+\end_layout
+
+\end_inset
+
+%), respectively have been seen farther south in the PCFG.
+ For example, whale 130 was only seen in Southeast Alaska in 1999, but had
+ been seen in every other year in the PCFG.
+ Likewise, whale 232 was only seen in Kodiak in 2002, but was seen along
+ Vancouver Island in 2000, 2001, and 2003 but then wasn't seen again until
+ 2011 and may have been somewhere in Alaska waters.
+ Whale 152 was photo-identified in Kodiak in 2002, 2005 and 2010, but was
+ seen in the PCFG as early as 1995 in the Cape Caution, British Columbia,
+ area, and in 1992 in the Clayoquot Sound, British Columbia, survey area
+ but has not been seen in the PCFG since 1999 along the west coast of Vancouver
+ Island.
+ Another example is Whale 68, which was seen in northern Washington during
+ 1996 and 1997 and then was seen in Southeast Alaska in 1998 and 1999 but
+ not subsequently.
+ While these are only a few examples of whale movements, they illustrate
+ the extensive inter-year movement of whales, which partially explains the
+ gaps in the observations for some whales and the disappearance of others
+ from the PCFG.
+ Obviously, many whales are only part of the PCFG temporarily.
+\end_layout
+
+\begin_layout Standard
+Whales seen in the PCFG exhibited a wide range of movement across and within
+ years.
+ The 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nrow(morethan8)}
+\end_layout
+
+\end_inset
+
+ whales seen in 9 or more years provide a useful example.
+ None of those whales was seen exclusively in a single region, and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(100*nrow(morethan8[morethan8[,"#areas"]>4,])/nrow(morethan8),digit
+s=3)}
+\end_layout
+
+\end_inset
+
+ percent were seen in at least 4 of the 9 survey regions from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+ to 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+.
+ However, whales did regularly visit the same regions across years with
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(100* sum(apply(morethan8[,33:41],1,max,na.rm=T)>=6)/nrow(morethan8)
+,digits=3)}
+\end_layout
+
+\end_inset
+
+ percent were seen in at least one of the regions during six or more of
+ the years they were seen.
+ Of the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nrow(morethan8)}
+\end_layout
+
+\end_inset
+
+ whales, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{length(fidelity[fidelity>=.6666])}
+\end_layout
+
+\end_inset
+
+ were seen in a particular region two-thirds or more of the years they were
+ seen.
+ SVI was the region with the maximum number of years seen for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{sum(apply(morethan8[,33:41],1,which.max)==7)}
+\end_layout
+
+\end_inset
+
+ of the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nrow(morethan8)}
+\end_layout
+
+\end_inset
+
+ whales, which in part reflects the larger amount of survey effort in SVI
+ (Calambokidis et al.
+ 2004a, Calambokidis et al.
+ 2013).
+ Thus, some whales regularly visit particular regions, but they use other
+ regions as well.
+ Calambokidis et al.
+ (2004a, Calambokidis et al.
+ 2013) also showed that whales seen in more years appeared in more regions.
+ 
+\end_layout
+
+\begin_layout Standard
+During 1 June-30 November for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+ to 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nrow(pcfgch)}
+\end_layout
+
+\end_inset
+
+ unique whales were seen in the PCFG range and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(nrow(orsvich)/nrow(pcfgch),digits=3)}
+\end_layout
+
+\end_inset
+
+ percent (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nrow(orsvich)}
+\end_layout
+
+\end_inset
+
+ of the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nrow(pcfgch)}
+\end_layout
+
+\end_inset
+
+ whales seen in the PCFG range) were seen within the smaller OR-SVI region
+ and approximately 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(nrow(muach)/nrow(pcfgch),digits=3)}
+\end_layout
+
+\end_inset
+
+ percent (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nrow(muach)}
+\end_layout
+
+\end_inset
+
+ of the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{nrow(pcfgch)}
+\end_layout
+
+\end_inset
+
+ whales seen in the PCFG range) were seen within the smaller Makah U&A area.
+ The average number of whales identified in any one year was 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{whalesbyyear[3,nyears+1]}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{whalesbyyear[2,nyears+1]}
+\end_layout
+
+\end_inset
+
+, and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{whalesbyyear[1,nyears+1]}
+\end_layout
+
+\end_inset
+
+ for the PCFG, OR-SVI, and Makah U&A, respectively (Table 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{tab4}
+\end_layout
+
+\end_inset
+
+).
+ However, those numbers do not represent the total numbers of whales that
+ use each of these areas because not all whales using a region in a year
+ are seen, not all whales return to the same region each year, and not all
+ of the whales return to the PCFG region each year.
+ The annual average number of newly seen whales (excluding 1996-1998 when
+ the photo-id effort expanded to cover all survey regions) was 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(mean(table(pcfgfirstyear)[-(1:3)]),digits=3)}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(mean(table(orsvifirstyear)[-(1:3)]),digits=3)}
+\end_layout
+
+\end_inset
+
+, and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(mean(table(muafirstyear)[-(1:3)]),digits=3)}
+\end_layout
+
+\end_inset
+
+ for PCFG, OR-SVI, and Makah U&A, respectively.
+ The annual average number of newly seen whales that were “recruited” (seen
+ in a subsequent year), excluding 1996-1998 and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+, was 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(mean(table(pcfgfirstyear[rowSums(pcfgch)>1])[-(1:3)]),digits=3)}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(mean(table(orsvifirstyear[rowSums(orsvich)>1])[-(1:3)]),digits=3)}
+\end_layout
+
+\end_inset
+
+, and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(mean(table(muafirstyear[rowSums(muach)>1])[-(1:3)]),digits=2)}
+\end_layout
+
+\end_inset
+
+ for PCFG, OR-SVI, Makah U&A respectively.
+ Thus, there were a substantial number of new whales seen each year and
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(100*sum(table(pcfgfirstyear[rowSums(pcfgch)>1])[-(1:3)])/sum(table
+(pcfgfirstyear)[-c(1:3,nyears)]),digits=3)}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(100*sum(table(orsvifirstyear[rowSums(orsvich)>1])[-(1:3)])/sum(tab
+le(orsvifirstyear)[-c(1:3,nyears)]),digits=3)}
+\end_layout
+
+\end_inset
+
+, and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{formatC(100*sum(table(muafirstyear[rowSums(muach)>1])[-(1:3)])/sum(table(m
+uafirstyear)[-c(1:3,nyears)]),digits=2)}
+\end_layout
+
+\end_inset
+
+ percent of those were seen again in a subsequent year in the 3 regions
+ respectively.
+ The number of newly seen whales and the nuber newly seen and recruited
+ (i.e., seen in at least one more year after the initial year it was seen)
+ are displayed graphically as discovery curves in Figure 1 and 2 and Table
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{tab5}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setlength{
+\backslash
+tabcolsep}{.05em}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<tab1,results=tex,echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow <- list() 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$pos <- list() 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$pos[[1]] <- c(0) 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$command <- c(paste("
+\backslash
+
+\backslash
+hline
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+               "
+\backslash
+
+\backslash
+endhead
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+hline
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+              "{
+\backslash
+
+\backslash
+footnotesize Cont.}
+\backslash
+n",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+endfoot
+\backslash
+n",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+endlastfoot
+\backslash
+n",sep="")) 
+\end_layout
+
+\begin_layout Plain Layout
+
+xtab=xtable(tottab,digits=0,align=c("p{.25cm}",rep("c",42)),caption="Sighting
+ histories of whales seen in the PCFG in at least one year.
+ In year columns, a 1 means the whale was only sighted in the spring (March-May)
+, 2 means it was only seen in June-Nov, and 3 means it was seen in both
+ March-May and June-Nov.
+ The region value is the nunber of years the whale was seen in that region.",labe
+l="tab1",vsep="")
+\end_layout
+
+\begin_layout Plain Layout
+
+print(xtab,size="
+\backslash
+
+\backslash
+tiny",caption.placement="top",add.to.row=addtorow,include.rownames=FALSE,floating=FA
+LSE,tabular.environment="longtable",hline.after=c(-1))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+
+\backslash
+clearpage")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<tab2,results=tex,echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow <- list() 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$pos <- list() 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$pos[[1]] <- c(0) 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$command <- c(paste("
+\backslash
+
+\backslash
+hline
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+               "
+\backslash
+
+\backslash
+endhead
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+hline
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+              "{
+\backslash
+
+\backslash
+footnotesize Cont.}
+\backslash
+n",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+endfoot
+\backslash
+n",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+endlastfoot
+\backslash
+n",sep="")) 
+\end_layout
+
+\begin_layout Plain Layout
+
+xtab=xtable(mua.table,digits=0,align=c("p{.25cm}",rep("c",16)),caption="Sighting
+ histories of whales seen in the MUA during 1 June - 30 November in at least
+ one year.
+ 1: whale sighted in PCFG but not in the MUA during that year, 2: only seen
+ in MUA that year, and 3: seen in both MUA and another PCFG area.",label="tab2",v
+sep="")
+\end_layout
+
+\begin_layout Plain Layout
+
+print(xtab,size="
+\backslash
+
+\backslash
+tiny",caption.placement="top",add.to.row=addtorow,include.rownames=FALSE,floating=FA
+LSE,tabular.environment="longtable",hline.after=c(-1))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+
+\backslash
+clearpage")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<tab3,results=tex,echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow <- list() 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$pos <- list() 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$pos[[1]] <- c(0) 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$command <- c(paste("
+\backslash
+
+\backslash
+hline
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+               "
+\backslash
+
+\backslash
+endhead
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+hline
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+              "{
+\backslash
+
+\backslash
+footnotesize Cont.}
+\backslash
+n",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+endfoot
+\backslash
+n",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+endlastfoot
+\backslash
+n",sep=""))
+\end_layout
+
+\begin_layout Plain Layout
+
+xtab=xtable(AK.table,digits=0,align=c("p{.25cm}",rep("c",16)),caption="Sighting
+ histories of whales seen in the PCFG during 1 June - 30 November in at
+ least one year and also in Southeast Alaska (SEAK) or Kodiak (KAK) in one
+ year.
+ 1: whale sighted in PCFG but not SEAK or KAK that year, 2: only seen in
+ SEAK or KAK that year, and 3: seen in both PCFG and in SEAK and KAK in
+ that year.",label="tab3",vsep="")
+\end_layout
+
+\begin_layout Plain Layout
+
+print(xtab,size="
+\backslash
+
+\backslash
+tiny",caption.placement="top",add.to.row=addtorow,include.rownames=TRUE,tabular.envir
+onment="longtable",floating=FALSE,hline.after=c(-1))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+
+\backslash
+clearpage")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<tab4,results=tex,echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow <- list() 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$pos <- list() 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$pos[[1]] <- c(0) 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$command <- c(paste("
+\backslash
+
+\backslash
+hline
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+               "
+\backslash
+
+\backslash
+endhead
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+hline
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+              "{
+\backslash
+
+\backslash
+footnotesize Cont.}
+\backslash
+n",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+endfoot
+\backslash
+n",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+endlastfoot
+\backslash
+n",sep=""))
+\end_layout
+
+\begin_layout Plain Layout
+
+xtab=xtable(whalesbyyear,digits=0,align=c("c","c",rep("r",17)),caption="Number
+ of unique whales seen by year for MUA, OR-SVI, and PCFG (NCA-NBC) during
+ 1996-2011.",label="tab4",vsep="")
+\end_layout
+
+\begin_layout Plain Layout
+
+print(xtab,size="
+\backslash
+
+\backslash
+tiny",caption.placement="top",add.to.row=addtorow,include.rownames=FALSE,tabular.envi
+ronment="longtable",floating=FALSE,hline.after=c(-1))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+
+\backslash
+clearpage")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<tab5,results=tex,echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow <- list() 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$pos <- list() 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$pos[[1]] <- c(0) 
+\end_layout
+
+\begin_layout Plain Layout
+
+addtorow$command <- c(paste("
+\backslash
+
+\backslash
+hline
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+               "
+\backslash
+
+\backslash
+endhead
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+hline
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+              "{
+\backslash
+
+\backslash
+footnotesize Cont.}
+\backslash
+n",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+endfoot
+\backslash
+n",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "
+\backslash
+
+\backslash
+endlastfoot
+\backslash
+n",sep=""))
+\end_layout
+
+\begin_layout Plain Layout
+
+xtab=xtable(discovery,digits=0,align=c("c","c",rep("r",16)),caption="Discovery
+ of new unique whales over years 1996-2011 for PCFG,OR-SVI and MUA.
+ Recruited only means that the whale was seen in at least one more year
+ after the initial year it was seen.
+ The number 'recruited' will be less than the abundance estimate because
+ some whales die and others may permanently emigrate and do not return.",label="t
+ab5",vsep="")
+\end_layout
+
+\begin_layout Plain Layout
+
+print(xtab,size="
+\backslash
+
+\backslash
+tiny",caption.placement="top",add.to.row=addtorow,include.rownames=FALSE,tabular.envi
+ronment="longtable",floating=FALSE,hline.after=c(-1))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+cat("
+\backslash
+
+\backslash
+clearpage")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Discovery1"
+
+\end_inset
+
+Discovery curves for unique whales seen in PCFG, OR-SVI and MUA for 1996-2011.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<fig=TRUE,echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(1996:2011,cumsum(table(pcfgfirstyear)),ylim=c(0,650),xlab="Year",ylab="Numb
+er of unique whales",xaxt="n")
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996:2011,cumsum(table(orsvifirstyear)),pch=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996:2011,cumsum(table(muafirstyear)),pch=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+axis(1,at=seq(1996,2011,1),labels=1996:2011)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996,625,pch=1)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996,580,pch=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996,525,pch=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(1996.1,625,"PCFG",pos=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(1996.1,580,"OR-SVI",pos=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(1996.1,525,"MUA",pos=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Discovery2"
+
+\end_inset
+
+Discovery curves for unique recruited whales seen in PCFG, OR-SVI and MUA
+ for 1996-2010.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<fig=TRUE,echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(1996:2011,cumsum(table(pcfgfirstyear)),ylim=c(0,650),xlab="Year",ylab="Numb
+er of unique whales",xaxt="n")
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996:2011,cumsum(table(orsvifirstyear)),pch=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996:2011,cumsum(table(muafirstyear)),pch=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+axis(1,at=seq(1996,2011,1),labels=1996:2011)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996,625,pch=1)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996,580,pch=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996,525,pch=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(1996.1,625,"PCFG",pos=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(1996.1,580,"OR-SVI",pos=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(1996.1,525,"MUA",pos=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

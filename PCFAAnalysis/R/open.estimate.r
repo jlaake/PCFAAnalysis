@@ -19,6 +19,8 @@ open.estimate=function(er,delta=Inf,alternate=FALSE,chat=1)
 #
 if(!alternate)
 {
+   er$min1996[er$min1996>0]=er$min1996[er$min1996>0]-median(er$min1996[er$min1996>0])
+   er$min1997[er$min1997>0]=er$min1997[er$min1997>0]-median(er$min1997[er$min1997>0])
    er$min1998[er$min1998>0]=er$min1998[er$min1998>0]-median(er$min1998[er$min1998>0])
    er$min1999[er$min1999>0]=er$min1999[er$min1999>0]-median(er$min1999[er$min1999>0])
    er$min2000[er$min2000>0]=er$min2000[er$min2000>0]-median(er$min2000[er$min2000>0])
@@ -31,8 +33,11 @@ if(!alternate)
    er$min2007[er$min2007>0]=er$min2007[er$min2007>0]-median(er$min2007[er$min2007>0])
    er$min2008[er$min2008>0]=er$min2008[er$min2008>0]-median(er$min2008[er$min2008>0])
    er$min2009[er$min2009>0]=er$min2009[er$min2009>0]-median(er$min2009[er$min2009>0])
-   er$min2010[er$min2010>0]=er$min2010[er$min2010>0]-median(er$min2009[er$min2010>0])
+   er$min2010[er$min2010>0]=er$min2010[er$min2010>0]-median(er$min2010[er$min2010>0])
+   er$min2011[er$min2011>0]=er$min2011[er$min2011>0]-median(er$min2011[er$min2011>0])
    
+   er$min1996[er$min1996>0]=er$min1996[er$min1996>0]/100
+   er$min1997[er$min1997>0]=er$min1997[er$min1997>0]/100
    er$min1998[er$min1998>0]=er$min1998[er$min1998>0]/100
    er$min1999[er$min1999>0]=er$min1999[er$min1999>0]/100
    er$min2000[er$min2000>0]=er$min2000[er$min2000>0]/100
@@ -46,6 +51,7 @@ if(!alternate)
    er$min2008[er$min2008>0]=er$min2008[er$min2008>0]/100
    er$min2009[er$min2009>0]=er$min2009[er$min2009>0]/100
    er$min2010[er$min2010>0]=er$min2010[er$min2010>0]/100
+   er$min2011[er$min2011>0]=er$min2011[er$min2011>0]/100
    
 # minyyyy is the minimum tenure measure for year yyyy-1 which is used to 
 # model probability of detection of the whale in year yyyy. If it was not
@@ -55,6 +61,8 @@ if(!alternate)
 # can be set to the median value.
 #
 
+   er$pmin1996[er$pmin1996>0]=er$pmin1996[er$pmin1996>0]-median(er$pmin1996[er$pmin1996>0])
+   er$pmin1997[er$pmin1997>0]=er$pmin1997[er$pmin1997>0]-median(er$pmin1997[er$pmin1997>0])
    er$pmin1998[er$pmin1998>0]=er$pmin1998[er$pmin1998>0]-median(er$pmin1998[er$pmin1998>0])
    er$pmin1999[er$pmin1999>0]=er$pmin1999[er$pmin1999>0]-median(er$pmin1999[er$pmin1999>0])
    er$pmin2000[er$pmin2000>0]=er$pmin2000[er$pmin2000>0]-median(er$pmin2000[er$pmin2000>0])
@@ -81,11 +89,8 @@ er.ddl=make.design.data(er.proc)
 er.ddl$Phi$firstyr=0
 er.ddl$Phi$firstyr[as.character(er.ddl$Phi$group)==as.character(er.ddl$Phi$time)]=1
 er.ddl$Phi$notfirstyr=1-er.ddl$Phi$firstyr
-# create firstcohort which is 0 except for 1998 which has value 1 because it is the
-# first cohort and these are a mix of whales new in 1998 and others that have been there
-# in previous years.
-er.ddl$Phi$firstcohort=0
-er.ddl$Phi$firstcohort[er.ddl$Phi$cohort%in%c(1996:1998,minyear)]=1
+# create firstcohort which is a factor variable 1996-1997,1998,1999+
+er.ddl$Phi$firstcohort=cut(as.numeric(er.ddl$Phi$cohort),c(0,2,3,16))
 # 1-firstyr = notfirstyr
 er.ddl$p$notfirstyr=1
 er.ddl$p$notfirstyr[as.character(er.ddl$p$group)==as.character(er.ddl$p$time)]=0
@@ -120,14 +125,14 @@ if(alternate)
 }
   Phi.1=list(formula=~firstyr+nt:notfirstyr)
   Phi.2=list(formula=~firstyr+firstyr:min+nt:notfirstyr)
-  Phi.3=list(formula=~firstcohort:firstyr+firstyr+nt:notfirstyr)
-  Phi.4=list(formula=~firstcohort:firstyr+firstyr+min:firstyr+nt:notfirstyr)
-  Phi.5=list(formula=~firstcohort:firstyr+firstyr+firstyr:min+firstcohort:min+nt:notfirstyr)
+  Phi.3=list(formula=~firstcohort:firstyr+nt:notfirstyr)
+  Phi.4=list(formula=~firstcohort:firstyr+min:firstyr+nt:notfirstyr)
+  Phi.5=list(formula=~firstcohort:firstyr+firstyr:firstcohort:min+nt:notfirstyr)
   Phi.6=list(formula=~cohort:firstyr+firstyr:min+nt:notfirstyr)
   Phi.7=list(formula=~cohort:firstyr+Calf:firstyr+firstyr+firstyr:min+nt:notfirstyr)
   Phi.8=list(formula=~cohort:firstyr+Calf:firstyr+ Calf:min:firstyr +firstyr:min+nt:notfirstyr)
-  Phi.9=list(formula=~firstcohort:firstyr+firstyr+firstyr:min+firstcohort:min + Calf:firstyr+nt:notfirstyr)
-  Phi.10=list(formula=~firstcohort:firstyr+firstyr+firstyr:min+firstcohort:min + Calf:firstyr+Calf:min:firstyr+nt:notfirstyr )
+  Phi.9=list(formula=~firstcohort:firstyr+firstyr:firstcohort:min + Calf:firstyr+nt:notfirstyr)
+  Phi.10=list(formula=~firstcohort:firstyr+firstyr:firstcohort:min + Calf:firstyr+Calf:min:firstyr+nt:notfirstyr )
   if(alternate)
 	  N.1=list(formula=~-1+group,fixed=0)
   else
@@ -173,7 +178,7 @@ if(alternate)
 	C=exp(sqrt(log(1+(Nbyocc$estimate$se/Nbyocc$estimate$N)^2)))
 	Nbyocc$estimate$LCL=Nbyocc$estimate$N/C
 	Nbyocc$estimate$UCL=Nbyocc$estimate$N*C
-	Nbyocc$estimate$Nmin=with(Nbyocc$estimate,N/exp(0.864*sqrt(log(1+(se/N)^2))))
+	Nbyocc$estimate$Nmin=with(Nbyocc$estimate,N/exp(0.842*sqrt(log(1+(se/N)^2))))
 	lnNbyocc=model.average(list(estimates=lnNest,vcv=lnN.vcv.list,weight=weight))
 	lnNbyocc$estimate=data.frame(lnN=lnNbyocc$estimate,se=lnNbyocc$se)
 	return(list(Nbyocc=Nbyocc,lnNbyocc=lnNbyocc,model.list=popan.results))
@@ -195,7 +200,7 @@ if(alternate)
 	C=exp(sqrt(log(1+(Nbyocc$estimate$se/Nbyocc$estimate$N)^2)))
 	Nbyocc$estimate$LCL=Nbyocc$estimate$N/C
 	Nbyocc$estimate$UCL=Nbyocc$estimate$N*C
-	Nbyocc$estimate$Nmin=with(Nbyocc$estimate,N/exp(0.864*sqrt(log(1+(se/N)^2))))
+	Nbyocc$estimate$Nmin=with(Nbyocc$estimate,N/exp(0.842*sqrt(log(1+(se/N)^2))))
 	return(list(Nbyocc=Nbyocc,model.list=popan.results))
 	
 }

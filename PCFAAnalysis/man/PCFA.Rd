@@ -3,7 +3,7 @@
 \alias{PCFA}
 \title{Photo-identification data of gray whales in the PCFA which is defined as the
 area from N CA to Kodiak Alaska from 1 June to 30 November}
-\format{A data frame with observations on the following 24 variables.
+\format{A data frame with observations on the following 29 variables.
 \describe{ \item{list("ID")}{a numeric vector of CRC gray whale IDs}
 \item{list("ResearchGroup")}{research group that contributed the photo}
 \item{list("Year")}{a numeric vector of years photos were taken}
@@ -14,8 +14,7 @@ region factor with levels  \code{GH+} \code{KAK} \code{NBC}
 \code{11} \code{12} \code{13} \code{14} \code{2} \code{3} \code{4} \code{5}
 \code{6} \code{7} \code{8} \code{9}} \item{list("Lat")}{a numeric vector of
 latitudes in decimal degrees} \item{list("Lon")}{a numeric vector of
-longitudes in decimal degrees} \item{list("Calf")}{year whale was a calf and
-0 if non-calf} \item{list("Month")}{a numeric vector of months photos were
+longitudes in decimal degrees}  \item{list("Month")}{a numeric vector of months photos were
 taken} \item{list("region")}{a character vector representing regions where
 photos were taken} \item{list("NCA.SEAK")}{a numeric vector with values 1 if
 region contained in N CA to SEAK and 0 otherwise} \item{list("NCA.NBC")}{a
@@ -37,7 +36,14 @@ whale was seen at some point in the spring (March to May) anywhere in NWA;0
 otherwise} \item{list("springSJF")}{a numeric vector value 1 if whale was
 seen at some point in the spring (March to May) anywhere in SJF;0 otherwise}
 \item{list("Region")}{a factor variable representing regions where photos
-were taken with NWA/SJF collapsed to MUA} }}
+were taken with NWA/SJF collapsed to MUA}
+\item{list("MomID")}{ID of the mother}
+\item{list("Calf")}{Year they were seen as a calf or 0}
+\item{list("FirstDate")}{First date seen with mom}
+\item{list("LastDate")}{Last date seen with mom}
+\item{list("CalfAloneDate")}{First date calf seen without mom}
+\item{list("old")}{Seen prior to 1998}
+}}
 \description{
   This is a subset of the data in \code{\link{ER}}.  See
   example for how it was constructed. It includes all years
@@ -46,7 +52,7 @@ were taken with NWA/SJF collapsed to MUA} }}
 \examples{
 data(ER)
 # Define PCFA group which are whales seen from 1 June to 30 November except in Puget Sound, Hood Canal, etc
-PCFA=ER[ER$Month>=6&!is.na(ER$Month)&ER$Month<=11&!ER$Region\%in\%c("NPS","SCA","CCA","NAK"),]
+PCFA=ER[ER$Month>=6&!is.na(ER$Month)&ER$Month<=11&!ER$Region\%in\%c("NPS","SCA","CCA","NAK","MX"),]
 oldwhales=unique(PCFA$ID[PCFA$Year<1998])
 # Add a field old to indicate the whale had been seen previous to 1998 in the PCFA
 PCFA$old=0
