@@ -741,6 +741,137 @@ colnames(discovery)=c("Region",1996:2011)
 
 \begin_layout Plain Layout
 
+pdf("discovery.pdf")
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(1996:2011,cumsum(table(pcfgfirstyear)),ylim=c(0,650),xlab="Year",ylab="Numb
+er of unique whales",xaxt="n")
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996:2011,cumsum(table(orsvifirstyear)),pch=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996:2011,cumsum(table(muafirstyear)),pch=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+axis(1,at=seq(1996,2011,1),labels=1996:2011)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996,625,pch=1)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996,580,pch=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996,525,pch=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(1996.1,625,"PCFG",pos=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(1996.1,580,"OR-SVI",pos=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(1996.1,525,"MUA",pos=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+dev.off()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+pdf("discoveryrecruit.pdf")
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(1996:2010,cumsum(table(pcfgfirstyear[rowSums(pcfgch)>1])),ylim=c(0,325),xla
+b="Year",ylab="Number of unique whales",xaxt="n")
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996:2010,cumsum(table(orsvifirstyear[rowSums(orsvich)>1])),pch=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996:2010,cumsum(table(factor(muafirstyear[rowSums(muach)>1],levels=1:(ny
+ears-1)))),pch=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+axis(1,at=seq(1996,2010,1),labels=1996:2010)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996,300,pch=1)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996,280,pch=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+points(1996,260,pch=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(1996.1,300,"PCFG",pos=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(1996.1,280,"OR-SVI",pos=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(1996.1,260,"MUA",pos=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+dev.off()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
 @
 \end_layout
 
@@ -781,378 +912,6 @@ ref{tab2}
  provide capture histories and summaries for whales in the PCFG and whales
  seen in the MUA.
  Additional material is covered below.
-\end_layout
-
-\begin_layout Standard
-Of the 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{nrow(ch)}
-\end_layout
-
-\end_inset
-
- identified whales first seen before 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{maxyear}
-\end_layout
-
-\end_inset
-
- between 1 June and 30 November in the PCFG range (NCA-NBC), 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{formatC(100*sum(rowSums(ch)==1)/nrow(ch),digits=3)}
-\end_layout
-
-\end_inset
-
- percent were seen in only one of the 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{nyears}
-\end_layout
-
-\end_inset
-
- years, which demonstrates that many of the newly seen whales did not return
- in subsequent years.
- Some whales are seen in every year with 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{formatC(100*sum(rowSums(ch)==( nyears-firstyear+1 ))/nrow(ch),digits=2)}
-\end_layout
-
-\end_inset
-
- percent that were seen in every summer after their initial identification,
- including 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{sum(rowSums(ch)==nyears)}
-\end_layout
-
-\end_inset
-
- whales that were seen in all 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{nyears}
-\end_layout
-
-\end_inset
-
- years.
- The remaining 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{formatC(100*(1-sum(rowSums(ch)==1)/nrow(ch)-sum(rowSums(ch)==( nyears-firs
-tyear+1 ))/nrow(ch)),digits=3)}
-\end_layout
-
-\end_inset
-
- percent were seen more than once but not in every year.
- 
-\end_layout
-
-\begin_layout Standard
-Some of the latter whales were seen in Kodiak and Southeast Alaska in years
- that they were not seen in the PCFG range (Table 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-ref{tab3}
-\end_layout
-
-\end_inset
-
-).
- Of the 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{length(SEAKWhales)}
-\end_layout
-
-\end_inset
-
- whales identified in Southeast Alaska and the 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{length(KAKWhales)}
-\end_layout
-
-\end_inset
-
- whales identified in Kodiak, Alaska, 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{sum(rowSums(nonAKch[rownames(nonAKch)%in%SEAKWhales,])>0)}
-\end_layout
-
-\end_inset
-
- (
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{formatC(100*sum(rowSums(nonAKch[rownames(nonAKch)%in%SEAKWhales,])>0)/leng
-th(SEAKWhales) ,digits=3)}
-\end_layout
-
-\end_inset
-
-%) and 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{sum(rowSums(nonAKch[rownames(nonAKch)%in%KAKWhales,])>0)}
-\end_layout
-
-\end_inset
-
- (
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{formatC(100*sum(rowSums(nonAKch[rownames(nonAKch)%in%KAKWhales,])>0)/lengt
-h(KAKWhales),digits=3)}
-\end_layout
-
-\end_inset
-
-%), respectively have been seen farther south in the PCFG.
- For example, whale 130 was only seen in Southeast Alaska in 1999, but had
- been seen in every other year in the PCFG.
- Likewise, whale 232 was only seen in Kodiak in 2002, but was seen along
- Vancouver Island in 2000, 2001, and 2003 but then wasn't seen again until
- 2011 and may have been somewhere in Alaska waters.
- Whale 152 was photo-identified in Kodiak in 2002, 2005 and 2010, but was
- seen in the PCFG as early as 1995 in the Cape Caution, British Columbia,
- area, and in 1992 in the Clayoquot Sound, British Columbia, survey area
- but has not been seen in the PCFG since 1999 along the west coast of Vancouver
- Island.
- Another example is Whale 68, which was seen in northern Washington during
- 1996 and 1997 and then was seen in Southeast Alaska in 1998 and 1999 but
- not subsequently.
- While these are only a few examples of whale movements, they illustrate
- the extensive inter-year movement of whales, which partially explains the
- gaps in the observations for some whales and the disappearance of others
- from the PCFG.
- Obviously, many whales are only part of the PCFG temporarily.
-\end_layout
-
-\begin_layout Standard
-Whales seen in the PCFG exhibited a wide range of movement across and within
- years.
- The 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{nrow(morethan8)}
-\end_layout
-
-\end_inset
-
- whales seen in 9 or more years provide a useful example.
- None of those whales was seen exclusively in a single region, and 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{formatC(100*nrow(morethan8[morethan8[,"#areas"]>4,])/nrow(morethan8),digit
-s=3)}
-\end_layout
-
-\end_inset
-
- percent were seen in at least 4 of the 9 survey regions from 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{minyear}
-\end_layout
-
-\end_inset
-
- to 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{maxyear}
-\end_layout
-
-\end_inset
-
-.
- However, whales did regularly visit the same regions across years with
- 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{formatC(100* sum(apply(morethan8[,33:41],1,max,na.rm=T)>=6)/nrow(morethan8)
-,digits=3)}
-\end_layout
-
-\end_inset
-
- percent were seen in at least one of the regions during six or more of
- the years they were seen.
- Of the 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{nrow(morethan8)}
-\end_layout
-
-\end_inset
-
- whales, 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{length(fidelity[fidelity>=.6666])}
-\end_layout
-
-\end_inset
-
- were seen in a particular region two-thirds or more of the years they were
- seen.
- SVI was the region with the maximum number of years seen for 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{sum(apply(morethan8[,33:41],1,which.max)==7)}
-\end_layout
-
-\end_inset
-
- of the 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{nrow(morethan8)}
-\end_layout
-
-\end_inset
-
- whales, which in part reflects the larger amount of survey effort in SVI
- (Calambokidis et al.
- 2004a, Calambokidis et al.
- 2013).
- Thus, some whales regularly visit particular regions, but they use other
- regions as well.
- Calambokidis et al.
- (2004a, Calambokidis et al.
- 2013) also showed that whales seen in more years appeared in more regions.
- 
 \end_layout
 
 \begin_layout Standard
@@ -1208,7 +967,7 @@ Sexpr{formatC(nrow(orsvich)/nrow(pcfgch),digits=3)}
 
 \end_inset
 
- percent (
+% (
 \begin_inset ERT
 status open
 
@@ -1248,7 +1007,7 @@ Sexpr{formatC(nrow(muach)/nrow(pcfgch),digits=3)}
 
 \end_inset
 
- percent (
+% (
 \begin_inset ERT
 status open
 
@@ -2233,6 +1992,23 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=6in,height=6in]
+\end_layout
+
+\begin_layout Plain Layout
+
+ {discovery.pdf}
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
@@ -2247,80 +2023,6 @@ name "fig:Discovery1"
 \end_inset
 
 Discovery curves for unique whales seen in PCFG, OR-SVI and MUA for 1996-2011.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<fig=TRUE,echo=FALSE>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-plot(1996:2011,cumsum(table(pcfgfirstyear)),ylim=c(0,650),xlab="Year",ylab="Numb
-er of unique whales",xaxt="n")
-\end_layout
-
-\begin_layout Plain Layout
-
-points(1996:2011,cumsum(table(orsvifirstyear)),pch=2)
-\end_layout
-
-\begin_layout Plain Layout
-
-points(1996:2011,cumsum(table(muafirstyear)),pch=3)
-\end_layout
-
-\begin_layout Plain Layout
-
-axis(1,at=seq(1996,2011,1),labels=1996:2011)
-\end_layout
-
-\begin_layout Plain Layout
-
-points(1996,625,pch=1)
-\end_layout
-
-\begin_layout Plain Layout
-
-points(1996,580,pch=2)
-\end_layout
-
-\begin_layout Plain Layout
-
-points(1996,525,pch=3)
-\end_layout
-
-\begin_layout Plain Layout
-
-text(1996.1,625,"PCFG",pos=4)
-\end_layout
-
-\begin_layout Plain Layout
-
-text(1996.1,580,"OR-SVI",pos=4)
-\end_layout
-
-\begin_layout Plain Layout
-
-text(1996.1,525,"MUA",pos=4)
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-@
 \end_layout
 
 \end_inset
@@ -2344,6 +2046,24 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=6in,height=6in]
+\end_layout
+
+\begin_layout Plain Layout
+
+ {discoveryrecruit.pdf}
+\end_layout
+
+\end_inset
+
+
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -2355,80 +2075,6 @@ name "fig:Discovery2"
 
 Discovery curves for unique recruited whales seen in PCFG, OR-SVI and MUA
  for 1996-2010.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<fig=TRUE,echo=FALSE>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-plot(1996:2011,cumsum(table(pcfgfirstyear)),ylim=c(0,650),xlab="Year",ylab="Numb
-er of unique whales",xaxt="n")
-\end_layout
-
-\begin_layout Plain Layout
-
-points(1996:2011,cumsum(table(orsvifirstyear)),pch=2)
-\end_layout
-
-\begin_layout Plain Layout
-
-points(1996:2011,cumsum(table(muafirstyear)),pch=3)
-\end_layout
-
-\begin_layout Plain Layout
-
-axis(1,at=seq(1996,2011,1),labels=1996:2011)
-\end_layout
-
-\begin_layout Plain Layout
-
-points(1996,625,pch=1)
-\end_layout
-
-\begin_layout Plain Layout
-
-points(1996,580,pch=2)
-\end_layout
-
-\begin_layout Plain Layout
-
-points(1996,525,pch=3)
-\end_layout
-
-\begin_layout Plain Layout
-
-text(1996.1,625,"PCFG",pos=4)
-\end_layout
-
-\begin_layout Plain Layout
-
-text(1996.1,580,"OR-SVI",pos=4)
-\end_layout
-
-\begin_layout Plain Layout
-
-text(1996.1,525,"MUA",pos=4)
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-@
 \end_layout
 
 \end_inset

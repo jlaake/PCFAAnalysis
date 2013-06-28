@@ -39,7 +39,8 @@ first year the whale was seen. It is NA otherwise.}
 \item{list("Calf")}{year whale was a calf and 0 if non-calf}
 \item{list("FirstDate")}{First date seen with mom}
 \item{list("LastDate")}{Last date seen with mom}
-\item{list("CalfAloneDate")}{First date calf seen without mom}}}}
+\item{list("CalfAloneDate")}{First date calf seen without mom}
+}}
 \description{
   Photo-identification data for gray whales from California
   to Kodiak Alaska
@@ -75,15 +76,15 @@ ER$MUA.SVI[ER$MUA==1|ER$Region=="SVI"]=1
 ER$AK=0
 ER$AK[ER$Region\%in\%c("KAK","SEAK","NAK")]=1
 ERx=ER[!is.na(ER$Month)&!ER$Region\%in\%c("SJI","PS-HC-BB-SJ","NPS","SEAK","CCA","SCA","NAK"),]
-springwhales=unique(ERx$ID[ERx$Year>=1998&ERx$Month\%in\%c(3,4,5)])
+springwhales=unique(ERx$ID[ERx$Year>=1996&ERx$Month\%in\%c(3,4,5)])
 ER$spring=0
 ER$spring[ER$ID\%in\%springwhales]=1
 # Add a field to indicate whales seen in spring in NWA
-springwhales=unique(ERx$ID[ERx$Year>=1998&ERx$Month\%in\%c(3,4,5)&ERx$Region=="NWA"])
+springwhales=unique(ERx$ID[ERx$Year>=1996&ERx$Month\%in\%c(3,4,5)&ERx$Region=="NWA"])
 ER$springNWA=0
 ER$springNWA[ER$ID\%in\%springwhales]=1
 # Add a field to indicate whales seen in spring in SJF
-springwhales=unique(ERx$ID[ERx$Year>=1998&ERx$Month\%in\%c(3,4,5)&ERx$Region=="SJF"])
+springwhales=unique(ERx$ID[ERx$Year>=1996&ERx$Month\%in\%c(3,4,5)&ERx$Region=="SJF"])
 ER$springSJF=0
 ER$springSJF[ER$ID\%in\%springwhales]=1
 names(ER)[names(ER)=="Region"]="region"
@@ -97,6 +98,7 @@ calves$LastDate=as.Date(calves$LastDate,"\%d-\%b-\%y")
 calves$CalfAloneDate=as.Date(calves$CalfAlone,"\%d-\%b-\%y")
 names(calves)[names(calves)\%in\%"Year"]="Calf"
 ER=merge(ER,calves,by.x="ID",by.y="CalfID",all.x=TRUE)
+ER$Calf[is.na(ER$Calf)]=0
 }
 \keyword{datasets}
 

@@ -43,7 +43,8 @@
 #' \item{list("Calf")}{year whale was a calf and 0 if non-calf} 
 #' \item{list("FirstDate")}{First date seen with mom}
 #' \item{list("LastDate")}{Last date seen with mom} 
-#' \item{list("CalfAloneDate")}{First date calf seen without mom}}} 
+#' \item{list("CalfAloneDate")}{First date calf seen without mom}
+#' }
 #' @keywords datasets
 #' @examples
 #' 
