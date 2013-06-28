@@ -28,7 +28,7 @@ if region is MUA (NWA and SJF)} \item{list("MUA.SVI")}{a numeric vector with
 values 1 if region contained in MUA to SVI and 0 otherwise}
 \item{list("AK")}{a numeric vector with values 1 if region contained in
 Alaska and 0 otherwise} \item{list("old")}{a numeric vector with values 1 if
-whale was seen in PCFA prior to 1998 and 0 otherwise}
+whale was seen in PCFA prior to 1996 and 0 otherwise}
 \item{list("spring")}{a numeric vector with value 1 if whale was seen at
 some point in the spring (March to May) anywhere from N CA to NBC (not Puget
 Sound);0 otherwise} \item{list("springNWA")}{a numeric vector value 1 if
@@ -42,7 +42,7 @@ were taken with NWA/SJF collapsed to MUA}
 \item{list("FirstDate")}{First date seen with mom}
 \item{list("LastDate")}{Last date seen with mom}
 \item{list("CalfAloneDate")}{First date calf seen without mom}
-\item{list("old")}{Seen prior to 1998}
+\item{list("old")}{Seen prior to 1996}
 }}
 \description{
   This is a subset of the data in \code{\link{ER}}.  See
@@ -53,8 +53,8 @@ were taken with NWA/SJF collapsed to MUA}
 data(ER)
 # Define PCFA group which are whales seen from 1 June to 30 November except in Puget Sound, Hood Canal, etc
 PCFA=ER[ER$Month>=6&!is.na(ER$Month)&ER$Month<=11&!ER$Region\%in\%c("NPS","SCA","CCA","NAK","MX"),]
-oldwhales=unique(PCFA$ID[PCFA$Year<1998])
-# Add a field old to indicate the whale had been seen previous to 1998 in the PCFA
+oldwhales=unique(PCFA$ID[PCFA$Year<1996])
+# Add a field old to indicate the whale had been seen previous to 1996 in the PCFA
 PCFA$old=0
 PCFA$old[PCFA$ID\%in\%oldwhales]=1
 # reset levels of Region and collapse MUA
