@@ -45,7 +45,7 @@ times.could.be.resighted=apply(firstplus,1,sum)-1
 
 xx=ER[!duplicated(subset(ER,select=c("ID","Date"))),]
 times.sighted.morethanonce=as.numeric(rowSums(table(xx$ID,xx$Year))>1)
-years.sighted.morethanonce=as.numeric(rowSums(ifelse(table(ER$ID,ER$Year)>1,1,0))>1)
+years.sighted.morethanonce=as.numeric(number.years.seen>1)
 regions.sighted.morethanone=as.numeric(rowSums(apply(t(table(ER$ID,ER$Region)),1,function(x) as.numeric(x>0)))>1)
 
 er=data.frame(ID=as.numeric(row.names(chmat)),ch=apply(chmat,1,paste,collapse=""),cohort=cohort,times.resighted=times.resighted,

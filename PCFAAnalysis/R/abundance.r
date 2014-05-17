@@ -90,11 +90,13 @@ abundance.p=function(x,model,minyear,calf=TRUE)
 	Nmat=with(estimates[1:n,],tapply(estimate,list(ID,cohort),sum))
 	Nmat[is.na(Nmat)]=0
 	NbyYear=colSums(Nmat,na.rm=TRUE)
+	NbyYear.new=NbyYear
 	Nmat=with(estimates[(n+1):nrow(estimates),],tapply(1/estimate,list(ID,year),sum))
 	NbyYear.r=c(0,colSums(Nmat,na.rm=TRUE))
 	Nmat=with(estimates[(n+1):nrow(estimates),],tapply(1/estimate^2,list(ID,year),sum))
 	NbyYear.sq=c(0,colSums(Nmat,na.rm=TRUE))
-	NbyYear=NbyYear+NbyYear.r	
+	NbyYear=NbyYear+NbyYear.r
+	NbyYear.prev=NbyYear.r
 	deriv=matrix(0,nrow(estimates),ncol=nocc)
 	for(j in 1:ncol(deriv))
 	{
@@ -108,6 +110,6 @@ abundance.p=function(x,model,minyear,calf=TRUE)
 	NonPcfg=tapply(1-estimates$estimate[estimates$old==0&row(estimates)[,1]<=n],estimates$cohort[estimates$old==0&row(estimates)[,1]<=n],sum)
 	Pcfg=tapply(estimates$estimate[estimates$old==0&row(estimates)[,1]<=n],estimates$cohort[estimates$old==0&row(estimates)[,1]<=n],sum)
 	return(list(N=NbyYear,N.vcv=vcv,cor=vcv/outer(sqrt(diag(vcv)),sqrt(diag(vcv)),"*"),
-					lnN=log(NbyYear),lnN.vcv=lnvcv,ln.cor=lnvcv/outer(sqrt(diag(lnvcv)),sqrt(diag(lnvcv)),"*"),Pcfg=Pcfg,NonPcfg=NonPcfg))
+					lnN=log(NbyYear),lnN.vcv=lnvcv,ln.cor=lnvcv/outer(sqrt(diag(lnvcv)),sqrt(diag(lnvcv)),"*"),Pcfg=Pcfg,NonPcfg=NonPcfg,NbyYear.new=NbyYear.new,NbyYear.prev=NbyYear.prev))
 }
 

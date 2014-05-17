@@ -19,6 +19,10 @@ open.estimate=function(er,delta=Inf,alternate=FALSE,chat=1)
 #
 if(!alternate)
 {
+#   er$min1992[er$min1992>0]=er$min1992[er$min1992>0]-median(er$min1992[er$min1992>0])
+#   er$min1993[er$min1993>0]=er$min1993[er$min1993>0]-median(er$min1993[er$min1993>0])
+#   er$min1994[er$min1994>0]=er$min1994[er$min1994>0]-median(er$min1994[er$min1994>0])
+#   er$min1995[er$min1995>0]=er$min1995[er$min1995>0]-median(er$min1995[er$min1995>0])
    er$min1996[er$min1996>0]=er$min1996[er$min1996>0]-median(er$min1996[er$min1996>0])
    er$min1997[er$min1997>0]=er$min1997[er$min1997>0]-median(er$min1997[er$min1997>0])
    er$min1998[er$min1998>0]=er$min1998[er$min1998>0]-median(er$min1998[er$min1998>0])
@@ -35,7 +39,12 @@ if(!alternate)
    er$min2009[er$min2009>0]=er$min2009[er$min2009>0]-median(er$min2009[er$min2009>0])
    er$min2010[er$min2010>0]=er$min2010[er$min2010>0]-median(er$min2010[er$min2010>0])
    er$min2011[er$min2011>0]=er$min2011[er$min2011>0]-median(er$min2011[er$min2011>0])
+   er$min2012[er$min2012>0]=er$min2012[er$min2012>0]-median(er$min2012[er$min2012>0])
    
+#   er$min1992[er$min1992>0]=er$min1992[er$min1992>0]/100
+#   er$min1993[er$min1993>0]=er$min1993[er$min1993>0]/100
+#   er$min1994[er$min1994>0]=er$min1994[er$min1994>0]/100
+#   er$min1995[er$min1995>0]=er$min1995[er$min1995>0]/100
    er$min1996[er$min1996>0]=er$min1996[er$min1996>0]/100
    er$min1997[er$min1997>0]=er$min1997[er$min1997>0]/100
    er$min1998[er$min1998>0]=er$min1998[er$min1998>0]/100
@@ -52,6 +61,7 @@ if(!alternate)
    er$min2009[er$min2009>0]=er$min2009[er$min2009>0]/100
    er$min2010[er$min2010>0]=er$min2010[er$min2010>0]/100
    er$min2011[er$min2011>0]=er$min2011[er$min2011>0]/100
+   er$min2012[er$min2012>0]=er$min2012[er$min2012>0]/100
    
 # minyyyy is the minimum tenure measure for year yyyy-1 which is used to 
 # model probability of detection of the whale in year yyyy. If it was not
@@ -61,6 +71,10 @@ if(!alternate)
 # can be set to the median value.
 #
 
+#   er$pmin1992[er$pmin1992>0]=er$pmin1995[er$pmin1992>0]-median(er$pmin1992[er$pmin1992>0])
+#   er$pmin1993[er$pmin1993>0]=er$pmin1995[er$pmin1993>0]-median(er$pmin1993[er$pmin1993>0])
+#   er$pmin1994[er$pmin1994>0]=er$pmin1995[er$pmin1994>0]-median(er$pmin1994[er$pmin1994>0])
+#   er$pmin1995[er$pmin1995>0]=er$pmin1995[er$pmin1995>0]-median(er$pmin1995[er$pmin1995>0])
    er$pmin1996[er$pmin1996>0]=er$pmin1996[er$pmin1996>0]-median(er$pmin1996[er$pmin1996>0])
    er$pmin1997[er$pmin1997>0]=er$pmin1997[er$pmin1997>0]-median(er$pmin1997[er$pmin1997>0])
    er$pmin1998[er$pmin1998>0]=er$pmin1998[er$pmin1998>0]-median(er$pmin1998[er$pmin1998>0])
@@ -77,7 +91,8 @@ if(!alternate)
    er$pmin2009[er$pmin2009>0]=er$pmin2009[er$pmin2009>0]-median(er$pmin2009[er$pmin2009>0])
    er$pmin2010[er$pmin2010>0]=er$pmin2010[er$pmin2010>0]-median(er$pmin2010[er$pmin2010>0])
    er$pmin2011[er$pmin2011>0]=er$pmin2011[er$pmin2011>0]-median(er$pmin2011[er$pmin2011>0])
-}
+   er$pmin2012[er$pmin2012>0]=er$pmin2012[er$pmin2012>0]-median(er$pmin2012[er$pmin2012>0])
+ }
    #er$ID=NULL
 er$NC=1-er$Calf
 years=as.numeric(levels(er$cohort))
@@ -89,8 +104,9 @@ er.ddl=make.design.data(er.proc)
 er.ddl$Phi$firstyr=0
 er.ddl$Phi$firstyr[as.character(er.ddl$Phi$group)==as.character(er.ddl$Phi$time)]=1
 er.ddl$Phi$notfirstyr=1-er.ddl$Phi$firstyr
-# create firstcohort which is a factor variable 1996-1997,1998,1999+
-er.ddl$Phi$firstcohort=cut(as.numeric(er.ddl$Phi$cohort),c(0,2,3,16))
+# create firstcohort which is a factor variable 1992-1997,1998,1999+
+#er.ddl$Phi$firstcohort=cut(as.numeric(er.ddl$Phi$cohort),c(0,6,7,maxyear-minyear+1))
+er.ddl$Phi$firstcohort=cut(as.numeric(er.ddl$Phi$cohort),c(0,2,3,maxyear-minyear+1))
 # 1-firstyr = notfirstyr
 er.ddl$p$notfirstyr=1
 er.ddl$p$notfirstyr[as.character(er.ddl$p$group)==as.character(er.ddl$p$time)]=0
@@ -191,7 +207,7 @@ if(alternate)
 		suppressWarnings(mod$design.matrix[is.na(as.numeric(mod$design.matrix))]<-"0")
 # Call popan.derived to estimate abundance
 		xx=popan.derived(er.proc,mod)
-		Nest[i,]=xx$Nbyocc$N
+		Nest[i,]=xx$Nbyocc$N		
 		N.vcv.list[[i]]=xx$Nbyocc.vcv
 	}
 	Nbyocc=model.average(list(estimates=Nest,vcv=N.vcv.list,weight=weight))
