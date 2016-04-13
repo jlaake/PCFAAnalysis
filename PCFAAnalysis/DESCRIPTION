@@ -9,7 +9,7 @@ Description: Data summaries and exploration and analysis of abundance and
     survival
 License: GPL-2
 LazyLoad: yes
-Depends:
+Imports:
     RMark,
     ggplot2,
     reshape
