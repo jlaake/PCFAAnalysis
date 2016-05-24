@@ -66,7 +66,7 @@ closed <-function(x,nocc,begin.time=1998,formula="~-1+time:group")
 	df.ddl=make.design.data(df.proc)
 	df.ddl$p$time2=factor(rep(c(1:nocc),nest))
 	df.ddl$c$time2=factor(rep(2:nocc,nest),levels=c(1:nocc))
-	ss=summary(mark(df.proc,df.ddl,model="Closed",model.parameters=list(p=list(formula=as.formula(formula),share=TRUE,link="sin"),N=list(formula=~-1+group)),output=FALSE,delete=TRUE),se=TRUE)$real$N
+	ss=mark(df.proc,df.ddl,model="Closed",model.parameters=list(p=list(formula=as.formula(formula),share=TRUE,link="sin"),f0=list(formula=~-1+group)),output=FALSE,delete=TRUE)$results$derived[[1]]
 	return(list(Nhat=ss$estimate,Nse=ss$se,Nch=Nch))
 }
 # Create simple function for closed estimators
@@ -108,6 +108,6 @@ df.proc=process.data(df,model="Closed",groups="cohort",begin.time=begin.time-1+1
 df.ddl=make.design.data(df.proc)
 df.ddl$p$time2=factor(rep(c(1:2),nyears-1))
 df.ddl$c$time2=factor(rep(2,nyears-1),levels=c(1:2))
-ss=summary(mark(df.proc,df.ddl,model="Closed",model.parameters=list(p=list(formula=as.formula(formula),link="sin",share=TRUE),N=list(formula=~-1+group)),output=FALSE,delete=TRUE),se=TRUE)$real$N
+ss=mark(df.proc,df.ddl,model="Closed",model.parameters=list(p=list(formula=as.formula(formula),link="sin",share=TRUE),f0=list(formula=~-1+group)),output=FALSE,delete=TRUE)$results$derived[[1]]
 return(list(Nhat=ss$estimate,Nse=ss$se,Nch=Nch))
 }
