@@ -42,7 +42,8 @@ if(!alternate)
    er$min2012[er$min2012>0]=er$min2012[er$min2012>0]-median(er$min2012[er$min2012>0])
    er$min2013[er$min2013>0]=er$min2013[er$min2013>0]-median(er$min2013[er$min2013>0])
    er$min2014[er$min2014>0]=er$min2014[er$min2014>0]-median(er$min2014[er$min2014>0])
-   
+   er$min2015[er$min2015>0]=er$min2015[er$min2015>0]-median(er$min2015[er$min2015>0])
+   er$min2016[er$min2016>0]=er$min2016[er$min2016>0]-median(er$min2016[er$min2016>0])
 #   er$min1992[er$min1992>0]=er$min1992[er$min1992>0]/100
 #   er$min1993[er$min1993>0]=er$min1993[er$min1993>0]/100
 #   er$min1994[er$min1994>0]=er$min1994[er$min1994>0]/100
@@ -66,6 +67,9 @@ if(!alternate)
    er$min2012[er$min2012>0]=er$min2012[er$min2012>0]/100
    er$min2013[er$min2013>0]=er$min2013[er$min2013>0]/100
    er$min2014[er$min2014>0]=er$min2014[er$min2014>0]/100
+   er$min2015[er$min2015>0]=er$min2015[er$min2015>0]/100
+   er$min2016[er$min2016>0]=er$min2016[er$min2016>0]/100
+   er$min2017[er$min2017>0]=er$min2017[er$min2017>0]/100
    
 # minyyyy is the minimum tenure measure for year yyyy-1 which is used to 
 # model probability of detection of the whale in year yyyy. If it was not
@@ -98,7 +102,10 @@ if(!alternate)
    er$pmin2012[er$pmin2012>0]=er$pmin2012[er$pmin2012>0]-median(er$pmin2012[er$pmin2012>0])
    er$pmin2013[er$pmin2013>0]=er$pmin2013[er$pmin2013>0]-median(er$pmin2013[er$pmin2013>0])
    er$pmin2014[er$pmin2014>0]=er$pmin2014[er$pmin2014>0]-median(er$pmin2014[er$pmin2014>0])
-   }
+   er$pmin2015[er$pmin2015>0]=er$pmin2015[er$pmin2015>0]-median(er$pmin2015[er$pmin2015>0])
+   er$pmin2016[er$pmin2017>0]=er$pmin2016[er$pmin2016>0]-median(er$pmin2016[er$pmin2016>0])
+   er$pmin2017[er$pmin2017>0]=er$pmin2017[er$pmin2017>0]-median(er$pmin2017[er$pmin2017>0])
+}
    #er$ID=NULL
 er$NC=1-er$Calf
 years=as.numeric(levels(er$cohort))
