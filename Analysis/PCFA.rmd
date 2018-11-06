@@ -1,7 +1,7 @@
 ---
 title: "Updated analysis of abundance and population structure of seasonal gray whales in the Pacific Northwest, 1996-2015"
-author: "John Calambokidis, Jeffrey Laake, and Alie Pérez"
-date: "April 25, 2017"
+author: "John Calambokidis, Jeffrey Laake, and Alie Perez"
+date: "5 November 2018"
 output: word_document
 ---
 
@@ -12,10 +12,10 @@ library(pander)
 
 ```{r setup }
 
-workdir="C:\\Users\\JLaake\\git\\PCFAAnalysis\\Analysis\\"
-workspace="C:/Users/JLaake/git/PCFAAnalysis/Analysis/.Rdata"
+workdir=  "C:\\Users\\jefflaake\\Documents\\Projects\\PCFAAnalysis\\Analysis\\"
+workspace="C:\\Users\\jefflaake\\Documents\\Projects\\PCFAAnalysis\\Analysis\\.Rdata"
 load(workspace)
-runit=FALSE
+runit=TRUE
 suppressMessages(suppressPackageStartupMessages({library(PCFAAnalysis) 
 library(xtable)
 library(RMark)
