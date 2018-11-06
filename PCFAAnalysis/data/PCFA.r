@@ -1,4 +1,4 @@
-source("C:\\Users\\JLaake\\git\\PCFAAnalysis\\PCFAAnalysis\\data\\ER.r")
+source("C:\\Users\\jefflaake\\Documents\\Projects\\PCFAAnalysis\\PCFAAnalysis\\data\\ER.r")
 # Define PCFA group which are whales seen from 1 June to 30 November except in Puget Sound, Hood Canal, etc
 #PCFA=ER[ER$Month>=7&!is.na(ER$Month)&ER$Month<=11&!ER$Region%in%c("NPS","SCA","CCA","NAK","MX"),]
 PCFA=ER[ER$Month>=6&!is.na(ER$Month)&ER$Month<=11&!ER$Region%in%c("NPS","SCA","CCA","NAK","MX"),]

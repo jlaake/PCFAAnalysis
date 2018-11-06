@@ -17,59 +17,61 @@ open.estimate=function(er,delta=Inf,alternate=FALSE,chat=1)
 # of those whales with a non-zero value such that those with missing values (0)
 # can be set to the median value.
 #
+lastyear=max(as.numeric(unlist(strsplit(names(er)[grep("pmin",names(er))],"pmin"))),na.rm=TRUE)
 if(!alternate)
 {
-#   er$min1992[er$min1992>0]=er$min1992[er$min1992>0]-median(er$min1992[er$min1992>0])
-#   er$min1993[er$min1993>0]=er$min1993[er$min1993>0]-median(er$min1993[er$min1993>0])
-#   er$min1994[er$min1994>0]=er$min1994[er$min1994>0]-median(er$min1994[er$min1994>0])
-#   er$min1995[er$min1995>0]=er$min1995[er$min1995>0]-median(er$min1995[er$min1995>0])
-   er$min1996[er$min1996>0]=er$min1996[er$min1996>0]-median(er$min1996[er$min1996>0])
-   er$min1997[er$min1997>0]=er$min1997[er$min1997>0]-median(er$min1997[er$min1997>0])
-   er$min1998[er$min1998>0]=er$min1998[er$min1998>0]-median(er$min1998[er$min1998>0])
-   er$min1999[er$min1999>0]=er$min1999[er$min1999>0]-median(er$min1999[er$min1999>0])
-   er$min2000[er$min2000>0]=er$min2000[er$min2000>0]-median(er$min2000[er$min2000>0])
-   er$min2001[er$min2001>0]=er$min2001[er$min2001>0]-median(er$min2001[er$min2001>0])
-   er$min2002[er$min2002>0]=er$min2002[er$min2002>0]-median(er$min2002[er$min2002>0])
-   er$min2003[er$min2003>0]=er$min2003[er$min2003>0]-median(er$min2003[er$min2003>0])
-   er$min2004[er$min2004>0]=er$min2004[er$min2004>0]-median(er$min2004[er$min2004>0])
-   er$min2005[er$min2005>0]=er$min2005[er$min2005>0]-median(er$min2005[er$min2005>0])
-   er$min2006[er$min2006>0]=er$min2006[er$min2006>0]-median(er$min2006[er$min2006>0])
-   er$min2007[er$min2007>0]=er$min2007[er$min2007>0]-median(er$min2007[er$min2007>0])
-   er$min2008[er$min2008>0]=er$min2008[er$min2008>0]-median(er$min2008[er$min2008>0])
-   er$min2009[er$min2009>0]=er$min2009[er$min2009>0]-median(er$min2009[er$min2009>0])
-   er$min2010[er$min2010>0]=er$min2010[er$min2010>0]-median(er$min2010[er$min2010>0])
-   er$min2011[er$min2011>0]=er$min2011[er$min2011>0]-median(er$min2011[er$min2011>0])
-   er$min2012[er$min2012>0]=er$min2012[er$min2012>0]-median(er$min2012[er$min2012>0])
-   er$min2013[er$min2013>0]=er$min2013[er$min2013>0]-median(er$min2013[er$min2013>0])
-   er$min2014[er$min2014>0]=er$min2014[er$min2014>0]-median(er$min2014[er$min2014>0])
-   er$min2015[er$min2015>0]=er$min2015[er$min2015>0]-median(er$min2015[er$min2015>0])
-   er$min2016[er$min2016>0]=er$min2016[er$min2016>0]-median(er$min2016[er$min2016>0])
+   for(y in 1996:(lastyear-1))
+   {
+     cat("\n",y)
+     selrows=er[,paste("min",y,sep="")]>0
+     er[selrows,paste("min",y,sep="")]=(er[selrows,paste("min",y,sep="")]-median(er[selrows,paste("min",y,sep="")]))/100
+   }
+#   er$min1997[er$min1997>0]=er$min1997[er$min1997>0]-median(er$min1997[er$min1997>0])
+#   er$min1998[er$min1998>0]=er$min1998[er$min1998>0]-median(er$min1998[er$min1998>0])
+#   er$min1999[er$min1999>0]=er$min1999[er$min1999>0]-median(er$min1999[er$min1999>0])
+#   er$min2000[er$min2000>0]=er$min2000[er$min2000>0]-median(er$min2000[er$min2000>0])
+#   er$min2001[er$min2001>0]=er$min2001[er$min2001>0]-median(er$min2001[er$min2001>0])
+#   er$min2002[er$min2002>0]=er$min2002[er$min2002>0]-median(er$min2002[er$min2002>0])
+#   er$min2003[er$min2003>0]=er$min2003[er$min2003>0]-median(er$min2003[er$min2003>0])
+#   er$min2004[er$min2004>0]=er$min2004[er$min2004>0]-median(er$min2004[er$min2004>0])
+#   er$min2005[er$min2005>0]=er$min2005[er$min2005>0]-median(er$min2005[er$min2005>0])
+#   er$min2006[er$min2006>0]=er$min2006[er$min2006>0]-median(er$min2006[er$min2006>0])
+#   er$min2007[er$min2007>0]=er$min2007[er$min2007>0]-median(er$min2007[er$min2007>0])
+#   er$min2008[er$min2008>0]=er$min2008[er$min2008>0]-median(er$min2008[er$min2008>0])
+#   er$min2009[er$min2009>0]=er$min2009[er$min2009>0]-median(er$min2009[er$min2009>0])
+#   er$min2010[er$min2010>0]=er$min2010[er$min2010>0]-median(er$min2010[er$min2010>0])
+#   er$min2011[er$min2011>0]=er$min2011[er$min2011>0]-median(er$min2011[er$min2011>0])
+#   er$min2012[er$min2012>0]=er$min2012[er$min2012>0]-median(er$min2012[er$min2012>0])
+#   er$min2013[er$min2013>0]=er$min2013[er$min2013>0]-median(er$min2013[er$min2013>0])
+#   er$min2014[er$min2014>0]=er$min2014[er$min2014>0]-median(er$min2014[er$min2014>0])
+#   er$min2015[er$min2015>0]=er$min2015[er$min2015>0]-median(er$min2015[er$min2015>0])
+#   er$min2016[er$min2016>0]=er$min2016[er$min2016>0]-median(er$min2016[er$min2016>0])
 #   er$min1992[er$min1992>0]=er$min1992[er$min1992>0]/100
 #   er$min1993[er$min1993>0]=er$min1993[er$min1993>0]/100
 #   er$min1994[er$min1994>0]=er$min1994[er$min1994>0]/100
 #   er$min1995[er$min1995>0]=er$min1995[er$min1995>0]/100
-   er$min1996[er$min1996>0]=er$min1996[er$min1996>0]/100
-   er$min1997[er$min1997>0]=er$min1997[er$min1997>0]/100
-   er$min1998[er$min1998>0]=er$min1998[er$min1998>0]/100
-   er$min1999[er$min1999>0]=er$min1999[er$min1999>0]/100
-   er$min2000[er$min2000>0]=er$min2000[er$min2000>0]/100
-   er$min2001[er$min2001>0]=er$min2001[er$min2001>0]/100
-   er$min2002[er$min2002>0]=er$min2002[er$min2002>0]/100
-   er$min2003[er$min2003>0]=er$min2003[er$min2003>0]/100
-   er$min2004[er$min2004>0]=er$min2004[er$min2004>0]/100
-   er$min2005[er$min2005>0]=er$min2005[er$min2005>0]/100
-   er$min2006[er$min2006>0]=er$min2006[er$min2006>0]/100
-   er$min2007[er$min2007>0]=er$min2007[er$min2007>0]/100
-   er$min2008[er$min2008>0]=er$min2008[er$min2008>0]/100
-   er$min2009[er$min2009>0]=er$min2009[er$min2009>0]/100
-   er$min2010[er$min2010>0]=er$min2010[er$min2010>0]/100
-   er$min2011[er$min2011>0]=er$min2011[er$min2011>0]/100
-   er$min2012[er$min2012>0]=er$min2012[er$min2012>0]/100
-   er$min2013[er$min2013>0]=er$min2013[er$min2013>0]/100
-   er$min2014[er$min2014>0]=er$min2014[er$min2014>0]/100
-   er$min2015[er$min2015>0]=er$min2015[er$min2015>0]/100
-   er$min2016[er$min2016>0]=er$min2016[er$min2016>0]/100
-   er$min2017[er$min2017>0]=er$min2017[er$min2017>0]/100
+#   er$min1996[er$min1996>0]=er$min1996[er$min1996>0]/100
+#   er$min1997[er$min1997>0]=er$min1997[er$min1997>0]/100
+#   er$min1998[er$min1998>0]=er$min1998[er$min1998>0]/100
+#   er$min1999[er$min1999>0]=er$min1999[er$min1999>0]/100
+#   er$min2000[er$min2000>0]=er$min2000[er$min2000>0]/100
+#   er$min2001[er$min2001>0]=er$min2001[er$min2001>0]/100
+#   er$min2002[er$min2002>0]=er$min2002[er$min2002>0]/100
+#   er$min2003[er$min2003>0]=er$min2003[er$min2003>0]/100
+#   er$min2004[er$min2004>0]=er$min2004[er$min2004>0]/100
+#   er$min2005[er$min2005>0]=er$min2005[er$min2005>0]/100
+#   er$min2006[er$min2006>0]=er$min2006[er$min2006>0]/100
+#   er$min2007[er$min2007>0]=er$min2007[er$min2007>0]/100
+#   er$min2008[er$min2008>0]=er$min2008[er$min2008>0]/100
+#   er$min2009[er$min2009>0]=er$min2009[er$min2009>0]/100
+#   er$min2010[er$min2010>0]=er$min2010[er$min2010>0]/100
+#   er$min2011[er$min2011>0]=er$min2011[er$min2011>0]/100
+#   er$min2012[er$min2012>0]=er$min2012[er$min2012>0]/100
+#   er$min2013[er$min2013>0]=er$min2013[er$min2013>0]/100
+#   er$min2014[er$min2014>0]=er$min2014[er$min2014>0]/100
+#   er$min2015[er$min2015>0]=er$min2015[er$min2015>0]/100
+#   er$min2016[er$min2016>0]=er$min2016[er$min2016>0]/100
+#   er$min2017[er$min2017>0]=er$min2017[er$min2017>0]/100
    
 # minyyyy is the minimum tenure measure for year yyyy-1 which is used to 
 # model probability of detection of the whale in year yyyy. If it was not
@@ -83,28 +85,33 @@ if(!alternate)
 #   er$pmin1993[er$pmin1993>0]=er$pmin1995[er$pmin1993>0]-median(er$pmin1993[er$pmin1993>0])
 #   er$pmin1994[er$pmin1994>0]=er$pmin1995[er$pmin1994>0]-median(er$pmin1994[er$pmin1994>0])
 #   er$pmin1995[er$pmin1995>0]=er$pmin1995[er$pmin1995>0]-median(er$pmin1995[er$pmin1995>0])
-   er$pmin1996[er$pmin1996>0]=er$pmin1996[er$pmin1996>0]-median(er$pmin1996[er$pmin1996>0])
-   er$pmin1997[er$pmin1997>0]=er$pmin1997[er$pmin1997>0]-median(er$pmin1997[er$pmin1997>0])
-   er$pmin1998[er$pmin1998>0]=er$pmin1998[er$pmin1998>0]-median(er$pmin1998[er$pmin1998>0])
-   er$pmin1999[er$pmin1999>0]=er$pmin1999[er$pmin1999>0]-median(er$pmin1999[er$pmin1999>0])
-   er$pmin2000[er$pmin2000>0]=er$pmin2000[er$pmin2000>0]-median(er$pmin2000[er$pmin2000>0])
-   er$pmin2001[er$pmin2001>0]=er$pmin2001[er$pmin2001>0]-median(er$pmin2001[er$pmin2001>0])
-   er$pmin2002[er$pmin2002>0]=er$pmin2002[er$pmin2002>0]-median(er$pmin2002[er$pmin2002>0])
-   er$pmin2003[er$pmin2003>0]=er$pmin2003[er$pmin2003>0]-median(er$pmin2003[er$pmin2003>0]) 
-   er$pmin2004[er$pmin2004>0]=er$pmin2004[er$pmin2004>0]-median(er$pmin2004[er$pmin2004>0])
-   er$pmin2005[er$pmin2005>0]=er$pmin2005[er$pmin2005>0]-median(er$pmin2005[er$pmin2005>0])
-   er$pmin2006[er$pmin2006>0]=er$pmin2006[er$pmin2006>0]-median(er$pmin2006[er$pmin2006>0])
-   er$pmin2007[er$pmin2007>0]=er$pmin2007[er$pmin2007>0]-median(er$pmin2007[er$pmin2007>0])
-   er$pmin2008[er$pmin2008>0]=er$pmin2008[er$pmin2008>0]-median(er$pmin2008[er$pmin2008>0]) 
-   er$pmin2009[er$pmin2009>0]=er$pmin2009[er$pmin2009>0]-median(er$pmin2009[er$pmin2009>0])
-   er$pmin2010[er$pmin2010>0]=er$pmin2010[er$pmin2010>0]-median(er$pmin2010[er$pmin2010>0])
-   er$pmin2011[er$pmin2011>0]=er$pmin2011[er$pmin2011>0]-median(er$pmin2011[er$pmin2011>0])
-   er$pmin2012[er$pmin2012>0]=er$pmin2012[er$pmin2012>0]-median(er$pmin2012[er$pmin2012>0])
-   er$pmin2013[er$pmin2013>0]=er$pmin2013[er$pmin2013>0]-median(er$pmin2013[er$pmin2013>0])
-   er$pmin2014[er$pmin2014>0]=er$pmin2014[er$pmin2014>0]-median(er$pmin2014[er$pmin2014>0])
-   er$pmin2015[er$pmin2015>0]=er$pmin2015[er$pmin2015>0]-median(er$pmin2015[er$pmin2015>0])
-   er$pmin2016[er$pmin2017>0]=er$pmin2016[er$pmin2016>0]-median(er$pmin2016[er$pmin2016>0])
-   er$pmin2017[er$pmin2017>0]=er$pmin2017[er$pmin2017>0]-median(er$pmin2017[er$pmin2017>0])
+  for(y in 1996:lastyear)
+  {
+    selrows=er[,paste("pmin",y,sep="")]>0
+    er[selrows,paste("pmin",y,sep="")]=er[selrows,paste("pmin",y,sep="")]-median(er[selrows,paste("pmin",y,sep="")])
+  }
+#  er$pmin1996[er$pmin1996>0]=er$pmin1996[er$pmin1996>0]-median(er$pmin1996[er$pmin1996>0])
+#   er$pmin1997[er$pmin1997>0]=er$pmin1997[er$pmin1997>0]-median(er$pmin1997[er$pmin1997>0])
+#   er$pmin1998[er$pmin1998>0]=er$pmin1998[er$pmin1998>0]-median(er$pmin1998[er$pmin1998>0])
+#   er$pmin1999[er$pmin1999>0]=er$pmin1999[er$pmin1999>0]-median(er$pmin1999[er$pmin1999>0])
+#   er$pmin2000[er$pmin2000>0]=er$pmin2000[er$pmin2000>0]-median(er$pmin2000[er$pmin2000>0])
+#   er$pmin2001[er$pmin2001>0]=er$pmin2001[er$pmin2001>0]-median(er$pmin2001[er$pmin2001>0])
+#   er$pmin2002[er$pmin2002>0]=er$pmin2002[er$pmin2002>0]-median(er$pmin2002[er$pmin2002>0])
+#   er$pmin2003[er$pmin2003>0]=er$pmin2003[er$pmin2003>0]-median(er$pmin2003[er$pmin2003>0]) 
+#   er$pmin2004[er$pmin2004>0]=er$pmin2004[er$pmin2004>0]-median(er$pmin2004[er$pmin2004>0])
+#   er$pmin2005[er$pmin2005>0]=er$pmin2005[er$pmin2005>0]-median(er$pmin2005[er$pmin2005>0])
+#   er$pmin2006[er$pmin2006>0]=er$pmin2006[er$pmin2006>0]-median(er$pmin2006[er$pmin2006>0])
+#   er$pmin2007[er$pmin2007>0]=er$pmin2007[er$pmin2007>0]-median(er$pmin2007[er$pmin2007>0])
+#   er$pmin2008[er$pmin2008>0]=er$pmin2008[er$pmin2008>0]-median(er$pmin2008[er$pmin2008>0]) 
+#   er$pmin2009[er$pmin2009>0]=er$pmin2009[er$pmin2009>0]-median(er$pmin2009[er$pmin2009>0])
+#   er$pmin2010[er$pmin2010>0]=er$pmin2010[er$pmin2010>0]-median(er$pmin2010[er$pmin2010>0])
+#   er$pmin2011[er$pmin2011>0]=er$pmin2011[er$pmin2011>0]-median(er$pmin2011[er$pmin2011>0])
+#   er$pmin2012[er$pmin2012>0]=er$pmin2012[er$pmin2012>0]-median(er$pmin2012[er$pmin2012>0])
+#   er$pmin2013[er$pmin2013>0]=er$pmin2013[er$pmin2013>0]-median(er$pmin2013[er$pmin2013>0])
+#   er$pmin2014[er$pmin2014>0]=er$pmin2014[er$pmin2014>0]-median(er$pmin2014[er$pmin2014>0])
+#   er$pmin2015[er$pmin2015>0]=er$pmin2015[er$pmin2015>0]-median(er$pmin2015[er$pmin2015>0])
+#   er$pmin2016[er$pmin2017>0]=er$pmin2016[er$pmin2016>0]-median(er$pmin2016[er$pmin2016>0])
+#   er$pmin2017[er$pmin2017>0]=er$pmin2017[er$pmin2017>0]-median(er$pmin2017[er$pmin2017>0])
 }
    #er$ID=NULL
 er$NC=1-er$Calf
