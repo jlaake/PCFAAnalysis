@@ -1,2 +1,2 @@
 
-If you want to build this package, you will need to change the filename locations specified in Er.r and PCFA.r which build er.rda and pcfa.rda which are built into the package.
+If you want to build this package, you will need to change the filename locations specified in Er.r and PCFA.r which build er.rda and pcfa.rda which are built into the package. Likewise in pcfa.rmd directory values need to be changed.
