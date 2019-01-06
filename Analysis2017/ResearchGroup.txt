@@ -1,0 +1,166 @@
+ResearchGroup	Research.Group
+AC	Opportunistic
+AD	Opportunistic
+AOP	Opportunistic
+BC	Opportunistic
+BG	Brian Gisborne
+BG/VD	Brian Gisborne
+BH	Opportunistic
+BS	Opportunistic
+CB	Opportunistic
+CERF	CERF
+CINC	Opportunistic
+CINMS	Opportunistic
+CN	Carrie Newell
+CP	Opportunistic
+CRC	CRC
+DB	Opportunistic
+DFO	Canada Fisheries/Oceans
+DL	Opportunistic
+DM	Opportunistic
+DW	Opportunistic
+GA	Opportunistic
+GN	Opportunistic
+HSU-DG	Dawn Goley-HSU
+HSU-JKJ	Jeff Jacobsen-HSU
+HSU-PDG	Dawn Goley-HSU
+JD	Jim Darling
+JH	Opportunistic
+JL	Opportunistic
+JN	Opportunistic
+JS	Jan Straley-UASE
+KJ	Opportunistic
+MAKAH	MAKAH
+MAKAH-NMML	MAKAH-NMML
+MD	Opportunistic
+MM	Opportunistic
+MO	Opportunistic
+NA	Opportunistic
+NB	Opportunistic
+NMML	NMML
+NSB	North Slope Borough
+Opp	Opportunistic
+Opp-Allworden	Opportunistic
+Opp-AlpsB	Opportunistic
+Opp-AndersonD	Opportunistic
+Opp-Aubin	Opportunistic
+Opp-Baxter	Opportunistic
+Opp-BeamReach	Opportunistic
+Opp-Bennet	Opportunistic
+Opp-BondyS	Opportunistic
+Opp-Boyd	Opportunistic
+Opp-Bradley	Opportunistic
+Opp-Brigham	Opportunistic
+Opp-BuckmasterJ	Opportunistic
+Opp-Byers	Opportunistic
+Opp-Chwojko	Opportunistic
+Opp-Clifton	Opportunistic
+Opp-CrossmanC	Opportunistic
+Opp-Deck	Opportunistic
+Opp-DeLuca	Opportunistic
+Opp-DFO	Opportunistic
+Opp-Diehl	Opportunistic
+Opp-Dixon	Opportunistic
+Opp-Dufour	Opportunistic
+Opp-Dunham	Opportunistic
+Opp-Ellul	Opportunistic
+Opp-FarallonResearch	Opportunistic
+Opp-FSWW	Opportunistic
+Opp-Gard	Opportunistic
+Opp-Garrett	Opportunistic
+Opp-George	Opportunistic
+Opp-Gilbert	Opportunistic
+Opp-Graner	Opportunistic
+Opp-GreshamJ	Opportunistic
+Opp-GreshemJ	Opportunistic
+Opp-Griffin	Opportunistic
+Opp-Gstephenson	Opportunistic
+Opp-GuilleryJ	Opportunistic
+Opp-Hamilton	Opportunistic
+Opp-HamiltonC	Opportunistic
+Opp-Harmon	Opportunistic
+Opp-Hein	Opportunistic
+Opp-HeinJ	Opportunistic
+Opp-HortonE	Opportunistic
+Opp-HunterA	Opportunistic
+Opp-IA	Opportunistic
+Opp-IslandAdventures	Opportunistic
+Opp-Janes	Opportunistic
+Opp-JanicekM	Opportunistic
+Opp-Kanes	Opportunistic
+Opp-KaulfussA	Opportunistic
+Opp-Keiper	Opportunistic
+Opp-Keller	Opportunistic
+Opp-Kelly	Opportunistic
+Opp-Kveven	Opportunistic
+Opp-LeddyA	Opportunistic
+Opp-Lees	Opportunistic
+Opp-Lopez	Opportunistic
+Opp-MAKAH	Opportunistic
+Opp-May	Opportunistic
+Opp-McKinley	Opportunistic
+Opp-McKinleyB	Opportunistic
+Opp-MerrimanK	Opportunistic
+Opp-Miller	Opportunistic
+Opp-MillerL	Opportunistic
+Opp-NagelJ	Opportunistic
+Opp-NeilsonJ	Opportunistic
+Opp-OrcaNet	Opportunistic
+Opp-OregonStudent	Opportunistic
+Opportunistic	Opportunistic
+Opp-O'Shaughnessy	Opportunistic
+Opp-Pasztor	Opportunistic
+Opp-Peirson	Opportunistic
+Opp-Perry	Opportunistic
+Opp-Quakenbush	Opportunistic
+Opp-Ratson	Opportunistic
+Opp-Rebollo	Opportunistic
+Opp-Reding	Opportunistic
+Opp-ReynoldsT	Opportunistic
+Opp-Rulon	Opportunistic
+Opp-RulonB	Opportunistic
+Opp-Sallee	Opportunistic
+Opp-Salmon	Opportunistic
+Opp-Shelby	Opportunistic
+Opp-Shelly	Opportunistic
+Opp-SmithC	Opportunistic
+Opp-Swisher	Opportunistic
+Opp-Szczepaniak	Opportunistic
+Opp-SzczepaniakI	Opportunistic
+Opp-Thomas	Opportunistic
+Opp-Towers	Opportunistic
+Opp-TowersJ	Opportunistic
+Opp-TrowbridgeK	Opportunistic
+Opp-Tucker	Opportunistic
+Opp-TylerB	Opportunistic
+Opp-VanderzeeA	Opportunistic
+Opp-VonAllworden	Opportunistic
+Opp-Walker	Opportunistic
+Opp-WalterT	Opportunistic
+Opp-Wheelan	Opportunistic
+Opp-Wieland	Opportunistic
+Opp-Williams	Opportunistic
+Opp-Willson	Opportunistic
+Opp-Witteveen	Opportunistic
+OSU	OSU
+OTH	Opportunistic
+OWC	Opportunistic
+PB	Opportunistic
+PB2	Opportunistic
+PG	Opportunistic
+PS	Opportunistic
+SB	Opportunistic
+SV	Opportunistic
+SWFSC	SWFSC
+UAFK	UAF
+Unk-DFO	Opportunistic
+Uvic	UVIC
+UVIC	UVIC
+UVIC-TombachC	Christina Tombach
+VD	Volker Deecke
+WLF	Opportunistic
+WS	Wendy Szaniszlo
+Wsz	Wendy Szaniszlo
+WSz	Wendy Szaniszlo
+WT	Opportunistic
+YK	Opportunistic

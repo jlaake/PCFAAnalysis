@@ -1,0 +1,1268 @@
+---
+title: Updated analysis of abundance and population structure of seasonal gray whales
+  in the Pacific Northwest, 1996-2017
+author: "John Calambokidis, Jeffrey Laake, and Alie Perez"
+date: "26 December 2018"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  word_document: default
+---
+
+```{r options, results="hide", echo=FALSE}
+suppressMessages(knitr::opts_chunk$set(echo = FALSE, results="hide"))
+library(pander)
+
+#Packages required by this RMD file
+#library(PCFAAnalysis) 
+#library(xtable)
+#library(RMark)
+#library(ggplot2)
+#library(argosfilter)
+#library(plyr)
+#library(pander)
+```
+
+```{r setup }
+
+workdir=  "C:\\Users\\jefflaake\\Documents\\Projects\\PCFAAnalysis\\Analysis2017\\"
+workspace="C:\\Users\\jefflaake\\Documents\\Projects\\PCFAAnalysis\\Analysis2017\\.Rdata"
+load(workspace)
+runit=FALSE
+suppressMessages(suppressPackageStartupMessages({library(PCFAAnalysis) 
+library(xtable)
+library(RMark)
+library(ggplot2)}))
+data(ER) 
+rg=read.delim("researchgroup.txt",sep="\t")[,1:2] 
+maxyear=2017
+minyear=1996
+nyears=maxyear-minyear+1
+data(ER) 
+ER=ER[ER$Year>=minyear&!ER$Region%in%c("MX","NAK"),]
+nphotos=nrow(ER)
+ERd=ER[!duplicated(subset(ER,select=c("ID","Date"))),]
+nsightings=nrow(ERd) 
+nwhales=length(unique(ERd$ID)) 
+ER=merge(ERd,rg,all.x=TRUE)
+ER$ResearchGroup=ER$Research.Group
+RGbyYear.photos=table(ER$ResearchGroup,ER$Year) 
+RG.whales=table(ER$ID,ER$ResearchGroup)
+RG.whales[RG.whales>0]=1
+RG.whales=colSums(RG.whales)
+years=as.numeric(colnames(RGbyYear.photos)) 
+year.photos=table(ER$Year) 
+ER$CRegion=ER$region 
+ER$CRegion[ER$CRegion%in%c("SCA","CCA")]="CA"
+ER$CRegion=factor(ER$CRegion,levels=c("CA","NCA","SOR","OR","GH+","NWA","SJF","PS-HC-BB-SJ","NPS","SVI","WVI","NBC","SEAK","KAK"))
+xx=with(ER,table(ResearchGroup,Year)) 
+xx=cbind(xx,RG.whales) 
+colnames(xx)[ncol(xx)]=c("Whales") 
+xx=rbind(xx,c(colSums(xx[,1:(ncol(xx)-1)]),"")) 
+row.names(xx)[nrow(xx)]="Photo Totals" 
+year.whales=table(ER$ID,ER$Year) 
+year.whales[year.whales>0]=1 
+year.whales=colSums(year.whales) 
+xx=rbind(xx,c(year.whales,length(table(ER$ID)))) 
+row.names(xx)[nrow(xx)]="Whale Totals"
+table1=xx
+
+xx=with(ER,table(ResearchGroup,CRegion))
+xx=rbind(xx,colSums(xx))
+row.names(xx)[nrow(xx)]="Photo Totals"
+ReG.whales=table(ER$ID,ER$CRegion)
+ReG.whales[ReG.whales>0]=1
+xx=rbind(xx,colSums(ReG.whales))
+row.names(xx)[nrow(xx)]="Whale Totals"
+colnames(xx)[8]="PS"
+table2=xx 
+
+xx=with(ER[ER$Month%in%6:11,],table(ID,CRegion,Year))
+xx[xx>0]=1
+xx=apply(xx,c(2,3),sum)
+table2a=xx
+xx=with(ER,table(ID,CRegion,Month))
+xx[xx>0]=1
+xx=apply(xx,c(2,3),sum)
+table2b=xx
+xx=with(ER[ER$Month%in%6:11,],table(Date,CRegion,Year))
+xx[xx>0]=1
+xx=apply(xx,c(2,3),sum)
+table2c=xx
+xx=with(ER[ER$Month%in%6:11,],table(ID,Year))
+table3=xx
+ER$CRegion=as.character(ER$Region) 
+ER$CRegion[ER$CRegion%in%c("SCA","CCA")]="CA"
+ER$CRegion[ER$CRegion%in%c("PS-HC-BB-SJ","NPS")]="PS"
+ER$CRegion=factor(ER$CRegion,levels=c("CA","NCA","SOR","OR","GH+","NWA","SJF","PS","SVI","WVI","NBC","SEAK","KAK"))
+xx=with(ER[ER$Month%in%6:11,],table(ID,CRegion))
+table4=xx
+xx=with(ER,table(ID,Month))
+table5=xx
+xmat=with(ER[ER$Month%in%6:11,],table(list(ID,CRegion)))
+xmat[xmat>0]=1
+move=matrix(0,nrow=length(levels(ER$CRegion)),ncol=length(levels(ER$CRegion)))
+for(i in 1:length(levels(ER$CRegion)))
+   move[i,]=colSums(xmat[xmat[,i]>0,,drop=FALSE])     
+colnames(move)=levels(ER$CRegion)
+rownames(move)=levels(ER$CRegion)
+move[upper.tri(move)]=NA 
+table7=move
+
+```
+
+Abstract The existence of a small number of Eastern North Pacific gray whales that spend the spring, summer and fall feeding in coastal waters of the Pacific Northwest has been known for some time and localized short-term studies have examined aspects of the natural history of these animals. We report the results of a ```r nyears```-year (```r minyear```-```r maxyear```) collaborative study examining the abundance and the population structure of these animals conducted over a number of regions from Northern California to British Columbia using photographic identification. Some ```r sum(year.photos)``` identifications representing ```r nwhales``` unique gray whales were obtained during ```r minyear```-```r maxyear``` from Southern California to Kodiak, Alaska. Gray whales seen from 1 June - 30 Nov (after the northward and before southward migrations) were more likely to be seen repeatedly and in multiple regions and years;therefore only whales seen during those data were included in the abundance estimates. Gray whales using the Pacific Northwest in summer and fall include two groups: 1) whales that return frequently and account for the majority of the sightings and 2)  transients seen in only one year, generally for shorter periods and in more limited areas. A time series of abundance estimates of the non-transient whales for ```r minyear```-```r maxyear``` was constructed for the region from N. California (NCA) to N. Vancouver Island (NBC). The most recent estimate for ```r maxyear``` was xxx whales (se=x.xx). The estimated abundance increased  in the late 1990s and early 2000s during the period when the eastern North Pacific gray whale population was experiencing a high mortality event and this created an apparent influx of whales into the area. The earlier estimates for 1996-1997 are biased low because the survey coverage area was much smaller but those data were included to improve estimates later in the time series. The abundance estimates since the early 2000s has been relatively stable but it increased in 2013-2015. 
+
+1 Introduction
+
+```{r intro }
+data(ER)
+pcfgwhales=unique(ER$ID[ER$Month>=6&!is.na(ER$Month)&ER$Month<=11&!ER$Region%in%c("SCA","CCA","SEAK","KAK","NAK","NPS","MX")])
+pcfgdata=ER[ER$ID%in%pcfgwhales&!is.na(ER$Month)&!ER$Region%in%c("SCA","CCA","SEAK","KAK","NAK","NPS","MX"),]
+pcfgdata=droplevels(pcfgdata)
+pcfgdata$Spring=ifelse(pcfgdata$Month%in%3:5,1,0)
+pcfgdata$pcfgtime=ifelse(pcfgdata$Month%in%6:11,1,0)
+pcfgdata=pcfgdata[pcfgdata$Spring>0 | pcfgdata$pcfgtime>0,]
+pcfgdata$ID=factor(pcfgdata$ID)
+pcfgdata$Year=factor(pcfgdata$Year)
+springtab=with(pcfgdata[pcfgdata$Spring==1,],table(ID,Year))
+springtab[springtab>0]=1
+pcfgtab=with(pcfgdata[pcfgdata$pcfgtime==1,],table(ID,Year))
+pcfgtab[pcfgtab>0]=1
+tottab=springtab+pcfgtab*2
+numyears=apply(tottab,1,function(x)length(x[x>0]))
+firstyear=sapply(apply(tottab,1,function(x)which(x>0)),min)
+areas=with(pcfgdata,table(ID,Region,Year))
+areas[areas>0]=1
+areas=apply(areas,c(1,2),sum)
+numareas=areas
+numareas[numareas>0]=1
+numareas=apply(numareas,1,sum)
+tottab=cbind(tottab,"#years"=numyears,areas,"#areas"=numareas)
+tottab[tottab==0]=NA
+tottab=tottab[order(firstyear),]
+rownames(tottab)=NULL
+
+# mua table
+data(PCFA)
+mua=with(PCFA[PCFA$Sreg %in% c("NWA","SJF"),],table(factor(ID,levels=unique(PCFA$ID)),factor(Year,levels=1996:maxyear)))
+mua[mua>0]=2
+notmua=with(PCFA[!PCFA$Sreg %in% c("NWA","SJF","SEAK","KAK"),],table(factor(ID,levels=unique(PCFA$ID)),factor(Year,levels=1996:maxyear)))
+notmua[notmua>0]=1
+all=notmua+mua
+mua.table=apply(all,1,function(x) if(any(x>1)) return(x) else return(NULL))
+mua.table=do.call("rbind",mua.table)
+cohort=apply(mua.table,1,function(x){
+    x[x>0]=1
+    x[x==0]=3000
+    return(min(x*1996:maxyear))})
+mua.table=mua.table[order(cohort),]
+mua.table[mua.table==0]=NA
+rownames(mua.table)=NULL
+
+
+ch=with(PCFA[PCFA$Year>=minyear&PCFA$Year<=maxyear&!PCFA$Region%in%c("SEAK","KAK"),], table(ID,Year)) 
+ch[ch>0]=1 
+firstyear=sapply(apply(ch,1,function(x)which(x>0)),min)
+ch=ch[(firstyear+minyear-1)<maxyear,]
+firstyear=sapply(apply(ch,1,function(x)which(x>0)),min)
+
+pcfgch=with(PCFA[PCFA$Year>=minyear&PCFA$Year<=maxyear&!PCFA$Region%in%c("SEAK","KAK"),], table(ID,Year)) 
+pcfgch[pcfgch>0]=1 
+orsvich=with(PCFA[PCFA$Year>=minyear&PCFA$Year<=maxyear&PCFA$Region%in%c("SOR","OR","GH+","MUA","SVI"),], table(ID,Year)) 
+orsvich[orsvich>0]=1 
+muach=with(PCFA[PCFA$Year>=minyear&PCFA$Year<=maxyear&PCFA$Region%in%c("MUA"),], table(ID,Year)) 
+muach[muach>0]=1 
+pcfgfirstyear=sapply(apply(pcfgch,1,function(x)which(x>0)),min)
+muafirstyear=sapply(apply(muach,1,function(x)which(x>0)),min)
+orsvifirstyear=sapply(apply(orsvich,1,function(x)which(x>0)),min)
+
+# Alaska
+AKWhales=unique(PCFA$ID[PCFA$Region%in%c("SEAK","KAK")])
+AKch=with(PCFA[PCFA$ID %in% AKWhales & PCFA$Region %in%c("SEAK","KAK"),],table(factor(ID,levels=AKWhales),factor(Year,levels=1996:maxyear)))
+AKch[AKch>0]=2
+nonAKch=with(PCFA[PCFA$ID %in% AKWhales & !PCFA$Region %in%c("SEAK","KAK"),],table(factor(ID,levels=AKWhales),factor(Year,levels=1996:maxyear)))
+nonAKch[nonAKch>0]=1
+sum(rowSums(nonAKch)>0)
+
+SEAKWhales=unique(PCFA$ID[PCFA$Region%in%c("SEAK")])
+KAKWhales=unique(PCFA$ID[PCFA$Region%in%c("KAK")])
+
+sum(rowSums(nonAKch[rownames(nonAKch)%in%SEAKWhales,])>0)/length(SEAKWhales)
+sum(rowSums(nonAKch[rownames(nonAKch)%in%KAKWhales,])>0)/length(KAKWhales)
+
+AK.table=AKch+nonAKch
+AK.table=AK.table[apply(AK.table,1,function(x) any(x%in%c(1,3))),]
+AK.table[AK.table==0]=NA
+Afirstyear=sapply(apply(AK.table,1,function(x)which(x>0)),min)
+AK.table=AK.table[order(Afirstyear),]
+
+notmua=with(PCFA[!PCFA$Sreg %in% c("NWA","SJF","SEAK","KAK"),],table(factor(ID,levels=unique(PCFA$ID)),factor(Year,levels=1996:maxyear)))
+notmua[notmua>0]=1
+all=notmua+mua
+mua.table=apply(all,1,function(x) if(any(x>1)) return(x) else return(NULL))
+mua.table=do.call("rbind",mua.table)
+cohort=apply(mua.table,1,function(x){
+    x[x>0]=1
+    x[x==0]=3000
+    return(min(x*1996:maxyear))})
+mua.table=mua.table[order(cohort),]
+mua.table[mua.table==0]=NA
+rownames(mua.table)=NULL
+
+numyears=apply(pcfgtab,1,function(x)length(x[x>0]))
+xfirstyear=sapply(apply(pcfgtab,1,function(x)which(x>0)),min)
+areas=with(pcfgdata[pcfgdata$pcfgtime==1,],table(ID,Region,Year))
+areas[areas>0]=1
+areas=apply(areas,c(1,2),sum)
+numareas=areas
+numareas[numareas>0]=1
+numareas=apply(numareas,1,sum)
+pcfgtabx=cbind(pcfgtab,"#years"=numyears,areas,"#areas"=numareas)
+pcfgtabx[pcfgtabx==0]=NA
+pcfgtabx=pcfgtabx[order(xfirstyear),]
+rownames(pcfgtabx)=NULL
+morethan8=pcfgtabx[pcfgtabx[,"#years"]>8,]
+fidelity=apply(morethan8[,(maxyear-2011)+(33:41)],1,max,na.rm=T)/morethan8[,"#years"]
+
+xx=rbind(colSums(muach),colSums(orsvich),colSums(pcfgch)) 
+xx=cbind(xx,round(matrix(rowMeans(xx),ncol=1,nrow=3)))
+colnames(xx)[ncol(xx)]="Average"
+whalesbyyear=cbind(matrix(c("MUA","OR-SVI","PCFG"),ncol=1,nrow=3),xx ) 
+colnames(whalesbyyear)[1]="Region"
+
+
+discovery=cbind(c("PCFG","ORSVI","MUA"),rbind(cumsum(table(pcfgfirstyear)),cumsum(table(orsvifirstyear)),cumsum(table(muafirstyear))))
+
+discovery.recruit=cbind(c("PCFG-recruited","ORSVI-recruited","MUA-recruited"),rbind(cumsum(table(factor(pcfgfirstyear[rowSums(pcfgch)>1],levels=1:(nyears-1)))),cumsum(table(factor(orsvifirstyear[rowSums(orsvich)>1],levels=1:(nyears-1)))),cumsum(table(factor(muafirstyear[rowSums(muach)>1],levels=1:(nyears-1))))),rep(NA,3))
+
+discovery=rbind(discovery,discovery.recruit)
+colnames(discovery)=c("Region",1996:maxyear)
+
+png("discovery.png",height=960,width=720)
+plot(1996:maxyear,cumsum(table(pcfgfirstyear)),ylim=c(0,800),xlab="Year",ylab="Number of unique whales",xaxt="n")
+points(1996:maxyear,cumsum(table(orsvifirstyear)),pch=2)
+points(1996:maxyear,cumsum(table(muafirstyear)),pch=3)
+axis(1,at=seq(1996,maxyear,1),labels=1996:maxyear)
+points(1996,625,pch=1)
+points(1996,580,pch=2)
+points(1996,525,pch=3)
+text(1996.1,625,"PCFG",pos=4)
+text(1996.1,580,"OR-SVI",pos=4)
+text(1996.1,525,"MUA",pos=4)
+dev.off()
+
+png("discoveryrecruit.png",height=960,width=720)
+plot(1996:(maxyear-1),cumsum(table(pcfgfirstyear[rowSums(pcfgch)>1])),ylim=c(0,400),xlab="Year",ylab="Number of unique whales",xaxt="n")
+points(1996:(maxyear-1),cumsum(table(orsvifirstyear[rowSums(orsvich)>1])),pch=2)
+points(1996:(maxyear-1),cumsum(table(factor(muafirstyear[rowSums(muach)>1],levels=1:(nyears-1)))),pch=3)
+axis(1,at=seq(1996,(maxyear-1),1),labels=1996:(maxyear-1))
+points(1996,300,pch=1)
+points(1996,280,pch=2)
+points(1996,260,pch=3)
+text(1996.1,300,"PCFG",pos=4)
+text(1996.1,280,"OR-SVI",pos=4)
+text(1996.1,260,"MUA",pos=4)
+dev.off()
+
+```
+
+Beginning in 1996, a collaborative effort among a number of research groups was initiated to conduct a range-wide photographic identification study of gray whales in the Pacific Northwest (Calambokidis et al. 2000; Calambokidis et al. 2002). An initial publication of findings from 1998 demonstrated there was considerable movement of individual whales among sub-areas from northern California to southeastern Alaska (which we broadly refer to as the Pacific Northwest) and also provided initial estimates of the abundance of whales within that geographical area (Calambokidis et al. 2002). The ability to look at movements and employ more sophisticated capture-recapture models, however, was restricted by the lack of multiple years of data with broad geographic coverage. A subsequent report by Calambokidis et al. (2004) characterized the group of whales feeding in these survey areas during the summer-fall period as a "Pacific Coast Feeding Aggregation" (PCFA). They proposed that a smaller area within the PCFA survey areas - from Oregon to Southern Vancouver Island (OR-SVI) - was the most appropriate area for abundance estimation for managing a Makah gray whale hunt (Calambokidis et al. 2004). Subsequently the IWC has adopted the term PCFG for Pacific Coast Feeding group so we will use PCFG in place of PCFA.
+
+This report updates information through ```r maxyear``` from a collaborative effort to collect photographic identifications of gray whales from California to Alaska has continued since 1996 and these data now cover ```r nyears``` years (1996-```r maxyear```) and span fifteen survey regions along the coast from Southern California to Kodiak, Alaska (Figure [FigMap]). We provide estimates of abundance for the summer-fall seasons (1 June to 30 November) during 1996--```r maxyear``` for survey regions between Northern California and Northern British Columbia (NCA-NBC), the region chosen by the IWC to represent the PCFG. For the National Marine Fisheries Service development of an Environmental Impact Statement, we also provide estimates for the smaller regions between Oregon and Southern Vancouver Island (OR-SVI) and Makah Usual and Accustomed area (MUA) which includes the outer coastal area of the Olympic Peninsula (NWA) and the Strait of Juan de Fuca (SJF), even though this area is quite small relative to the observed movements of whales within the PCFG.
+
+2 Methods
+
+Gray whales were photographed during small boat surveys conducted from California to Alaska by collaborating researchers (Table \ref{tab1}) between ```r minyear``` and ```r maxyear```. Gray whale identifications were divided into the following regions (Figure [FigMap]): 1) SCA: Southern California, 2) CCA: Central California, 3) NCA: Northern California, 4) SOR: Southern Oregon, 5) OR: central Oregon, 6) GH+: Gray's Harbor and the surrounding coastal waters, 7) NWA: Northern Washington coast, 8) SJF: Strait of Juan de Fuca, 9) NPS: Northern Puget Sound, 10) PS: which includes southern Puget Sound, Hood Canal (HC), Boundary Bay (BB) and San Juan Islands (SJ), 11) SVI: Southern Vancouver Island, 12) WVI: West Vancouver Island, 13) NBC: Northern Vancouver Island and coastal areas of British Columbia, 14) SEAK: Southeast Alaska, and 15) KAK: Kodiak, Alaska.  With some exceptions, research groups work primarily in one or two regions.  Details of identifications obtained by the different research groups are are summarized in Tables \ref{tab1}-\ref{tab2}. 
+
+2.1 Photographic Identification Procedures
+
+Procedures during surveys by different research groups varied somewhat but were similar to one another in identification procedures. When a gray whale was sighted, the time, position, number of animals, and behaviors were recorded. Whales were generally approached to within 40-100 m and followed through several dive sequences until suitable identification photographs and associated field notes could be obtained. 
+
+For photographic identification of gray whales, both left and right sides of the dorsal region around the dorsal hump were photographed when possible. Most identification photographs were obtained with were obtained with 35mm cameras prior to 2004 and primarily with digital SLR after 2004 with both camera types paired most often with a large 300mm lens. Researchers also photographed the ventral surface of the flukes for further identification when possible. The latter method was not as reliable since gray whales did not always raise their flukes out of the water. Markings used to distinguish whales included pigmentation of the skin, mottling, and scarring, which varied among individuals. These markings have provided a reliable means of identifying gray whales (Darling 1984). We also identified gray whales using the relative spacing between the knuckles along the ridge of the back behind the dorsal hump. The size and spacing of these bumps varies among whales and has not changed throughout the years these whales have been tracked, except with injury. Figure \ref{FigPI} shows typical photographs and features used in making gray whale identifications.
+
+Comparisons of whale photographs were made in a series of steps. All photographs of gray whales were examined and the best photograph of the right and left sides of each whale (for each sighting) were selected and printed (7 x 2.5 inch). To determine the number of whales seen during the year, the prints were then compared to one another to identify whales seen multiple days. Finally a comparison was made to the CRC catalog of whales seen in past years. Whale photographs that were deemed of suitable quality but did not match our existing catalog (compared by two independent persons) were considered "unique" identifications and assigned a new identification number and added to the catalog.
+
+2.2 Data Analysis
+
+The abundance of gray whales was estimated with open population models for three nested spatial scales consisting of contiguous survey regions (Figure \ref{FigMap}; Table \ref{tab:regions}) 1) NCA-NBC: the coastal survey regions from Northern California (NCA) through Northern Vancouver Island/British Columbia (NBC) which matches the IWC definition of the PCFG,  2) OR-SVI: survey regions from southern Oregon through Southern Vancouver Island (SVI) identified in the Makah waiver request, and 3) MUA - survey regions NWA and SJF. Inland waters in WA (other than SJF) and in BC are excluded from the abundance estimates because these are used primarily by transient whales in the northward spring migration.
+
+Gray whales photographed and identified anytime during the period between 1 June and 30 November (hereafter referred to as the "sampling period") within the defined region were considered to be "captured" or "recaptured". For each unique gray whale photographed, a capture history was constructed using ```r nyears``` years of data from ```r minyear```-```r maxyear```. For example, the capture history 00010010010000000000 could represent a gray whale photographed in 1999, 2002 and 2005 in the PCFG. The same gray whale may have had a capture history 00010010000000000000 for a smaller spatial scale such as OR-SVI or may not have been seen at all (00000000000000000000) and would not be used at the smaller spatial scale. 
+
+Multiple "detections" of a single whale within the sampling period were not treated differently than a single detection. A "1" in the capture history meant that it was detected on at least one day during the sampling period. However, multiple detections in the same year were used to construct an observed minimum tenure (MT) for each whale. MT was defined as the number of days between the earliest and latest date the whale was photographed with a minimum of one day for any whale seen.
+
+We fitted open population models to the ```r nyears``` yearly time series of capture history data for each spatial scale to estimate abundance and survival. Open models allow gains due to births/immigration and losses due to deaths/emigration. Using the RMark interface (Laake et 2014) to program MARK (White et al. 1999), we fitted a range of models to the data using the POPAN model structure. The POPAN model structure (Schwarz et al. 1996) provides a robust parametrization of the Jolly-Seber (JS) model structure in terms of a super population size (N), probability of entry parameters (immigration), capture probability ($p$), and survival/permanent emigration ($\phi$ ). 
+
+It is essential to consider the population structure and its dynamics to build adequate models. In particular, we know from previous analysis of a subset of these data (Calambokidis et al. 2004) that some whales were seen in only one year between 1 June and 30 November and were never seen again. Transient behavior is a well-known problem in capture-recapture models and it is often addressed using a robust design which involves coordinated multiple capture occasions within each year and typically assumes closure within the sampling period (June-November). Region-wide coordinated surveys may be possible but would be difficult with variation in weather conditions. Also, the closure assumption within the year would be suspect due to variable timing of whales arrivals and departures into the PCFG, so it would require nested open models. We know from prior analysis that whales newly seen in year (y) were less likely to return (i.e., seen at some year >y) than previously seen whales but also newly seen whales that stayed longer during their first year (i.e., longer MT) in the PCFG were more likely to return. Likewise, previously seen whales were more likely to be seen in the following year (y+1), if they had a longer MT in year y. Calambokidis et al. (2004) postulated that these observations were consistent with whale behavior that was determined by foraging success. 
+
+Transient behavior in which an animal is seen only once can be modeled by including a different "first year" survival (Pradel et al. 1997) for the newly seen animals. Survival in the time interval after being first seen is dominated by permanent emigration rather than true mortality. Survival in subsequent time intervals represents true survival under the assumption that animals do not permanently emigrate except in their first year. Pradel et al. (1997) were working with release-recapture data (Cormack-Jolly-Seber) where modeling this transient effect on survival is straightforward. For a Jolly-Seber type analysis where the first capture event is also modeled, the inclusion of a transient effect is less easily accommodated. 
+
+We divided the whales into cohorts based on the year in which they were first seen ("newly seen"). In the model, their first year survival could differ from subsequent annual survival as in Pradel et al. (1997). "Newly seen" is not a particularly useful concept for the first year of the study (```r minyear```), because all whales were being seen for the first time. The survey effort and coverage in 1996 and 1997 were not nearly as expansive as 1998 and later. We considered models that had three different first year survivals (1996&97, 1998, and >1998) and we also considered a model that allowed for a different first year survival for each year (cohort) to allow for different transient proportion in each year. The first year survival was also allowed to vary as a function of MT with a model in which the relationship was constant across years and varied for (1996&97, 1998, and >1998). We also considered models that allowed a different first-year survival for whales identified as calves under the presumption that their true survival might be lower but that their probability of returning to the PCFG might be higher. Discussion at the 2012 intersessional AWMP meeting led to consideration of an additional covariate which split whales into 2 groups for estimation of post-first-year survival. Whales seen initially as calves and any whale newly seen in 1998 or was in the CRC catalog because it had been seen prior to 1998 were put in one group and the remaining whales newly seen in 1999 or later were put in another group. The expectation was that the first group would have higher post-first-year survival because many of the newly seen whales that entered after the stranding event in 1999/2000 might eventually emigrate. When this covariate was included it made such a large improvement that any model without it would have no support. Therefore, it was included in all 10 models for survival (Table \ref{tabmodels}).
+
+In Calambokidis et al. (2010) we estimated a cohort-specific super-population size for each cohort using the median MT covariate value for unseen whales but during the April 2011 AWMP meeting it became apparent that this may lead to bias in estimating abundance. Therefore, we used the method outlined in the 2011 AWMP report which is similar to the method used by Calambokidis et al. (2004) in that we assume that all whales in the PCFG for the first year are seen so the super-population size for each cohort is the number seen and thus there are no unknown covariate values. We fixed capture probability (p) and probability of entry (pent) to 1 for each cohort in their entry year. We are not interested in the number of transient whales so we used an estimator of abundance for non-transient whales (2011 AWMP report) which is a modification of the Jolly-Seber estimator which for any year can be expressed as:
+
+$\hat{N}=n/\hat{p}=(u+m)/\hat{p}$  
+
+where $n=u+m$ , $n$ is the number seen in a year being composed of new animals ($u$ =unmarked) and previously seen animals ($m$ =marked), and $\hat{p}$ is the capture probability estimate. For the PCFG we are assuming that any new whale is sighted ($p=1$) and we are only interested in estimating the abundance of whales that will remain part of the PCFG which is the portion of the new whales that do not permanently emigrate from the PCFG. We can modify the estimator for year $j$ as follows:
+
+$\hat{N_{j}}=u_{j}\hat{\phi}_{j}+m_{j}/\hat{p_{j}}$
+
+ where $\phi_{j}$ is the first year survival rate of "new" whales. When $\phi$ and $p$ contain whale specific covariates like minimum tenure (MT) the estimator becomes:
+
+$\hat{N_{j}}={ \sum_{i=1}^{u_{j}}\hat{\phi}_{ij}+{ \sum_{i=1}^{m_{j}}1/\hat{p}_{ij}}}$.
+
+To obtain an abundance estimate for ```r maxyear```, we assumed that the parameter for first year survival intercept in that year was the same as in ```r maxyear-1```. A variance-covariance matrix for the abundance estimates was constructed using the variance estimator in Borchers et al. (1998) for a Horvitz-Thompson type estimator with an adaptation for the first component of the abundance estimator for prediction of number of new whales that do not permanently emigrate.  For the estimated capture probabilities ($p$) not fixed to 1, we fitted 3 models that varied by time (year) and/or varied by MT in the previous year (Table \ref{tabmodels}).
+
+We used Test 2 and Test 3 results from the Cormack-Jolly-Seber structure (Lebreton et al. 1992) as a general goodness of fit for the global model and as a measure of possible over-dispersion creating the lack of fit. We fitted each combination of models for $\phi$ (survival) and $p$ (capture probability) and used AICc (Burnham et al. 2002) to select the most parsimonious model of the 30 fitted models. Model averaging was used for all models to compute estimates and unconditional standard errors and confidence intervals.
+
+3 Results
+
+The database contains ```r nphotos``` records for whales photographed between ```r minyear``` to ```r maxyear``` from California to Kodiak, Alaska; however ```r nphotos-nsightings``` are replicate identifications of whales on the same day. We define a sighting as one or more photographs of a whale on a day. The number of sightings varied annually from ```r min(year.photos)``` and ```r max(year.photos)``` with a total of ```r sum(year.photos)``` sightings of ```r nwhales``` unique gray whales (Table \ref{tab1). The average number of sightings/whale was ```r as.numeric(formatC(nsightings/nwhales,3))``` (range: 1- ```r max(table(ERd$ID))```). Identifications were made throughout the year but with most effort from June to September. Number of sightings were most numerous in NCA, SVI, WVI, and NBC and (Table \ref{tab2}). The number of uniquely identified whales was greatest in NCA, NWA, SVI and WVI (Table \ref{tab2}).
+
+3.1 Seasonal Sighting Patterns
+
+```{r seasonal}
+
+#  Seasonality code
+data(ER)
+opt=options()
+oldwhales=unique(ER$ID[ER$Year<minyear])
+data(ER)
+opt=options()
+oldwhales=unique(ER$ID[ER$Year<minyear])
+ER=ER[ER$Year>=minyear&!ER$Region%in%c("MX","NAK"),]
+ER=ER[!duplicated(subset(ER,select=c("ID","Date"))),]
+
+ER$spring=0 
+ER$spring[ER$Month<7|ER$Month==12]=1 
+spring.tab=table(ER$ID,ER$spring)
+spring.whales=sum(spring.tab[,2]>0&spring.tab[,1]==0)
+spring.whales.once=sum(spring.tab[(spring.tab[,2]>0&spring.tab[,1]==0),2]==1)
+not.spring.whales=sum(spring.tab[,1]!=0)
+not.spring.whales.once=sum(spring.tab[spring.tab[,1]!=0,1]==1)
+spring.tab=table(ER$ID[!ER$Sreg%in%c("KAK","SEAK")],ER$spring[!ER$Sreg%in%c("KAK","SEAK")])
+not.spring.whales.noak=sum(spring.tab[,1]!=0)
+not.spring.whales.once.noak=sum(spring.tab[spring.tab[,1]!=0,1]==1)
+ER=ER[!duplicated(subset(ER,select=c("ID","Date"))),]
+
+ER$spring=0 
+ER$spring[ER$Month<6|ER$Month==12]=1 
+spring.tab=table(ER$ID,ER$spring)
+spring.whales=sum(spring.tab[,2]>0&spring.tab[,1]==0)
+spring.whales.once=sum(spring.tab[(spring.tab[,2]>0&spring.tab[,1]==0),2]==1)
+not.spring.whales=sum(spring.tab[,1]!=0)
+not.spring.whales.once=sum(spring.tab[spring.tab[,1]!=0,1]==1)
+spring.tab=table(ER$ID[!ER$Sreg%in%c("KAK","SEAK")],ER$spring[!ER$Sreg%in%c("KAK","SEAK")])
+not.spring.whales.noak=sum(spring.tab[,1]!=0)
+not.spring.whales.once.noak=sum(spring.tab[spring.tab[,1]!=0,1]==1)
+
+ER$year=factor(ER$Year)
+ER$old=0
+ER$old[ER$ID%in%oldwhales]=1
+ch.ER=create.chmat(ER)
+xx=merge(ER,subset(ch.ER,select=c("ID","times.sighted.morethanonce","years.sighted.morethanonce","regions.sighted.morethanone")))
+xx$inside=0
+xx$inside[xx$Region%in%c("NPS","SJF","SVI")]=1
+xx$inside[xx$Region%in%c("NWA")]=2
+xx$inside=factor(xx$inside)
+levels(xx$inside)=c("Other areas","NPS,SJF,SVI","NWA")
+options(digits=3)
+count.whales=function(x,var)
+{
+  if(nrow(x)<20)return(0)
+  ch=table(x[,"ID"],x[,var])
+  ch[ch>0]=1
+  if(all(x[,var]==0))
+  return(0)
+  else
+  if(all(x[,var]==1))
+  return(1)
+  else
+  return(mean(ch[,2]))
+}
+
+#  All Areas -- 3 statistics ################
+nn=with(xx,tapply(regions.sighted.morethanone,list(Month),length))
+# times sighted
+zz=with(xx,sapply(split(xx,Month),count.whales,var="times.sighted.morethanonce"))
+zz[nn<20]=NA
+zz=data.frame(Month=1:12,Proportion=zz)
+zz$type="Times Sighted >1"
+zz1=with(xx,sapply(split(xx,Month),count.whales,var="years.sighted.morethanonce"))
+zz1[nn<20]=NA
+zz1=data.frame(Month=1:12,Proportion=zz1)
+zz1$type="Years Sighted >1"
+zz2=with(xx,sapply(split(xx,Month),count.whales,var="regions.sighted.morethanone"))
+zz2[nn<20]=NA
+zz2=data.frame(Month=1:12,Proportion=zz2)
+zz2$type="Regions Sighted >1"
+zz=rbind(zz,zz1,zz2)
+zz$Month=factor(zz$Month)
+zz$type=factor(zz$type)
+suppressMessages({
+seasonal.plot1=ggplot(zz,aes(Month,Proportion))+geom_bar(position="dodge",stat="identity")+facet_grid(type~.)+labs(y="Proportion\n",x="\nMonth")})
+
+
+###################  By region - each satistic ##########################################################
+nn=with(xx,tapply(regions.sighted.morethanone,list(inside,Month),length))
+# times sighted 
+zz=with(xx,sapply(split(xx,list(inside,Month)),count.whales,var="times.sighted.morethanonce"))
+zz[nn<20]=NA
+zz=data.frame(Region=rep(levels(xx$inside),times=12),Month=rep(1:12,each=3),Proportion=zz) 
+zz$type="Times Sighted >1" 
+
+zz1=with(xx,sapply(split(xx,list(inside,Month)),count.whales,var="years.sighted.morethanonce"))
+zz1[nn<20]=NA
+zz1=data.frame(Region=rep(levels(xx$inside),times=12),Month=rep(1:12,each=3),Proportion=zz1) 
+zz1$type="Years Sighted >1" 
+
+zz2=with(xx,sapply(split(xx,list(inside,Month)),count.whales,var="regions.sighted.morethanone"))
+zz2[nn<20]=NA
+zz2=data.frame(Region=rep(levels(xx$inside),times=12),Month=rep(1:12,each=3),Proportion=zz2) 
+zz2$type="Regions Sighted >1" 
+zz=rbind(zz,zz1,zz2)
+zz$Month=factor(zz$Month)
+zz$type=factor(zz$type)
+seasonal.plot2=ggplot(zz,aes(Month,Proportion))+geom_bar(position="dodge",stat="identity")+facet_grid(type~Region)+labs(y="Proportion\n",x="\nMonth") 
+
+options(opt) 
+# Whales in MUA during spring
+data(PCFA) 
+data(ER)
+ER=ER[ER$Year>=minyear,] 
+PCFA=PCFA[PCFA$Year>=minyear,] 
+ER=ER[!duplicated(subset(ER,select=c("ID","Date"))),]
+ER=ER[ER$Month<=5,]
+springwhalesNWA=ER$ID[ER$springNWA==1&ER$Sreg=="NWA"]
+springwhalesSJF=ER$ID[ER$springSJF==1&ER$Sreg=="SJF"]
+springwhalesNWA.PCFA=springwhalesNWA[springwhalesNWA%in%unique(PCFA$ID[!PCFA$Region%in%c("KAK","SEAK")])]
+springwhalesNWA.ORSVI=springwhalesNWA[springwhalesNWA%in%unique(PCFA$ID[PCFA$Region%in%c("SOR","OR","GH+","MUA","SVI")])]
+springwhalesNWA.MUA=springwhalesNWA[springwhalesNWA%in%unique(PCFA$ID[PCFA$Region%in%c("MUA")])]
+springwhalesSJF.PCFA=springwhalesSJF[springwhalesSJF%in%unique(PCFA$ID[!PCFA$Region%in%c("KAK","SEAK")])]
+xx=with(PCFA[PCFA$ID%in%springwhalesNWA.PCFA,],apply(table(ID,Region),2,function(x)sum(x>0)))/length(unique(springwhalesNWA.PCFA))
+xx=data.frame(Region=factor(names(xx),levels=names(xx)),Proportion=as.vector(xx))
+spring.plot=ggplot(xx,aes(Region,Proportion))+geom_bar(position="dodge",stat="identity")+  labs(y="Proportion of whales sighted in each region\n",x="\nRegion") 
+xxNWA=with(PCFA[PCFA$ID%in%springwhalesNWA.PCFA&PCFA$Sreg%in%c("SJF","NWA"),],table(ID,Sreg))
+SS.SJF=length(xxNWA[xxNWA[,"SJF"]>0,"SJF"])
+SS.NWA=length(xxNWA[xxNWA[,"NWA"]>0,"NWA"])
+SS.NWASJF=length(xxNWA[xxNWA[,"SJF"]>0 & xxNWA[,"NWA"]==0,"NWA"])
+xch=with(PCFA[!PCFA$Sreg%in%c("SEAK","KAK"),],table(ID,Year))
+xch[xch>0]=1
+years.seen=t(t(xch)*(1996:maxyear))
+seenonce=rowSums(xch)==1
+seenatleast2x=rowSums(xch)>1
+id.2x=as.numeric(names(seenatleast2x[seenatleast2x]))
+id.once= as.numeric(names(seenonce[seenonce])) 
+springwhalesNWA.PCFA.2x=springwhalesNWA[springwhalesNWA%in%unique(PCFA$ID[!PCFA$Region%in%c("KAK","SEAK")])&springwhalesNWA%in%id.2x]
+
+```
+Whales have been photographed in every month of the year (Table \ref{tab2b}) but with very few during December-February when most of the whales are in or migrating to Mexico and survey effort is reduced. Previous analysis of these data have always used 1 June - 30 November as the sampling period to describe the whales in the PCFG because whales seen prior to 1 June and after 30 November are more likely to be whales that are migrating through the region. The southbound migration starts in December and the separation between May and June is clearly supported by the data. For example, of the ```r nwhales``` unique whales sighted from California to Kodiak, Alaska, ```r spring.whales``` whales were only seen between 1 Dec - 31 May and ```r 100*(as.numeric(formatC(spring.whales.once/spring.whales,3)))```% of those were only sighted once (one day). Of the ```r not.spring.whales``` whales sighted between 1 June -30 November at some time, ```r 100*(as.numeric(formatC(not.spring.whales.once/not.spring.whales,3)))```% were only sighted once (one day). If sightings in Alaska are excluded, then only ```r 100*(as.numeric(formatC(not.spring.whales.once.noak/not.spring.whales.noak,3)))```% of the ```r not.spring.whales.noak``` were seen only once (one day). 
+
+The break between May and June is apparent in various measures such as proportion of whales sighted more than once, sighted in more than one region, and sighted in more than one year (Figure [Fig1]). However, the break is more apparent if we separate out SJF, NPS and SVI from the other survey regions (Figure [Fig2]). The difference across months is not as strong for inland waters of Washington and British Columbia (NPS, SJF) because these are whales that have diverted from the migration and are either more likely to remain after 1 June or demonstrate high year-to-year fidelity during spring such as with NPS. Also, even though Southern Vancouver Island (SVI) is in the main migration corridor and not an inland water, the pattern across months is also weaker because the sampling has been focused on the spring herring spawn in Barkley Sound (effectively an inland waterway) and has purposefully undersampled passing migrant whales (Brian Gisborne, pers. comm.). The break between May and June is much more apparent for NWA and the other areas in the migration corridor which is consistent with the northbound migration of gray whales proceeding past Washington through May. Resighting rates of whales seen after 1 June remained high through November.
+
+The proposed Makah gray whale hunt in the MUA area (NWA and SJF) may occur in NWA after 30 November and prior to 1 June. A hunt conducted in spring (March-May) potentially could take whales from the PCFG although those chances are less in NWA than in SJF. There have been ```r length(springwhalesNWA)``` whale sightings (a unique whale-day) in NWA prior to 1 June of which ```r (as.numeric(formatC(100*length(springwhalesNWA.PCFA)/length(springwhalesNWA),digits=4)))```% (```r length(springwhalesNWA.PCFA)```) were of whales that were seen in the PCFG after 1 June at sometime. If we restrict the comparison to whales seen in at least 2 years in the PCFG, then the percentage is only reduced to ```r (as.numeric(formatC(100*length(springwhalesNWA.PCFA.2x)/length(springwhalesNWA),digits=4)))```% (```r length(springwhalesNWA.PCFA.2x)```). If we restrict the area, only ```r (as.numeric(formatC(100*length(springwhalesNWA.ORSVI)/length(springwhalesNWA),digits=4)))```% (```r length(springwhalesNWA.ORSVI)```) were of whales that were seen in OR-SVI after 1 June at some time, and ```r (as.numeric(formatC(100*length(springwhalesNWA.MUA)/length(springwhalesNWA),digits=4)))```% (```r length(springwhalesNWA.MUA)```) were of whales that were seen in MUA after 1 June at some time (Figure [Fig3]).  In comparison, ```r length(springwhalesSJF)``` whale sightings were in SJF prior to 1 June of which ```r 100*(as.numeric(formatC(length(springwhalesSJF.PCFA)/length(springwhalesSJF),digits=0)))```% (```r length(springwhalesSJF.PCFA)```) were of whales that were seen in the PCFG after 1 June at sometime, emphasizing the importance of restricting a hunt to coastal waters of the MUA (i.e., the NWA) to limit the take of whales from the PCFG. 
+
+Capture (sighting) histories of whales seen at least once in the PCFG from 1 June - 30 November are provided in Appendix Table \ref{apptab1} which show sightings of whales in 1 Mar -31 May only, 1 June - 30 Nov only and in both time periods within a year.
+
+3.2 Regional Sighting Patterns
+
+```{r regional}
+
+#  Population structure code
+data(PCFA)
+PCFA$Region=as.character(PCFA$Region)
+#PCFA$Region[PCFA$Region%in%c("MUA","SVI")]="MUA-SVI"
+PCFA$Region=factor(PCFA$Region,levels=c("NCA","SOR","OR","GH+","MUA","SVI","WVI","NBC","SEAK","KAK"))
+#PCFA$Region=factor(PCFA$Region,levels=c("NCA","SOR","OR","GH+","MUA-SVI","WVI","NBC","SEAK","KAK"))
+xx=with(PCFA,table(ID,Year))
+xx[xx>0]=1
+seen2x=as.numeric(rownames(xx[rowSums(xx)>1,]))
+core.interchange=movement.table(PCFA)[,5]
+core.interchange[5]=NA
+xx=data.frame(Region=factor(names(core.interchange),levels=names(core.interchange)),Proportion=core.interchange)
+row.names(xx)=NULL
+pop.structure=ggplot(xx,aes(Region,Proportion))+geom_bar(position="dodge",stat="identity")+labs(y="Proportion\n",x="\nRegion") 
+core.interchange2x=movement.table(PCFA[PCFA$ID%in%seen2x,])[,5]
+core.interchange2x[5]=NA
+xx=data.frame(Region=factor(names(core.interchange2x),levels=names(core.interchange2x)),Proportion=core.interchange2x)
+row.names(xx)=NULL
+pop.structure2x=ggplot(xx,aes(Region,Proportion))+geom_bar(position="dodge",stat="identity")+labs(y="Proportion\n",x="\nRegion") 
+
+library(argosfilter)
+library(plyr)
+data(ER)
+positions=ER[!(is.na(ER$Lat)|is.na(ER$Lon) | ER$Lat==0 | ER$Lon==0)&ER$Month>5&ER$Year>=minyear,]
+positions=positions[order(positions$ID,positions$Date),]
+positions=positions[!duplicated(subset(positions,select=c("ID","Date"))),]
+# Latitude ranges 
+qm=function(alpha,smin) 
+{    
+if(alpha==0)
+  ll<<-ddply(positions,.(ID),function(x) c(min(x$Lat),max(x$Lat),median(x$Lat))) 
+else   
+ ll<<-ddply(positions,.(ID),function(x) quantile(x$Lat,c(alpha/2,1-alpha/2,.5))) 
+cc<<-ddply(positions,.(ID),nrow) 
+zz<<-ll[cc[,2]>smin,] 
+lrange=60*abs(zz[,2]-zz[,3]) 
+cumsum(hist(lrange,breaks=c(0,15,30,60,180,360,600,max(lrange)),plot=FALSE)$counts/nrow(zz))
+} 
+smin=5 
+dd=qm(.25,smin)
+lrange=60*abs(zz[,2]-zz[,3]) 
+lat.cdf=data.frame(range=factor(c(">15",">30",">60",">180",">360",">600"),levels=c(">15",">30",">60",">180",">360",">600")),cdf=1-c(cumsum(hist(lrange,breaks=c(0,15,30,60,180,360,600,max(lrange)),plot=FALSE)$counts/nrow(zz))[1:6])) 
+range.plot=ggplot(lat.cdf,aes(range,cdf))+geom_bar(position="dodge",stat="identity")+labs(y="Proportion of whales with larger range\n",x="\nRange (Nmi)")
+cut=c(41,42.107,44.53,46.88,47.8,48.43,49.04,50.789,51.89)
+lat.breaks=data.frame(Region=factor(c("NCA","SOR","OR","GH+","MUA","SVI","WVI","NBC"),levels=c("NCA","SOR","OR","GH+","MUA","SVI","WVI","NBC")),start=cut[1:8],end=cut[2:9])
+yy=zz[order(floor(zz[,2]/.5),zz[,3]),]
+yy[yy[,3]>53,3]=53
+yy[yy[,2]<40,2]=40
+save.zz=zz 
+id.df=data.frame(ID=yy[,1],ID2=1:nrow(yy))
+lat.points=merge(subset(positions,select=c("ID","Lat")),id.df)
+yy[,1]=1:nrow(yy)
+yy=data.frame(ID=rep(yy[,1],2),Lat=c(yy[,2],yy[,3]))
+#p<-ggplot(yy,aes(Lat,factor(ID)))+scale_x_continuous(breaks=40:52)+
+	#geom_rect(aes(NA,NA,xmin=start,xmax=end,fill=Region),alpha=0.2,colour=gray(.6),ymin=1,ymax=nrow(yy)/2,data=lat.breaks)+ 
+	#scale_fill_manual(values=rainbow(8),guide="none")+scale_y_discrete(breaks=NULL)+xlab("Latitude\n")+ylab("")+
+#	geom_text(aes(x=start,y=nrow(yy)/2+1,label=Region),data=lat.breaks,size=3,hjust=0,vjust=0) + 
+	#geom_point(aes(Lat,ID2),alpha=.2,shape=15,size=.75,show.legend=FALSE,data=lat.points)+geom_line(colour="red")
+#dd=qm(0,smin) 
+#yy=zz[order(floor(save.zz[,2]/.5),save.zz[,3]),] 
+#yy[yy[,3]>53,3]=53 
+#yy[yy[,2]<40,2]=40
+#yy[,1]=1:nrow(yy)
+#yy=data.frame(ID=rep(yy[,1],2),Lat=c(yy[,2],yy[,3])) 
+#movement.plot=p + geom_line(aes(Lat,factor(ID)),linetype=2,data=yy,alpha=0.2)+coord_flip() 
+
+data(PCFA)
+PCFA=PCFA[PCFA$Year>=minyear,]
+PCFA$year=factor(PCFA$Year)
+# NCA to NBC
+PCFA.NBC=PCFA[PCFA$NCA.NBC==1,]
+PCFA.NBC$Region=factor(PCFA.NBC$Region,levels=c("NCA","SOR","OR","GH+","MUA","SVI","WVI","NBC"))
+ch.nbc=create.chmat(PCFA.NBC)
+PCFA.NBC=merge(PCFA.NBC,ch.nbc,by="ID")
+
+xx=with(ch.nbc,tapply(sightings/number.years.seen,number.years.seen,mean))
+xx1=data.frame(number.years=as.numeric(names(xx)),type="Sightings per year",value=xx)
+
+xx=with(ch.nbc,tapply(sightings,number.years.seen,length))
+xx2=data.frame(number.years=as.numeric(names(xx)),type="Percent of whales",value=100*xx/sum(xx))
+
+xx=with(ch.nbc,tapply(sightings,number.years.seen,sum))
+xx3=data.frame(number.years=as.numeric(names(xx)),type="Percent of sightings",value=100*xx/sum(xx))
+
+xx=rbind(xx1,xx2,xx3)
+
+Johns.plot=ggplot(xx,aes(number.years,value))+facet_grid(type~.,scales="free")+geom_bar(stat="identity")+ylab("")+xlab("\nNumber of years seen")
+
+x=PCFA.NBC
+minstay=tapply(x$Date,list(x$ID,x$Year),max)-tapply(x$Date,list(x$ID,x$Year),min)+1
+minstay[is.na(minstay)]=0 
+#id.year.reg=table(list(x$ID,x$Year,x$Region))
+#sightings.per.id=apply(id.year.reg,1,sum)
+#dd=as.data.frame(id.year.reg) 
+#dd=dd[dd$Freq>0,] 
+#names(dd)=c("ID","Year","Region","Freq")
+# Minimum tenure and resight probability exclude.cohort=max(x$Year) 
+exclude.cohort=max(x$Year)
+xx=ch.nbc[!ch.nbc$cohort%in%exclude.cohort,] 
+xx$fac=cut(as.numeric(xx$cohort),c(0,2,3,30))
+levels(xx$fac)=c("First seen 1996-1997","First seen 1998","First seen after 1998") 
+xx=ddply(xx,.(fac,cut(minstay, c(0, 1, 14, 28, 60, 100, 200))),function(x) mean(x$times.resighted>0))
+names(xx)[2:3]=c("MT","Proportion.resighted") 
+MT.plot = ggplot(xx, aes(MT,Proportion.resighted))+geom_bar(stat="identity")+facet_grid(fac~.)+ylab("Proportion of whales resighted\n")+xlab("\nMinimum tenure in first year (days)")
+
+```
+There is considerable variation in the annual regional distribution of numbers of whales photographed during the sampling period (Table \ref{tab2a}) which is in part due to variation in effort. Although not a true measure of effort, the number of days whales were seen (Table \ref{tab2c}) does reflect the amount of effort as well as abundance of whales. In particular, in comparison to other regions, the large number of sightings in SVI partly reflects large numbers of sampling days by Brian Gisborne who has routinely sampled SVI from summer through fall on almost a daily basis. On the other hand, the decline in sightings in SVI during 2007 was not due to reduced effort but to the distribution of whales with many of the whales having moved to waters off Oregon and Washington (Calambokidis et al. 2009). Similarly, there were 40 survey days in SJF in 2010 but only 4 whales were seen on 4 different days (Table \ref{tab2a}, Table \ref{tab2c}) so this drop relative to other years was not due to lack of effort.
+
+Whales were sighted across various survey regions and the interchange of whales (Table \ref{tab7}) between survey regions during 1 June - 30 November depends on proximity of the regions (Calambokidis et al. 2004). During 1 June-30 November for ```r minyear``` to ```r maxyear```, ```r nrow(pcfgch)``` unique whales were seen in the PCFG range and ```r formatC(100*nrow(orsvich)/nrow(pcfgch),digits=3)```% (```r nrow(orsvich)``` of the ```r nrow(pcfgch)``` whales seen in the PCFG range) were seen within the smaller OR-SVI region and approximately ```r formatC(100*nrow(muach)/nrow(pcfgch),digits=3)```% (```r nrow(muach)``` of the ```r nrow(pcfgch)``` whales seen in the PCFG range) were seen within the smaller MUA area; however, there is variation in interchange between areas in the PCFG and the MUA. Of the whales sighted in regions from NCA to NBC, from ```r formatC(min(core.interchange[c(2:4,6:8)])*100,format="f",digits=1)```% to ```r formatC(max(core.interchange[c(2:4,6:8)])*100,format="f",digits=1)```% of the whales were seen at some point within MUA  (Figure \ref{Fig4}). If we exclude transients (whales seen in only one year), the interchange rates with MUA are much higher but the pattern is similar (Figure \ref{Fig4b}) with a range of ```r formatC(min(core.interchange2x[c(2:4,6:8)])*100,format="f",digits=1)```% to ```r formatC(max(core.interchange2x[c(2:4,6:8)])*100,format="f",digits=1)```%. Appendix Table \ref{apptab2} provides capture histories using data from 1 June - 30 Nov of whales seen in the MUA at least once. For each year, the table shows whether the whale was sighted in PCFG but not in the MUA during that year, only seen in MUA that year, and seen in both MUA and another PCFG area in that year.
+
+Whales seen in the PCFG exhibited a wide range of movement across and within years. The ```r nrow(morethan8)``` whales seen in 9 or more years provide a useful example. None of those whales was seen exclusively in a single region, and ```r formatC(100*nrow(morethan8[morethan8[,"#areas"]>4,])/nrow(morethan8),digits=3)```% were seen in at least 4 of the 9 survey regions from ```r minyear``` to ```r maxyear```. However, whales did regularly visit the same regions across years with ```r formatC(100* sum(apply(morethan8[,(maxyear-2011)+(33:41)],1,max,na.rm=T)>=6)/nrow(morethan8),digits=3)```% were seen in at least one of the regions during six or more of the years they were seen and ```r formatC(100* length(fidelity[fidelity>=.6666])/nrow(morethan8),digits=3)```% were seen in a region two-thirds or more of the years they were seen. SVI was the region with the maximum number of years seen for ```r sum(apply(morethan8[,(maxyear-2011)+(33:41)],1,which.max)==7)``` of the ```r nrow(morethan8)``` whales, which in part reflects the larger amount of survey effort in SVI (Calambokidis et al. 2004a, Calambokidis et al. 2013). Thus, some whales regularly visit particular regions more often than others, but they are seen across the other regions as well. 
+
+Some of the whales not seen in the PCFG in a year were seen in Kodiak and Southeast Alaska (Table \ref{tab3}). Of the ```r length(SEAKWhales)``` whales identified in Southeast Alaska and the ```r length(KAKWhales)``` whales identified in Kodiak, Alaska, ```r sum(rowSums(nonAKch[rownames(nonAKch)%in%SEAKWhales,])>0)``` (```r formatC(100*sum(rowSums(nonAKch[rownames(nonAKch)%in%SEAKWhales,])>0)/length(SEAKWhales) ,digits=3)```%) and ```r sum(rowSums(nonAKch[rownames(nonAKch)%in%KAKWhales,])>0)``` (```r formatC(100*sum(rowSums(nonAKch[rownames(nonAKch)%in%KAKWhales,])>0)/length(KAKWhales),digits=3)```%), respectively have been seen farther south in the PCFG. For example, whale 130 was only seen in Southeast Alaska in 1999, but had been seen in every other year in the PCFG. Likewise, whale 232 was only seen in Kodiak in 2002, but was seen along Vancouver Island in 2000, 2001, and 2003 but then wasn't seen again until 2011 and may have been somewhere in Alaska waters. Whale 152 was photo-identified in Kodiak in 2002, 2005 and 2010, but was seen in the PCFG as early as 1995 in the Cape Caution, British Columbia, area, and in 1992 in the Clayoquot Sound, British Columbia, survey area but has not been seen in the PCFG after 1 June since 1999, when it was seen along the west coast of Vancouver Island for most of the summer/fall. Another example is Whale 68, which was seen in northern Washington during 1996 and 1997 and then was seen in Southeast Alaska in 1998 and 1999 but not subsequently. While these are only a few examples of whale movements, they illustrate the extensive inter-year movement of whales, which partially explains the gaps in the observations for some whales and the disappearance of others from the PCFG. Whales not seen in a particular year represent a combination of whales that may have spent little time in the PCFG (perhaps primarily staying in some of these neighboring feeding areas) and whales that may have used been missed in the PCFG (coverage of the PCFG is not complete and is concentrated in particular areas and along the coastal zone). 
+
+If we look at latitudes of sightings of individual whales across the ```r nyears``` years using whales that have been sighted on at least 6 different days (Figure \ref{Fig7}), we see that sightings of some whales are highly clustered; whereas, sightings of other whales are highly dispersed across several regions. We defined each whales primary range by the 75% inner quantile which is the middle of the range that includes 75% of the locations. The length of the 75% inner quantile in nautical miles exceeded 60 nautical miles (or 1 degree of latitude) for ```r formatC(lat.cdf$cdf[3]*100,format="f",digits=1)```% of the whales (Figure \ref{Fig8}) and it was more than 180 nautical miles for more than ```r formatC(lat.cdf$cdf[4]*100,format="f",digits=1)```% of the whales. Thus, it makes little sense to compute an estimate of abundance for any region that spans less than a degree of latitude.
+
+3.3 Annual Sighting Patterns
+
+The average number of whales identified in any one year was ```r whalesbyyear[3,nyears+2]```, ```r whalesbyyear[2,nyears+2]```, and ```r whalesbyyear[1,nyears+2]``` for the PCFG, OR-SVI, and MUA, respectively (Table \ref{tab4}). However, those numbers do not represent the total numbers of whales that use each of these areas because not all whales using a region in a year are seen, not all whales return to the same region each year, and not all of the whales return to the PCFG region each year. The annual average number of newly seen whales (excluding 1996-1998 when the photo-id effort expanded to cover all survey regions) was ```r formatC(mean(table(pcfgfirstyear)[-(1:3)]),digits=3)```, ```r formatC(mean(table(orsvifirstyear)[-(1:3)]),digits=3)```, and ```r formatC(mean(table(muafirstyear)[-(1:3)]),digits=3)``` for PCFG, OR-SVI, and MUA, respectively. The annual average number of newly seen whales that were "recruited" (seen in a subsequent year), excluding 1996-1998 and ```r maxyear```, was ```r formatC(mean(table(pcfgfirstyear[rowSums(pcfgch)>1])[-(1:3)]),digits=3)```, ```r formatC(mean(table(orsvifirstyear[rowSums(orsvich)>1])[-(1:3)]),digits=3)```, and ```r formatC(mean(table(factor(muafirstyear[rowSums(muach)>1],levels=1:(nyears-1)))[-(1:3)]),digits=2)``` for PCFG, OR-SVI, MUA respectively. Thus, there were a substantial number of new whales seen each year and ```r formatC(100*sum(table(pcfgfirstyear[rowSums(pcfgch)>1])[-(1:3)])/sum(table(pcfgfirstyear)[-c(1:3,nyears)]),digits=3)```, ```r formatC(100*sum(table(orsvifirstyear[rowSums(orsvich)>1])[-(1:3)])/sum(table(orsvifirstyear)[-c(1:3,nyears)]),digits=3)```, and ```r formatC(100*sum(table(muafirstyear[rowSums(muach)>1])[-(1:3)])/sum(table(muafirstyear)[-c(1:3,nyears)]),digits=2)``` percent of those were seen again in a subsequent year in the 3 regions respectively. The number of newly seen whales and the number newly seen and recruited (i.e., seen in at least one more year after the initial year it was seen) (Table \ref{tab5}) are displayed as discovery curves in Figures [fig:Discovery1] and [fig:Discovery2].
+
+Of the whales that were seen during June-November ```r minyear```-```r maxyear``` in the PCFG (NCA to NBC) about half were only seen in one year and the whales that were seen in more years were sighted more often each year and therefore represented a large proportion of the sightings (Figure \ref{FigJohn}). Of the ```r nrow(ch)``` identified whales first seen before ```r maxyear``` between 1 June and 30 November in the PCFG range (NCA-NBC), ```r formatC(100*sum(rowSums(ch)==1)/nrow(ch),digits=2)```% were seen in only one year and only represent about 5% of the sightings (Figure \ref{FigJohn}). Many of the newly seen whales did not return in subsequent years. Some whales were seen in every year with ```r formatC(100*sum(rowSums(ch)==( nyears-firstyear+1 ))/nrow(ch),digits=2)```% that were seen in every year after their initial identification, including ```r sum(rowSums(ch)==nyears)``` whales first seen in 1996 that were seen in all of ```r nyears``` subsequent years. The remaining ```r formatC(100*(1-sum(rowSums(ch)==1)/nrow(ch)-sum(rowSums(ch)==( nyears-firstyear+1 ))/nrow(ch)),digits=2)```% were seen more than once but not in every year.
+
+Likewise, examination of MT in the first sighting year demonstrates that whales who stay longer in their first year were more likely to be seen in a following year (Figure \ref{FigMT}). Whales "first" seen in the first few years of the study (1996-1998) includes some whales that were truly new to the PCFG in those years but many were only "new" because it was the first year of the study or as the surveyed regions expanded over time. This is evident (Figure \ref{FigMT}) in the much higher proportions for 1996-1998 than for the other years. These relationships will be important in the capture-recapture models for abundance estimation because whales that do not return after their first year (a large percentage in this analysis) would appeared to have not survived because they have permanently emigrated (with a small fraction that died).
+
+3.4 Open Population Capture-Recapture Models 
+
+```{r models}
+  #  Model fitting code
+ data(PCFA)
+  data(ER)
+  # Save frame with all years of data all.PCFA=PCFA # then extract those seen in >=1998 and create year factor variable
+  PCFA=PCFA[PCFA$Year>=minyear,]
+  PCFA$year=factor(PCFA$Year)
+# NCA to NBC
+  PCFA.all=PCFA[PCFA$NCA.NBC==1,]
+  PCFA.all$Region=factor(PCFA.all$Region,levels=c("NCA","SOR","OR","GH+","MUA","SVI","WVI","NBC"))
+  # create ch for summary stats
+  ch.all=create.chmat(PCFA.all)
+ # Merge variables created in ch.nbc with PCFA.NBC
+  PCFA.all=merge(PCFA.all,ch.all,by="ID")
+  calves=subset(PCFA.all,select=c("ID","Calf"))
+  ch.all=merge(ch.all,unique(calves),by="ID")
+  ch.all$nt=as.numeric(ch.all$Calf>0)+as.numeric(ch.all$cohort%in%1996:1998)+ch.all$old
+  ch.all$nt=ifelse(ch.all$nt>0,1,0) 
+  ch.all$Calf=ifelse(ch.all$cohort==ch.all$Calf,1,0)
+   # SOR to SVI
+  PCFA.OR.SVI=PCFA[PCFA$OR.SVI==1,]
+  PCFA.OR.SVI$Region=factor(PCFA.OR.SVI$Region,levels=c("SOR","OR","GH+","MUA","SVI"))
+  # create ch for summary stats
+  ch.orsvi=create.chmat(PCFA.OR.SVI)
+  # Merge variables created in ch with PCFA
+  PCFA.OR.SVI=merge(PCFA.OR.SVI,ch.orsvi,by="ID")
+  calves=subset(PCFA.OR.SVI,select=c("ID","Calf"))
+  ch.orsvi=merge(ch.orsvi,unique(calves),by="ID")
+  ch.orsvi$nt=as.numeric(ch.orsvi$Calf>0)+as.numeric(ch.orsvi$cohort%in%1996:1998)+ch.orsvi$old
+  ch.orsvi$nt=ifelse(ch.orsvi$nt>0,1,0)
+  ch.orsvi$Calf=ifelse(ch.orsvi$cohort==ch.orsvi$Calf,1,0)
+  PCFA.MUA=PCFA[PCFA$MUA==1,]
+  PCFA.MUA$Region=factor(PCFA.MUA$Region,levels=c("MUA"))
+  # create ch for summary stats
+  ch.mua=create.chmat(PCFA.MUA)
+  # Merge variables created in ch with PCFA
+  PCFA.MUA=merge(PCFA.MUA,ch.mua,by="ID")
+  calves=subset(PCFA.MUA,select=c("ID","Calf"))
+  ch.mua=merge(ch.mua,unique(calves),by="ID")
+  ch.mua$nt=as.numeric(ch.mua$Calf>0)+as.numeric(ch.mua$cohort%in%1996:1998)+ch.mua$old
+  ch.mua$nt=ifelse(ch.mua$nt>0,1,0)
+  ch.mua$Calf=ifelse(ch.mua$cohort==ch.mua$Calf,1,0)
+ if(runit)
+{
+ # mua.closed=closed.set(ch.mua) 
+ # all.closed=closed.set(ch.all) 
+ # orsvi.closed=closed.set(ch.orsvi) 
+  # Merge variables created in ch with PCFA 
+# Goodness of fit tests
+  all.proc=process.data(ch.all,model="POPAN",begin.time=minyear,groups="cohort")
+  all.gofc=release.gof(all.proc)
+  all.proc=process.data(ch.all,model="POPAN",begin.time=minyear)
+  all.gof=release.gof(all.proc)
+  orsvi.proc=process.data(ch.orsvi,model="POPAN",begin.time=minyear,groups="cohort")
+  orsvi.gofc=release.gof(orsvi.proc)
+  orsvi.proc=process.data(ch.orsvi,model="POPAN",begin.time=minyear)
+  orsvi.gof=release.gof(orsvi.proc)
+  mua.proc=process.data(ch.mua,model="POPAN",begin.time=minyear,groups="cohort")
+  mua.gofc=release.gof(mua.proc)
+  mua.proc=process.data(ch.mua,model="POPAN",begin.time=minyear)
+  mua.gof=release.gof(mua.proc)
+  sink("dummy.out")
+  mua.open=open.estimate(ch.mua,alternate=TRUE) 
+  orsvi.open=open.estimate(ch.orsvi,alternate=TRUE,chat=orsvi.gofc[3,1]/orsvi.gofc[3,2])
+
+  all.open=open.estimate(ch.all,alternate=TRUE,chat=all.gofc[3,1]/all.gofc[3,2])
+  sink()
+  save.image(workspace)
+}
+# Model selection table
+  xx=mua.open$model.list$model.table
+  modelselection=tapply(xx$DeltaAICc,list(xx$p,xx$Phi),min) 
+  xx=orsvi.open$model.list$model.table
+  modelselection=rbind(modelselection,tapply(xx$DeltaQAICc,list(xx$p,xx$Phi),min))
+  xx=all.open$model.list$model.table
+  modelselection=rbind(modelselection,tapply(xx$DeltaQAICc,list(xx$p,xx$Phi),min))
+  modelselection=formatC(modelselection,format="f",drop0trailing=FALSE,digits=1) 
+MT.S=function(index,x,yr,calf=0,q=c(.05,.25,.5,.75,.95),y=NULL)
+{
+	if(is.null(y))
+#	   x=x-median(x)
+	   x=x
+    else
+#	   x=x-median(y)
+       x=y
+	return(eval(parse(text=paste("covariate.predictions(all.open$model.list,data=data.frame(index=c(rep(index,length(q))),
+											Calf=rep(calf,length(q)),min",yr,"=quantile(x,q)))",sep=""))))
+}
+
+
+select=as.numeric(all.open$model.list[[11]]$design.data$Phi$cohort)==as.numeric(all.open$model.list[[11]]$design.data$Phi$time)
+indices=as.numeric(row.names(all.open$model.list[[11]]$design.data$Phi[select,]))
+
+S.1996=MT.S(indices[1],ch.all$min1996[ch.all$min1996>0],1996)
+S.1997=MT.S(indices[2],ch.all$min1997[ch.all$min1997>0],1997)
+S.1998=MT.S(indices[3],ch.all$min1998[ch.all$min1998>0],1998)
+S.1999=MT.S(indices[4],ch.all$min1999[ch.all$min1999>0],1999)
+S.2000=MT.S(indices[5],ch.all$min2000[ch.all$min2000>0],2000)
+S.2001=MT.S(indices[6],ch.all$min2001[ch.all$min2001>0],2001)
+S.2002=MT.S(indices[7],ch.all$min2002[ch.all$min2002>0],2002)
+S.2003=MT.S(indices[8],ch.all$min2003[ch.all$min2003>0],2003)
+S.2004=MT.S(indices[9],ch.all$min2004[ch.all$min2004>0],2004)
+S.2005=MT.S(indices[10],ch.all$min2005[ch.all$min2005>0],2005)
+S.2006=MT.S(indices[11],ch.all$min2006[ch.all$min2006>0],2006)
+S.2007=MT.S(indices[12],ch.all$min2007[ch.all$min2007>0],2007)
+S.2008=MT.S(indices[13],ch.all$min2008[ch.all$min2008>0],2008)
+S.2009=MT.S(indices[14],ch.all$min2009[ch.all$min2009>0],2009) 
+S.2010=MT.S(indices[15],ch.all$min2010[ch.all$min2010>0],2010)  
+S.2011=MT.S(indices[16],ch.all$min2011[ch.all$min2011>0],2011)  
+S.2012=MT.S(indices[17],ch.all$min2012[ch.all$min2012>0],2012)  
+S.2013=MT.S(indices[18],ch.all$min2013[ch.all$min2013>0],2013)  
+S.2014=MT.S(indices[19],ch.all$min2014[ch.all$min2014>0],2014)  
+S.2015=MT.S(indices[20],ch.all$min2015[ch.all$min2015>0],2015)  
+S.2016=MT.S(indices[21],ch.all$min2016[ch.all$min2016>0],2016)  
+
+
+S.df=data.frame(Cohort=factor(rep(minyear:(maxyear-1),each=5)),MT=c(S.1996$estimates[,6],S.1997$estimates[,6],S.1998$estimates[,6],S.1999$estimates[,6],S.2000$estimates[,6],S.2001$estimates[,6],S.2002$estimates[,6],S.2003$estimates[,6],S.2004$estimates[,6],S.2005$estimates[,6],S.2006$estimates[,6],S.2007$estimates[,6],S.2008$estimates[,6],S.2009$estimates[,6],S.2010$estimates[,6],S.2011$estimates[,6],S.2012$estimates[,6],S.2013$estimates[,6],S.2014$estimates[,6],S.2015$estimates[,6],S.2016$estimates[,6]), Survival=c(S.1996$estimates$estimate,S.1997$estimates$estimate,S.1998$estimates$estimate,S.1999$estimates$estimate,S.2000$estimates$estimate,S.2001$estimates$estimate,S.2002$estimates$estimate,S.2003$estimates$estimate,S.2004$estimates$estimate,S.2005$estimates$estimate,S.2006$estimates$estimate,S.2007$estimates$estimate,S.2008$estimates$estimate,S.2009$estimates$estimate,S.2010$estimates$estimate,S.2011$estimates$estimate,S.2012$estimates$estimate,S.2013$estimates$estimate,S.2014$estimates$estimate,S.2015$estimates$estimate,S.2016$estimates$estimate)) 
+Survival.plot=ggplot(S.df,aes(MT,Survival,group=Cohort,shape=Cohort))+geom_line()+geom_point()+scale_shape_manual(values=c(1:5,9,11,15:22,23,24,25,10,18,19))+xlab("\nMinimum tenure (days)")+ylab("First year survival\n")
+
+
+S.1998=MT.S(indices[3],ch.all$min1998[ch.all$min1998>0&ch.all$Calf==1],1998,calf=1,q=c(0.05,.5,.95),ch.all$min1998[ch.all$min1998>0])
+S.2001=MT.S(indices[6],ch.all$min2001[ch.all$min2001>0&ch.all$Calf==1],2001,calf=1,q=c(0.05,.5,.95),ch.all$min2001[ch.all$min2001>0])
+S.2002=MT.S(indices[7],ch.all$min2002[ch.all$min2002>0&ch.all$Calf==1],2002,calf=1,q=c(0.05,.5,.95),ch.all$min2002[ch.all$min2002>0])
+S.2003=MT.S(indices[8],ch.all$min2003[ch.all$min2003>0&ch.all$Calf==1],2003,calf=1,q=c(0.05,.5,.95),ch.all$min2003[ch.all$min2003>0])
+S.2004=MT.S(indices[9],ch.all$min2004[ch.all$min2004>0&ch.all$Calf==1],2004,calf=1,q=c(0.05,.5,.95),ch.all$min2004[ch.all$min2004>0])
+S.2005=MT.S(indices[10],ch.all$min2005[ch.all$min2005>0&ch.all$Calf==1],2005,calf=1,q=c(0.05,.5,.95),ch.all$min2005[ch.all$min2005>0])
+S.2007=MT.S(indices[12],ch.all$min2007[ch.all$min2007>0&ch.all$Calf==1],2007,calf=1,q=c(0.05,.5,.95),ch.all$min2007[ch.all$min2007>0])
+S.2008=MT.S(indices[13],ch.all$min2008[ch.all$min2008>0&ch.all$Calf==1],2008,calf=1,q=c(0.05,.5,.95),ch.all$min2008[ch.all$min2008>0]) 
+S.2010=MT.S(indices[15],ch.all$min2010[ch.all$min2010>0&ch.muasvi$Calf==1],2010,calf=1,q=c(0.05,.5,.95),ch.all$min2010[ch.all$min2010>0]) 
+S.2011=MT.S(indices[16],ch.all$min2011[ch.all$min2011>0&ch.all$Calf==1],2011,calf=1,q=c(0.05,.5,.95),ch.all$min2011[ch.all$min2011>0]) 
+S.2012=MT.S(indices[17],ch.all$min2012[ch.all$min2012>0&ch.all$Calf==1],2012,calf=1,q=c(0.05,.5,.95),ch.all$min2012[ch.all$min2012>0]) 
+S.2013=MT.S(indices[18],ch.all$min2013[ch.all$min2013>0&ch.all$Calf==1],2013,calf=1,q=c(0.05,.5,.95),ch.all$min2013[ch.all$min2013>0]) 
+S.2014=MT.S(indices[19],ch.all$min2014[ch.all$min2014>0&ch.all$Calf==1],2014,calf=1,q=c(0.05,.5,.95),ch.all$min2014[ch.all$min2014>0]) 
+S.2015=MT.S(indices[20],ch.all$min2015[ch.all$min2015>0&ch.all$Calf==1],2015,calf=1,q=c(0.05,.5,.95),ch.all$min2015[ch.all$min2015>0]) 
+S.2016=MT.S(indices[21],ch.all$min2016[ch.all$min2016>0&ch.all$Calf==1],2016,calf=1,q=c(0.05,.5,.95),ch.all$min2016[ch.all$min2016>0]) 
+
+
+
+
+CS.df=data.frame(Cohort=factor(rep(c(1998,2001:2005,2007:2008,2010:2016),each=3)),MT=c(S.1998$estimates[,6],S.2001$estimates[,6],S.2002$estimates[,6],S.2003$estimates[,6],S.2004$estimates[,6],S.2005$estimates[,6],S.2007$estimates[,6],S.2008$estimates[,6],S.2010$estimates[,6],S.2011$estimates[,6],S.2012$estimates[,6],S.2013$estimates[,6],S.2014$estimates[,6],S.2015$estimates[,6],S.2016$estimates[,6]), Survival=c(S.1998$estimates$estimate,S.2001$estimates$estimate,S.2002$estimates$estimate,S.2003$estimates$estimate,S.2004$estimates$estimate,S.2005$estimates$estimate,S.2007$estimates$estimate,S.2008$estimates$estimate,S.2010$estimates$estimate,S.2011$estimates$estimate,S.2012$estimates$estimate,S.2013$estimates$estimate,S.2014$estimates$estimate,S.2015$estimates$estimate,S.2016$estimates$estimate)) 
+CSurvival.plot=ggplot(CS.df,aes(MT,Survival,group=Cohort,shape=Cohort))+geom_line()+geom_point()+scale_shape_manual(values=c(1,4:5,9,11,15,16,17,18,22,23,24,25,12,13,14))+xlab("\nMinimum tenure (days)")+ylab("First year survival\n")
+PCFGCalves=ch.all[ch.all$Calf==1,]
+csdf=PCFGCalves[,c("cohort",paste("min",minyear:(maxyear-1),sep=""))]
+csdf$Calf=1
+csdf$cohort=as.numeric(as.character(csdf$cohort))
+csdf=merge(csdf,data.frame(cohort=minyear:(maxyear-1),index=indices))
+cs.list=covariate.predictions(all.open$model.list,data=csdf)
+Calf.S=mean(cs.list$estimate$estimate)
+se.Calf.S=sqrt(sum(cs.list$vcv))/nrow(cs.list$estimates)
+seen.table=function(x){
+  xtab=rowSums(sapply(strsplit(x$ch,""),as.numeric))
+  xtab1=table(x$cohort[x$Calf==0],factor(x$times.resighted[x$Calf==0]>0))
+  xtab1[,1]=rowSums(xtab1)
+  xtab=cbind(xtab,xtab1) 
+  xtab1=table(x$cohort[x$Calf==1],factor(x$times.resighted[x$Calf==1]>0))
+  xtab1[,1]=rowSums(xtab1)
+  xtab=cbind(xtab,xtab1) 
+  colnames(xtab)=c("Seen","Newly Seen (non-calf)","Newly Seen (non-calf) and Resighted","Newly Seen (calf)","Newly Seen (calf) and Resighted")
+  return(xtab)
+}
+
+#seen.table=function(x){
+#  xtab=rowSums(sapply(strsplit(x$ch,""),as.numeric))
+#  xtab1=table(x$cohort,factor(x$times.resighted>0&x$Calf==0))
+#  xtab1[,1]=rowSums(xtab1)
+#  xtab=cbind(xtab,xtab1) 
+#  xtab1=table(x$cohort,factor(x$Calf==1))
+#  xtab1[,1]=rowSums(xtab1)
+#  xtab=cbind(xtab,xtab1[,2]) 
+#  xtab1=table(x$cohort,factor(x$times.resighted>0&x$Calf==1))
+#  xtab1[,1]=rowSums(xtab1)
+#  xtab=cbind(xtab,xtab1[,2]) 
+#  colnames(xtab)=c("Seen","Newly Seen (non-calf)","Newly Seen (non-calf) and Resighted","Newly Seen (calf)","Newly Seen #(calf) and Resighted")
+#  return(xtab)
+#}
+seen.orsvi=seen.table(ch.orsvi)
+seen.mua=seen.table(ch.mua)
+seen.all=seen.table(ch.all)
+MT.p=function(index,x,yr)
+{
+#  x=x-median(x)
+  return(eval(parse(text=paste("covariate.predictions(all.open$model.list,data=data.frame(index=c(rep(index,5)),pmin",
+        yr,"=quantile(x,c(.05,.25,.5,.75,.95))))",sep=""))))
+}
+maxPhiIndex=max(as.numeric(row.names(all.open$model.list[[11]]$design.data$Phi)))
+p.1997=MT.p(maxPhiIndex+2,ch.all$pmin1997[ch.all$pmin1997>0],1997)
+p.1998=MT.p(maxPhiIndex+3,ch.all$pmin1998[ch.all$pmin1998>0],1998)
+p.1999=MT.p(maxPhiIndex+4,ch.all$pmin1999[ch.all$pmin1999>0],1999)
+p.2000=MT.p(maxPhiIndex+5,ch.all$pmin2000[ch.all$pmin2000>0],2000)
+p.2001=MT.p(maxPhiIndex+6,ch.all$pmin2001[ch.all$pmin2001>0],2001)
+p.2002=MT.p(maxPhiIndex+7,ch.all$pmin2002[ch.all$pmin2002>0],2002)
+p.2003=MT.p(maxPhiIndex+8,ch.all$pmin2003[ch.all$pmin2003>0],2003)
+p.2004=MT.p(maxPhiIndex+9,ch.all$pmin2004[ch.all$pmin2004>0],2004)
+p.2005=MT.p(maxPhiIndex+10,ch.all$pmin2005[ch.all$pmin2005>0],2005)
+p.2006=MT.p(maxPhiIndex+11,ch.all$pmin2006[ch.all$pmin2006>0],2006)
+p.2007=MT.p(maxPhiIndex+12,ch.all$pmin2007[ch.all$pmin2007>0],2007)
+p.2008=MT.p(maxPhiIndex+13,ch.all$pmin2008[ch.all$pmin2008>0],2008)
+p.2009=MT.p(maxPhiIndex+14,ch.all$pmin2009[ch.all$pmin2009>0],2009)
+p.2010=MT.p(maxPhiIndex+15,ch.all$pmin2010[ch.all$pmin2010>0],2010) 
+p.2011=MT.p(maxPhiIndex+16,ch.all$pmin2011[ch.all$pmin2011>0],2011)
+p.2012=MT.p(maxPhiIndex+17,ch.all$pmin2012[ch.all$pmin2012>0],2012)
+p.2013=MT.p(maxPhiIndex+18,ch.all$pmin2013[ch.all$pmin2013>0],2013)
+p.2014=MT.p(maxPhiIndex+19,ch.all$pmin2014[ch.all$pmin2014>0],2014)
+p.2015=MT.p(maxPhiIndex+20,ch.all$pmin2015[ch.all$pmin2015>0],2015)
+p.2016=MT.p(maxPhiIndex+21,ch.all$pmin2016[ch.all$pmin2016>0],2016)
+p.2017=MT.p(maxPhiIndex+22,ch.all$pmin2017[ch.all$pmin2017>0],2017)
+
+
+p.df=data.frame(Year=factor(rep((minyear+1):maxyear,each=5)), MT=c(p.1997$estimates[,5],p.1998$estimates[,5],p.1999$estimates[,5],p.2000$estimates[,5],p.2001$estimates[,5],p.2002$estimates[,5],p.2003$estimates[,5],p.2004$estimates[,5],p.2005$estimates[,5],p.2006$estimates[,5],p.2007$estimates[,5],p.2008$estimates[,5],p.2009$estimates[,5],p.2010$estimates[,5],p.2011$estimates[,5],p.2012$estimates[,5],p.2013$estimates[,5],p.2014$estimates[,5],p.2015$estimates[,5],p.2016$estimates[,5],p.2017$estimates[,5]),p=c(p.1997$estimates$estimate,p.1998$estimates$estimate,p.1999$estimates$estimate,p.2000$estimates$estimate,p.2001$estimates$estimate,p.2002$estimates$estimate,p.2003$estimates$estimate,p.2004$estimates$estimate,p.2005$estimates$estimate,p.2006$estimates$estimate,p.2007$estimates$estimate,p.2008$estimates$estimate,p.2009$estimates$estimate,p.2010$estimates$estimate,p.2011$estimates$estimate,p.2012$estimates$estimate,p.2013$estimates$estimate,p.2014$estimates$estimate,p.2015$estimates$estimate,p.2016$estimates$estimate,p.2017$estimates$estimate))
+
+capturep.plot=ggplot(p.df,aes(MT,p,group=Year,shape=Year))+geom_line()+geom_point()+scale_shape_manual(values=c(1:5,9,11,15:25,10,12,13,14))+xlab("\nMinimum tenure (days)")+ylab("Capture probability\n")
+
+MT.p=function(index,x,yr)
+{
+#  x=x-median(x)
+  return(eval(parse(text=paste("covariate.predictions(mua.open$model.list,data=data.frame(index=c(rep(index,5)),pmin",
+        yr,"=quantile(x,c(.05,.25,.5,.75,.95))))",sep=""))))
+}
+maxPhiIndex=max(as.numeric(row.names(mua.open$model.list[[11]]$design.data$Phi)))
+p.1997=MT.p(maxPhiIndex+2,ch.mua$pmin1997[ch.mua$pmin1997>0],1997)
+p.1998=MT.p(maxPhiIndex+3,ch.mua$pmin1998[ch.mua$pmin1998>0],1998)
+p.1999=MT.p(maxPhiIndex+4,ch.mua$pmin1999[ch.mua$pmin1999>0],1999)
+p.2000=MT.p(maxPhiIndex+5,ch.mua$pmin2000[ch.mua$pmin2000>0],2000)
+p.2001=MT.p(maxPhiIndex+6,ch.mua$pmin2001[ch.mua$pmin2001>0],2001)
+p.2002=MT.p(maxPhiIndex+7,ch.mua$pmin2002[ch.mua$pmin2002>0],2002)
+p.2003=MT.p(maxPhiIndex+8,ch.mua$pmin2003[ch.mua$pmin2003>0],2003)
+p.2004=MT.p(maxPhiIndex+9,ch.mua$pmin2004[ch.mua$pmin2004>0],2004)
+p.2005=MT.p(maxPhiIndex+10,ch.mua$pmin2005[ch.mua$pmin2005>0],2005)
+p.2006=MT.p(maxPhiIndex+11,ch.mua$pmin2006[ch.mua$pmin2006>0],2006)
+p.2007=MT.p(maxPhiIndex+12,ch.mua$pmin2007[ch.mua$pmin2007>0],2007)
+p.2008=MT.p(maxPhiIndex+13,ch.mua$pmin2008[ch.mua$pmin2008>0],2008)
+p.2009=MT.p(maxPhiIndex+14,ch.mua$pmin2009[ch.mua$pmin2009>0],2009)
+p.2010=MT.p(maxPhiIndex+15,ch.mua$pmin2010[ch.mua$pmin2010>0],2010) 
+p.2011=MT.p(maxPhiIndex+16,ch.mua$pmin2011[ch.mua$pmin2011>0],2011)
+p.2012=MT.p(maxPhiIndex+17,ch.mua$pmin2012[ch.mua$pmin2012>0],2012)
+p.2013=MT.p(maxPhiIndex+18,ch.mua$pmin2013[ch.mua$pmin2013>0],2013)
+p.2014=MT.p(maxPhiIndex+19,ch.mua$pmin2014[ch.mua$pmin2014>0],2014)
+p.2015=MT.p(maxPhiIndex+20,ch.mua$pmin2015[ch.mua$pmin2015>0],2015)
+p.2016=MT.p(maxPhiIndex+21,ch.mua$pmin2016[ch.mua$pmin2016>0],2016)
+p.2017=MT.p(maxPhiIndex+22,ch.mua$pmin2017[ch.mua$pmin2017>0],2017)
+
+
+muap.df=data.frame(Year=factor(rep((minyear+1):maxyear,each=5)), MT=c(p.1997$estimates[,5],p.1998$estimates[,5],p.1999$estimates[,5],p.2000$estimates[,5],p.2001$estimates[,5],p.2002$estimates[,5],p.2003$estimates[,5],p.2004$estimates[,5],p.2005$estimates[,5],p.2006$estimates[,5],p.2007$estimates[,5],p.2008$estimates[,5],p.2009$estimates[,5],p.2010$estimates[,5],p.2011$estimates[,5],p.2012$estimates[,5],p.2013$estimates[,5],p.2014$estimates[,5],p.2015$estimates[,5],p.2016$estimates[,5],p.2017$estimates[,5]),p=c(p.1997$estimates$estimate,p.1998$estimates$estimate,p.1999$estimates$estimate,p.2000$estimates$estimate,p.2001$estimates$estimate,p.2002$estimates$estimate,p.2003$estimates$estimate,p.2004$estimates$estimate,p.2005$estimates$estimate,p.2006$estimates$estimate,p.2007$estimates$estimate,p.2008$estimates$estimate,p.2009$estimates$estimate,p.2010$estimates$estimate,p.2011$estimates$estimate,p.2012$estimates$estimate,p.2013$estimates$estimate,p.2014$estimates$estimate,p.2015$estimates$estimate,p.2016$estimates$estimate,p.2017$estimates$estimate))
+
+MUAcapturep.plot=ggplot(muap.df,aes(MT,p,group=Year,shape=Year))+geom_line()+geom_point()+scale_shape_manual(values=c(1:5,9,11,15:25,10,12,13,14))+xlab("\nMinimum tenure (days)")+ylab("Capture probability\n")
+
+
+# True Survival
+TrueS.mua=covariate.predictions(mua.open$model.list,data=data.frame(nt=1),indices=2)$estimates
+TrueS.or=covariate.predictions(orsvi.open$model.list,data=data.frame(nt=1),indices=2)$estimates
+TrueS.all=covariate.predictions(all.open$model.list,data=data.frame(nt=1),indices=2)$estimates
+# Survival for post 1998 non-calves
+TrueS1999.mua=covariate.predictions(mua.open$model.list,data=data.frame(nt=0),indices=2)$estimates
+TrueS1999.or=covariate.predictions(orsvi.open$model.list,data=data.frame(nt=0),indices=2)$estimates
+TrueS1999.all=covariate.predictions(all.open$model.list,data=data.frame(nt=0),indices=2)$estimates
+
+```
+If the yearly cohorts were pooled, Test2+Test3 statistics indicated a significant lack of fit for the PCFG and subsets (Table \ref{tabgof}) primarily resulting from Test 3. This was expected due to the different "survival" rates of previously seen whales (true survival) and newly seen whales of which many never returned (i.e., permanently emigrated) (Table \ref{tabnseen}) . By separating the cohorts, survival for each cohort was time-varying and thus each cohort has a separate first year survival. The goodness of fit test (Test 2) demonstrated a lack of fit for NCA-NBC and OR-SVI (Table \ref{tabgof}). For those regions, we estimated an over-dispersion values of $\widehat{c}$
+ =```r as.numeric(formatC(all.gofc[3,1]/all.gofc[3,2],digits=3))```  and $\widehat{c}$
+ =```r as.numeric(formatC(orsvi.gofc[3,1]/orsvi.gofc[3,2],digits=3))``` respectively to adjust AICc and estimated standard errors.
+
+For all areas, the best fitted model (Table \ref{tabmodelselect}) was model 2 for p with capture probability varying across years and higher when MT was greater in the previous year. Likewise, for $\varphi$
+  the best model was model 4 for all areas. Model 9 was the second best model. Both models 4 and 9 included a separate first year survival which depends on MT. Model 9 included a different calf first-year "survival" which gave a higher survival for calves than non-calves the first year seen (redundant for calves) because they are more likely to return. In models 9 and 4, there are 3 intercepts for first year survival (1996&97, 1998, >1998) and in model 9 the slopes for MT differ as well. These results were consistent with Calambokidis et al. (2004) who demonstrated strong support for the effect of MT on first year survival (Figure \ref{FigSurvival}) and capture probability (Figure \ref{Figcapturep}) in the following year. These results differ some from Calambokidis et al. (2010) who used an annual median-centered MT. Use of MT with median centering was necessary to construct open model abundance estimates in the manner described in Calambokidis et al. (2010). However, that was not necessary for JS1 and the use of MT without median-centering resulted in lower AICc values.
+
+There was large year to year variation in capture probability. The values for NCA-NBC ranged from ```r formatC(min(p.df$p),format="f",digits=2)``` to ```r formatC(max(p.df$p),format="f",digits=2)``` depending on the year and value of MT (Figure \ref{Figcapturep}). The lowest values were from 2007 which reflects the temporary emigration of whales from MUA and SVI to waters offshore of Oregon in that year. In contrast, for MUA capture probabilities were much lower ranging from ```r formatC(min(muap.df$p),format="f",digits=2)``` to ```r formatC(max(muap.df$p),format="f",digits=2)``` depending on the year and value of MT (Figure \ref{Figcapturep-MUA}). The lower overall capture probability and weaker relationship between capture probability and MT reflect the transitory behavior of whales in such a small area. The lower estimates of of capture probability in 1999-2004 for MUA was due to decreased effort by NMML which spread their survey effort across MUA to WVI during 1999-2002, lost a vessel in 2002 and had no funding in 2004 (Figure \ref{Figcapturep-MUA}).
+
+First year survival estimates were dominated by permanent emigration. For NCA-NBC, the estimates varied from ```r formatC(min(S.df$Survival[seq(1,60,5)]),format="f",digits=2)``` to ```r formatC(max(S.df$Survival[seq(1,60,5)]),format="f",digits=2)``` for non-calf whales with MT=1 in their first year and from ```r formatC(min(S.df$Survival[S.df$MT>80]),format="f",digits=2)``` to ```r formatC(max(S.df$Survival[S.df$MT>80]),format="f",digits=2)``` for MT>80 in their first year (Figure \ref{FigSurvival}). Calf survival is by definition a first year survival rate and potentially includes permanent emigration from the PCFG. Depending on the value of MT, calf survival estimates ranged from about ```r formatC(min(CS.df$Survival),format="f",digits=2)``` to ```r formatC(max(CS.df$Survival),format="f",digits=2)``` (Figure [FigSurvival-calf]). The average calf survival estimate was ```r formatC(Calf.S,format="f",digits=2)``` (se = ```r formatC(se.Calf.S,format="f",digits=3)```). There was some support for a different first year calf survival with model 9 being the second best model  ($\phi$
+  in Table [tabmodelselect]) because calves are less likely to permanently emigrate. Unfortunately there is no way to separate permanent emigration from mortality with the existing data.
+
+Survival subsequent to the first year was assumed to be constant but was less for non-calf whales that were newly seen in 1999 or later. Post-first-year suvival for calves and whales present in 1998 or earlier presumably represents true survival assuming there was little permanent emigration after the first year. Those estimates were ```r formatC(TrueS.or$estimate,digits=3)``` (se=```r formatC(TrueS.or$se,format="f",digits=4)```) and ```r formatC(TrueS.all$estimate,digits=3)``` (se=```r formatC(TrueS.all$se,format="f",digits=4)```) for OR-SVI and NCA-NBC respectively. The post-first-year survival estimates for whales that entered in 1999 or later and not identified as a calf were ```r formatC(TrueS1999.or$estimate,digits=3)``` (se=```r formatC(TrueS1999.or$se,format="f",digits=4)```) and ```r formatC(TrueS1999.all$estimate,digits=3)``` (se=```r formatC(TrueS1999.all$se,format="f",digits=4)```) for OR-SVI and NCA-NBC respectively.
+
+3.5 Abundance and Recruitment
+
+```{r abundance, results="hide"}
+
+Limited.LP.data.all=cbind(formatC(Limited.LP.data.all[,1:3],digits=0,format="f"),
+ formatC(Limited.LP.data.all[,4],digits=0,format="f"), formatC(Limited.LP.data.all[,5],digits=1,format="f"),
+ formatC(Limited.LP.data.all[,6],digits=0,format="f"))
+Limited.LP.data.orsvi=cbind(formatC(Limited.LP.data.orsvi[,1:3],digits=0,format="f"),
+ formatC(Limited.LP.data.orsvi[,4],digits=0,format="f"), formatC(Limited.LP.data.orsvi[,5],digits=1,format="f"),
+ formatC(Limited.LP.data.orsvi[,6],digits=0,format="f"))
+LP.data.all=cbind(formatC(LP.data.all[,1:3],digits=0,format="f"),
+ formatC(LP.data.all[,4],digits=0,format="f"), formatC(LP.data.all[,5],digits=1,format="f"),
+ formatC(LP.data.all[,6],digits=0,format="f"))
+LP.data.orsvi=cbind(formatC(LP.data.orsvi[,1:3],digits=0,format="f"),
+ formatC(LP.data.orsvi[,4],digits=0,format="f"), formatC(LP.data.orsvi[,5],digits=1,format="f"),
+ formatC(LP.data.orsvi[,6],digits=0,format="f"))
+
+#  Open Population abundance
+
+estN=rbind(orsvi.open$Nbyocc$estimate,all.open$Nbyocc$estimate)
+estN$Region=factor(c(rep("OR-SVI",nyears),rep("NCA-NBC",nyears)),levels=c("OR-SVI","NCA-NBC"))
+
+JS.data.orsvi=cbind(formatC(estN[1:nyears,1],digits=0,format="f"), formatC(estN[1:nyears,2],digits=1,format="f"),
+ formatC(estN[1:nyears,1]/exp(0.842*sqrt(log(1+(estN[1:nyears,2]/estN[1:nyears,1])^2))),digits=0,format="f"))
+
+JS.data.all=cbind(formatC(estN[(nyears+1):(2*nyears),1],digits=0,format="f"), formatC(estN[(nyears+1):(2*nyears),2],digits=1,format="f"), formatC(estN[(nyears+1):(2*nyears),1]/exp(0.842*sqrt(log(1+(estN[(nyears+1):(2*nyears),2]/estN[(nyears+1):(2*nyears),1])^2))),digits=0,format="f"))
+
+
+# Alternate Jolly-Seber approach
+trimseenonce=function(x)
+{
+	chmat=t(sapply(strsplit(x$ch,""),function(x)as.numeric(x)))
+	recent=as.numeric(x$cohort)>=(length(levels(x$cohort))-1)
+	cohort=x$cohort[rowSums(chmat)>1]
+	chmat=chmat[rowSums(chmat)>1,]
+	ch=apply(chmat,1,paste,collapse="")
+	return(data.frame(ch=ch,cohort=cohort,stringsAsFactors=FALSE))
+}
+
+
+df=trimseenonce(ch.all)
+dp=process.data(df,model="POPAN",begin.time=minyear)
+dp.ddl=make.design.data(dp)
+mod=try(mark(dp,dp.ddl,model.parameters=list(p=list(formula=~-1+time,link="sin"),pent=list(formula=~time)),output=FALSE,
+chat=as.numeric(formatC(all.gofc[3,1]/all.gofc[3,2],digits=3))))
+JS.all=popan.derived(dp,mod)$N
+
+df=trimseenonce(ch.orsvi)
+dp=process.data(df,model="POPAN",begin.time=minyear)
+dp.ddl=make.design.data(dp)
+mod=try(mark(dp,dp.ddl,model.parameters=list(p=list(formula=~-1+time,link="sin"),pent=list(formula=~time)),output=FALSE))
+JS.orsvi=popan.derived(dp,mod)$N
+
+estN=rbind(orsvi.open$Nbyocc$estimate,all.open$Nbyocc$estimate)
+estN$Region=factor(c(rep("OR-SVI",nyears),rep("NCA-NBC",nyears)),levels=c("OR-SVI","NCA-NBC"))
+
+JS2.data.orsvi=cbind(formatC(JS.orsvi$N,digits=0,format="f"), formatC(JS.orsvi$se,digits=1,format="f"),
+ formatC(JS.orsvi$N/exp(0.842*sqrt(log(1+(JS.orsvi$se/JS.orsvi$N)^2))),digits=0,format="f"))
+JS2.data.all=cbind(formatC(JS.all$N,digits=0,format="f"), formatC(JS.all$se,digits=1,format="f"),
+ formatC(JS.all$N/exp(0.842*sqrt(log(1+(JS.all$se/JS.all$N)^2))),digits=0,format="f"))
+
+# Plots
+#abundance.plot2=ggplot(estN,aes(minyear:maxyear,N,ymin=LCL,ymax=UCL))+geom_errorbar(width=0.2)+geom_point()+scale_x_continuous(breaks=seq(minyear,maxyear,2))+geom_line()+xlab("\nYear")+ylab("Abundance\n")+facet_grid(Region~.) 
+
+
+
+#x2=data.frame(Year=rep((minyear+1):maxyear,4),N=c(orsvi.closed$LP$Nhat,orsvi.open$Nbyocc$estimate$N[-1],orsvi.closed$limited.LP$#Nhat,JS.orsvi$N[-1]),type=factor(c(rep("LP",nyears-1),rep("Open - JS1",nyears-1),rep("Limited LP",nyears-1)
+#,rep("Open - JS2",nyears-1)),levels=c("LP","Open - JS1","Limited LP","Open - JS2")))
+
+#x4=data.frame(Year=rep((minyear+1):maxyear,4),N=c(all.closed$LP$Nhat,all.open$Nbyocc$estimate$N[-1],all.closed$limited.LP$Nhat,J#S.all$N[-1]),type=factor(c(rep("LP",nyears-1),rep("Open - JS1",nyears-1),rep("Limited LP",nyears-1)
+#,rep("Open - JS2",nyears-1)),levels=c("LP","Open - JS1","Limited LP","Open - JS2")))7
+
+#x2=data.frame(Year=(minyear+2):maxyear,N=orsvi.open$Nbyocc$estimate$N[-(1:2)])
+#x4=data.frame(Year=(minyear+2):maxyear,N=all.open$Nbyocc$estimate$N[-(1:2)])
+#x3=data.frame(Year=(minyear+2):maxyear,N=mua.open$Nbyocc$estimate[-(1:2),1])
+#x=rbind(x3,x2,x4)
+
+x=data.frame(Year=(minyear+2):maxyear,N=all.open$Nbyocc$estimate$N[-(1:2)],LCL=all.open$Nbyocc$estimate$LCL[-(1:2)],UCL=all.open$Nbyocc$estimate$UCL[-(1:2)])
+
+#x$Region=factor(c(rep("MUA",(nyears-2)),rep("OR-SVI",(nyears-2)),rep("NCA-NBC",(nyears-2))),levels=c("MUA","OR-SVI","NCA-NBC"))
+
+abundance.plot1=ggplot(x,aes(Year,N,ymin=LCL,ymax=UCL))+geom_errorbar(width=0.2)+geom_point()+scale_x_continuous(breaks=seq(minyear,maxyear,2))+geom_line()+xlab("\nYear")+ylab("Abundance\n") 
+
+png("abundance1.png",height=960,width=720)
+print(abundance.plot1)
+dev.off()
+
+#+ opts(legend.background=theme_rect(colour=NA))
+
+#abundance.plot1=ggplot(x,aes(Year,N,group=Region))+geom_point(aes(group=Region,shape=Region,colour=Region))+scale_x_continuous(b#reaks=seq(minyear,maxyear,2))+geom_line(aes(group=Region,colour=Region,linetype=Region))+xlab("\nYear")+ylab("Abundance\n") #+opts(legend.background=theme_rect(colour=NA))
+
+
+```
+For  NCA-NBC, OR-SVI and MUA annual estimates of abundance were constructed with model averaged values for JS1 (Table \ref{tabJS1-1}-\ref{tabJS1-MUA}). Estimates for NCA-NBC in Figure \ref{Fig5} are only shown for ```r minyear+2```-```r maxyear``` with the open models p=1
+  for ```r minyear``` so it will certainly be an underestimate and the survey coverage in 1996 and 1997 was not as extensive as the later years. 
+
+The value of $N_{min}$
+  for ```r maxyear``` is ```r JS.data.all[nyears,3]``` for NCA-NBC (Table [tabJS1-1]). To gain a sense for how these values might be relevant to estimating a possible level of removal (e.g., due to harvest) we computed the MMPA's Potential Biological Removal (PBR) (typically reserved for stock-level assessments). Using the PBR formula, with an Rmax of 6.2% and a recovery factor of 0.5 (Caretta et al. 2013), the PBR for NCA-NBC (PCFG) would be ```r formatC(.031/2*as.numeric(JS.data.all[nyears,3]),format="f",digits=1)```.
+
+New whales that are not identified as calves have appeared annually and many of these new (non-calf) whales have subsequently returned and been re-sighted (Table \ref{tabnseen}). In NCA-NBC from 1999-```r maxyear-1```, an average of ```r formatC(mean(seen.all[4:(nyears-1),2]),format="f",digits=1)``` (range: ```r formatC(min(seen.all[4:(nyears-1),2]),format="f",digits=1)```, ```r formatC(max(seen.all[4:(nyears-1),2]),format="f",digits=1)```) new whales not identified as a calf were seen each year. Of these new non-calf whales, on average ```r formatC(mean(seen.all[4:(nyears-1),3]),format="f",digits=1)``` (range: ```r formatC(min(seen.all[4:(nyears-1),3]),format="f",digits=1)```, ```r formatC(max(seen.all[4:(nyears-1),3]),format="f",digits=1)```) whales returned and were seen in subsequent years. It is unknown what proportion of the non-calves used the PCFG as a calf but were not seen in that year. Currently recruitment appears to be offset by losses (either mortality or permanent emigration) as the abundance estimates have been fairly stable since 2002 and recently increasing. 
+
+4 Discussion
+
+The population structure of gray whales using the Pacific Northwest in summer and fall is complicated and involves two elements. One group of whales return frequently and account for the majority of the sightings in the Pacific Northwest during summer and fall. This group is certainly not homogeneous and even within this group, there is some degree of preference for certain subareas. Despite widespread movement and interchange among areas, some of these gray whales are more likely to be seen returning to the same areas they were seen before. The second group of whales are transients that are seen in only one year, tend to be seen for shorter periods that year, and in more limited areas. 
+
+The existence of these two groups in the study area and their dynamics complicate estimating abundance. While the JS1 estimator may not be optimal, it provides a practical way of handling transients in this open population. Excluding 1996-1997, the JS1 sequence of abundance estimates provides the most reliable assessment of trend for the non-transient abundance and the best estimate of current abundance in ```r maxyear```. 
+
+Despite extensive interchange among subregions in our study area, whales do not move randomly among areas. Abundance estimates were lower when using more limited geographic ranges but these more limited areas do not reflect closed populations. While the use of geographically stratified models can be useful in cases where populations have geographic strata they use (see for example Hilborn 1990), this would be difficult in our case because of the frequent sightings of animals in multiple regions within the same season and these models typically only allow an animal to be sighted in one strata per period. This could be dealt with by assigning animals to only a single region per season but this would be forcing the data into a somewhat inaccurate construct.
+
+Several studies have considered the question of gray whale population structure. There is widespread agreement that at least two populations of gray whales in the North Pacific exist, a western North Pacific population (also called the Korean population) and an eastern North Pacific (ENP) population (sometimes called the California population) (Swartz et al. 2006; Angliss et al. 2008; Rugh et al. 1999). The population structure of the gray whales feeding in the Pacific Northwest has remained in question and only a few studies have examined this. Steeves et al. (2001) did not find mtDNA differences in a preliminary comparison of gray whales from the summer off Vancouver Island and those from the larger ENP population. Ramakrishnan et al. (2001) did not find evidence that the Pacific Northwest whales represented a maternal genetic isolate, although even very low levels of recruitment from the larger overall population would prevent genetic drift. More recently, Frasier et al. (2011) generated mtDNA sequences from a larger sample of gray whales from Vancouver Island than tested by Steeves et al. (2001). They found significant differences in the haplotype frequencies between that sample and mtDNA sequence data reported for ENP gray whales, most of which were animals that stranded along the migratory route. The Frasier et al. (2011) samples were from a relatively small area; however, Lang et al. (2011) evaluated biopsy samples from California to southern Vancouver Island in the PCFG and ENP samples from whales sampled north of the Aleutians and also found significant mtDNA halpotype frequency differences. These two studies provide the strongest evidence to date that the Pacific Northwest whales might be sufficiently isolated to allow maternally inherited mtDNA to differ from the overall ENP population. 
+
+Population structure in other large whales has been the subject of recent inquiry and has revealed diverse results for different species. Clapham et al. (2008) examined 11 subpopulations of whales subjected to whaling that were extirpated possibly due to the loss of the cultural memory of that habitat and concluded subpopulations often exist on a smaller spatial scale than had been recognized. Studies of other baleen whales, particularly humpback whales, have shown evidence of maternally directed site fidelity to specific feeding grounds based on photographic identification studies (Calambokidis et al. 1996; Calambokidis et al. 2001; Calambokidis et al. 2008). This high degree of fidelity to specific feeding areas is often discernible genetically. In the North Pacific strong mtDNA differences were found among feeding areas even when there was evidence of low level of interchange from photo-ID (Baker et al. 2008). Similar findings were documented for humpback whales in the North Atlantic which feed in different areas but interbreed primarily on a single breeding ground (Palsboll et al. 1995) like ENP gray whales. In the North Pacific the differences for humpback whales were often dramatic. For example, humpback whales that feed off California have almost no overlap in mtDNA haplotypes with humpback whales feeding in Southeast Alaska (Baker et al. 1990; Baker et al. 1998; Baker et al. 2008). One difference between humpback and gray whales is the coastal migration route of gray whales which means gray whales going to arctic waters to feed would migrate right through the feeding areas to the south. Other species of large whales have not shown as strong site fidelity to specific feeding grounds. Blue whales have undergone an apparent shift in their feeding distribution in the North Pacific apparently due to shifting oceanographic conditions (Calambokidis et al. 2009). Fin whales in the North Pacific have long migrations and while there do not appear to be multiple distinct feeding areas as was the case for humpback whales, there were some distinct and isolated apparently non-migratory populations (Mizroch et al. 2009; Berube et al. 2004).
+
+Even though the population structure of gray whales off the Pacific Northwest remains unresolved, there is a consistent group of animals that use this area and we provide several estimates of their abundance. Different abundance methods and geographic scopes yield varied results but all suggest the annual abundance of animals using the Pacific Northwest for feeding through the summer is at most a couple hundred animals depending on the estimating method and how broadly the region is defined geographically. 
+
+The rapid increase in the abundance estimates at the start of this study is in part due to the smaller area of coverage during 1996 and 1997. We included those years to improve the estimate in 1998-1999 and the estimate for 1998 did increase by 7% from previous analysis. The increase from 1998-2000 occurred during a period the overall eastern North Pacific gray whale population was experiencing a high mortality event that included unusually high numbers of gray whales showing up in areas they were not common. The high rate of increase in the late 1990s and early 2000s should be verified with additional data such as compiling photographic identifications for this area from multiple sources to attempt to verify if the abundance of animals prior to the start of our study was as low as suggested by these trends. Even though the rate of increase may be too high, we believe the abundance did increase and now appears to be relatively stable since 2002.
+
+Acknowledgments
+
+This analysis would not have been possible without the collaborating organizations and individuals contributing identification photographs (the primary contributors are listed in Methods and Tables 1 and 2). Support for the photographic identification reported here, the comparison of gray whale photographs and preparation of this report came primarily from the National Marine Mammal Laboratory. Permission to conduct some portions of this research in U.S. waters was provided by the U.S. National Marine Fisheries Service and the Makah Tribe. Portions of the research in British Columbia were conducted collaboratively with Fisheries and Oceans Canada (thanks to John Ford and Graeme Ellis). Volker Deecke assisted in analysis and matching of identifications from S. Vancouver Island. William Megill coordinated providing sightings and identifications from CERF, Dawn Goley and Jeff Jacobsen coordinated effort for HSU, Christina Tombach and Dave Duffus coordinated early efforts for UVIC, Carrie Newell provided identification photographs from Oregon, Merrill Gosho, Pat Gearin, Nate Pamplin and Jonathan Scordino provided photos form Washington. Brian Gisborne's diligence and hard work provided an immense amount of data and photographs from Vancouver Island. A number of people assisted in the field effort and in the printing and matching of photographs at Cascadia Research. Erin Falcone, Lisa Schlender, Jennifer Quan, and Amber Klimek helped compile the data from different contributors and conducted photographic matching. Randy Lumper conducted gray whale matching in the early years of this study. Jonathan Scordino, Steve Stone and Donna Darm provided many helpful comments, suggestions and edits. 
+
+
+
+
+Table 1.Contributions of numbers of sightings (one or more photographs of a whale per day) by reseach group for ```r minyear ``` - ```r maxyear``` and resulting number of uniquely identified whales. Totals for whales are unique whales across all research groups.
+
+```{r,results='asis',echo=FALSE}
+pander(table1,digits=0)
+```
+
+Table 2. Regional distribution of numbers of sightings (one or more photographs of a whale per day) and resulting number of uniquely identified whales by reseach group for ```r minyear ``` - ```r maxyear```. Totals for whales are unique whales across all research groups. NPS is northern Puget Sound and PS includes southern Puget Sound, San Juan Islands, Hood Canal and Boundary Bay.
+
+```{r,results='asis',echo=FALSE}
+pander(table2,digits=0)
+```
+
+
+Table 3. Survey regions and region subsets used for abundance estimation. Numbers refer to locations on the map in Figure [FigMap].
+
+Need to create this.
+
+Table 4. Model specifications for survival ($\phi$) and capture probability ($p$) parameters in POPAN models for gray whale photo-identification data. For survival models, $\beta_{0}$ is the baseline intercept for non-transient survival. $Fy$ is 1 if it is year the whale was first seen and 0 otherwise. A subscript for Fy means that it applies only for that cohort except that $Fy_{99}$ applies to cohorts 1999 and beyond and $Fy_{c}$  represents each of the cohorts from ```r minyear``` to ```r maxyear```. $C$ is 1 if identified as a calf in its first year and 0 otherwise. $R$ is 1 for calves or any whale seen in 1998 or was already in the catalog prior to 1998 and 0 otherwise. $\beta_{r}$ is an adjustment to post-first-year survival. MT is minimum tenure value of a whale and $\beta_{M}$ is the estimated slope parameter for $\phi$ or $p$. $\beta_{M,96-97}$  applies to 1996-97, $\beta_{M,98}$ to 1998 and $\beta_{M,99}$ applies to 1999-```r maxyear-1```. $\beta_{Fy,96-97}$, $\beta_{Fy,98}$
+and $\beta_{Fy,99}$ are the first-year survival intercept adjustments for 1996-97, 1998 and cohorts 1999-```r maxyear-1``` respectively and $\beta_{Fy,c}$ represents ```r nyears-1``` cohort-specific first year survival parameters for ```r minyear```-```r maxyear-1```. $\beta_{CF}$ is an adjustment for calf first year survival and $\beta_{CM}$  is an adjustment for calves to the slope of MT for survival. For the capture probability models, $\beta_{t}$  has ```r nyears-2``` levels for t=```r minyear+2```,...```r maxyear``` and $\beta_{0}$   represents the ```r minyear+1``` value. For ```r minyear``` $p=1$.
+
+Need to create this.
+
+
+Table 5. Regional distribution of numbers of whales seen by month for ```r minyear ``` - ```r maxyear```.
+
+```{r,results='asis',echo=FALSE}
+pander(table2b,digits=0)
+```
+
+Table 6. Regional distribution of numbers of whales seen during June-November ```r minyear ``` - ```r maxyear```.
+
+
+```{r,results='asis',echo=FALSE}
+pander(t(table2a),digits=0)
+```
+
+Table 7. Number of days in which whales were seen for each region and year from ```r minyear ``` - ```r maxyear``` from  1 June - 30 November.
+
+
+```{r,results='asis',echo=FALSE}
+pander(t(table2c),digits=0)
+```
+
+Table 8.Interchange of whales across regions for all years (```r minyear ``` - ```r maxyear```) for June-November. The diagonal is the number of unique whales seen in that region over the ```r nyears ``` year time span. Many of those whales were only seen once. Here PS includes NPS and CA represents SCA and CCA.
+
+
+```{r,results='asis',echo=FALSE}
+table7[is.na(table7)]=""
+pander(table7,digits=0)
+```
+
+Table 9. Sighting histories of whales seen in the PCFG during 1 June - 30 November in at least one year and also in Southeast Alaska (SEAK) or Kodiak (KAK) in one year. 1: whale sighted in PCFG but not SEAK or KAK that year, 2: only seen in SEAK or KAK that year, and 3: seen in both PCFG and in SEAK and KAK in that year.
+
+```{r,results='asis',echo=FALSE}
+AK.table[is.na(AK.table)]=""
+pander(AK.table,digits=0)
+```
+
+
+Table 10. Number of unique whales seen by year for MUA, OR-SVI, and PCFG (NCA-NBC) during 1996- ```r maxyear```.
+
+```{r,results='asis',echo=FALSE}
+pander(t(whalesbyyear),digits=0)
+```
+
+Table 11. Discovery of new unique whales over years 1996- ```r maxyear``` for PCFG,OR-SVI and MUA. Recruited only means that the whale was seen in at least one more year after the initial year it was seen. The number 'recruited' will usually be greater than the abundance estimate because some whales die and others may permanently emigrate and do not return.
+
+```{r,results='asis',echo=FALSE}
+pander(t(discovery),digits=0)
+```
+
+Table 12. RELEASE goodness of fit results for each region using pooled and separate cohorts. When cohorts are separated as groups, Test 3 is always 0 because there are no sub-cohorts. Number of whales seen each year, number that were new that year in that region, and number that were new and were seen in a subsequent year for whales seen between June-November ```r minyear```-```r maxyear``` in each region. The year a whale was seen as new can vary across regions and if it differs will be later in the smaller region. Delta AICc and QAICc (for OR-NBC and NCA-NBC models) for 30 models fitted to each set of data.
+
+```{r results="asis",echo=FALSE}
+gof=rbind(mua.gof,mua.gofc,orsvi.gof,orsvi.gofc,all.gof,all.gofc)
+gof=cbind(Region=c("MUA",rep("",5),"OR-SVI",rep("",5),"NCA-NBC",rep("",5)),Cohort=rep(c("Pooled","","","Separate","",""),3),Test=rep(c("Test 2","Test 3","Total","Test 2","Test 3","Total"),3),gof)
+rownames(gof)=NULL
+pander(gof)
+
+```
+
+Table 13.Number of whales seen each year, number that were new that year in that region, and number that were new and were seen in a subsequent year for whales seen between June-November ```r minyear```-```r maxyear``` in each region. The year a whale was seen as new can vary across regions and if it differs will be later in the smaller region.
+
+```{r results="asis",echo=FALSE}
+xseen=t(cbind(seen.mua,seen.orsvi,seen.all))
+xseen=cbind(Region=c("MUA",rep("",4),"OR-SVI",rep("",4),"NCA-NBC",rep("",4)),Status=rep(c("Seen","Non-calf New","Non-Calf New/Resighted","Calf New","Calf New/Resighted"),3),xseen)
+rownames(xseen)=NULL
+pander(xseen,digits=0)
+
+```
+
+
+
+
+Table 14.Delta AICc and QAICc (for OR-NBC and NCA-NBC models) for 30 models fitted to each set of data. (need to add Phi Model on top row)
+
+```{r results="asis",echo=FALSE}
+modsel=modelselection
+colnames(modsel)=1:10
+modsel=cbind(Region=c("MUA","","","OR-SVI","","","NCA-NBC","",""), p_model=rep(1:3,3),modsel)
+rownames(modsel)=NULL
+pander(modsel,digits=1)
+
+```
+
+
+Table 15. JS1 abundance estimates ($\widehat{N}$), standard errors and minimum population estimate $N_{min}=\widehat{N}e^{-0.842\sqrt{log(1+(se(\widehat{N})/\widehat{N})^{2}}}$ using data from ```r minyear```-```r maxyear``` in OR-SVI and NCA-NBC regions. 
+
+```{r results="asis",echo=FALSE}
+jstab=rbind(JS.data.orsvi,JS.data.all)
+jstab=cbind(Region=c("OR-SVI",rep("",maxyear-minyear),"NCA-NBC",rep("",maxyear-minyear)),Year=rep(minyear:maxyear,2),jstab)
+colnames(jstab)=c("Region","Year","N-hat","se(N-hat)","N_min")
+
+rownames(jstab)=NULL
+pander(jstab,digits=1)
+```
+
+
+
+Table 16. JS1 abundance estimates ($\widehat{N}$), standard errors and minimum population estimate $N_{min}=\widehat{N}e^{-0.842\sqrt{log(1+(se(\widehat{N})/\widehat{N})^{2}}}$ using data from ```r minyear```-```r maxyear``` in MUA region. 
+
+```{r results="asis",echo=FALSE}
+jstab=mua.open$Nbyocc$estimate[,c(1,2,5)]
+rownames(jstab)=minyear:maxyear
+colnames(jstab)=c("N-hat","se(N-hat)","N_min")
+pander(jstab,digits=1)
+
+```
+
+
+
+
+
+
+
+
+FIGURES
+
+![](map.jpg)
+
+Figure 1. Locations for photo-identifications of gray whales. Numbers refer to values in Table [tab:regions].
+
+
+![](pi.jpg)
+
+Figure 2.Characteristics used for gray whale photo-identification.
+
+
+```{r seasonal1,figure=TRUE,fig.height=7,fig.width=6,dpi=300}
+print(seasonal.plot1)
+```
+
+Figure 3.Monthly measures of proportion of whales that were seen in more than one region, seen on more than one day and seen in more than one year. The values include sightings from ```r minyear```-```r maxyear```in all regions from California to Alaska. Lower values imply whales were simply migrating through the area in a short time frame and were thus less likely to be seen at other times and in other regions. Values are not shown for months with fewer than 20 sightings. Whales seen more often are over-represented because they are used in each month they were seen. For example a whale seen in June, July and August will be in each summary. Thus, these values may be larger than values computed without splitting by month (e.g., overall proportion of whales seen in more than one year).
+
+
+
+
+```{r seasonal2,figure=TRUE,fig.height=7,fig.width=6,dpi=300}
+print(seasonal.plot2)
+```
+
+Figure 4.Region and monthly measures of proportion of whales that were seen in more than one region, seen on more than one day and seen in more than one year. The values include sightings from ```r minyear```-```r maxyear``` in all regions from California to Alaska. Lower values imply whales were simply migrating through the area in a short time frame and were thus less likely to be seen at other times and in other regions. Values are not shown for months with fewer than 20 sightings. Whales seen more often are over-represented because they are used in each month they were seen. For example a whale seen in June, July and August will be in each summary. Thus, these values may be larger than values computed without splitting by month (e.g., overall proportion of whales seen in more than one year).
+
+
+
+
+```{r popstr,figure=TRUE,fig.height=7,fig.width=6,dpi=300}
+print(pop.structure)
+```
+
+Figure 5. Proportion of whales in sub-regions from NCA to KAK that have been seen in the MUA using sightings after 1 June from ```r minyear```-```r maxyear```.
+
+
+
+```{r popstr2,figure=TRUE,fig.height=7,fig.width=6,dpi=300}
+print(pop.structure2x)
+```
+
+Figure 6.Proportion of whales seen in at least 2 years in sub-regions from NCA to KAK that have been seen in the MUA using sightings after 1 June from ```r minyear```-```r maxyear```.
+
+
+
+```{r movement,figure=TRUE,fig.height=7,fig.width=6,dpi=300,eval=FALSE}
+print(movement.plot)
+```
+
+
+Figure 7.Distribution of latitudes of sightings (points) for whales with 6 or more sightings after 1 June from ```r minyear``` -```r maxyear```, the 75% inner quantile (solid thick line), and full range (light dashed line). Each position on the x axis represents an individual whale. Whales have been arranged on the plot by sorting first on the lower bound of the inner quantile (to a half-degree) and then the upper bound of the quantile. This has the effect of sorting from south to north and clusters whales with smaller quantile ranges followed by whales with larger ranges.
+
+
+```{r range,figure=TRUE,fig.height=7,fig.width=6,dpi=300}
+print(range.plot)
+```
+
+Figure 8.Distribution of ranges of 75% inner quantiles of latitudes expressed in nautical miles for whales sighted on 6 or more days during ```r minyear```-```r maxyear```.
+
+
+![](discovery.png)
+
+Figure 9.Discovery curves for unique whales seen in PCFG, OR-SVI and MUA for 1996-```r maxyear```.
+
+
+![](discoveryrecruit.png)
+
+Figure 10.Discovery curves for unique recruited whales seen in PCFG, OR-SVI and MUA for ```r minyear```-```r maxyear```.
+
+
+```{r johnsplot,figure=TRUE,fig.height=7,fig.width=6,dpi=300}
+print(Johns.plot)
+```
+
+
+Figure 11.Average number of sightings per year and distribution of whales and numbers of sightings based on numbers of years a whale was seen in NCA-NBC between June-November during ```r minyear```-```r maxyear```. 
+
+
+```{r MTplot,figure=TRUE,fig.height=7,fig.width=6,dpi=300}
+print(MT.plot)
+```
+
+Figure 12.Influence of minimum tenure (MT) in the first year the whale was photographed on the probability it will be re-sighted in one or more following years for whales seen in NCA-NBC for June-November ```r minyear```-```r maxyear```. The bar graphs are divided based on first year in 1996-1997, 1998 and after 1998. Re-sightings for ```r maxyear``` are used but initial sightings for ```r maxyear``` are excluded because there are no data beyond to evaluate re-sighting probability.
+
+
+
+```{r survival,figure=TRUE,fig.height=7,fig.width=6,dpi=300}
+print(Survival.plot)
+```
+
+
+Figure 13.For NCA-NBC analysis of ```r minyear```-```r maxyear``` data, model-averaged estimates of first year survival of non-calves for each cohort at 5%, 25%, 50%, 75%, and 95% quantiles of minimum tenure values for that cohort.
+
+
+```{r CalfS,figure=TRUE,fig.height=7,fig.width=6,dpi=300}
+print(CSurvival.plot)
+```
+
+Figure 14. For NCA-NBC analysis of ```r minyear```-```r maxyear``` data, model-averaged estimates of first year survival of calves for each cohort at 5%, 25%, 50%, 75%, and 95% quantiles of minimum tenure values for that cohort.
+
+
+
+```{r captureplot,figure=TRUE,fig.height=7,fig.width=6,dpi=300}
+print(capturep.plot)
+```
+
+Figure 15.For NCA-NBC analysis of ```r minyear```-```r maxyear``` data, model-averaged estimates of capture probability for each year at 5%, 25%, 50%, 75%, and 95% quantiles of minimum tenure values for whales in the previous year.
+
+
+```{r MUAcaptureplot,figure=TRUE,fig.height=7,fig.width=6,dpi=300}
+print(MUAcapturep.plot)
+```
+
+Figure 16. For MUA analysis of ```r minyear```-```r maxyear``` data, model-averaged estimates of capture probability for each year at 5%, 25%, 50%, 75%, and 95% quantiles of minimum tenure values for whales in the previous year.
+
+
+![](abundance1.png)
+
+Figure 17.Annual abundance estimates for ```r minyear+2```-```r maxyear``` in NCA-NBC using  the open (Jolly-Seber; POPAN parametrization) population model approach JS1. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Appendix
+
+Table \ref{apptab1} provides capture histories of whales seen in the PCFG at least once from 1 June - 30 November and displays by year, when they were seen only in spring (March-May), only from 1 June - 30 Nov and when they were seen in both time periods. Table \ref{apptab2} provides capture histories using data from 1 June - 30 Nov of whales seen in the MUA at least once. It shows when whales were seen only outside of the MUA but in the PCFG, only in the MUA and both inside the MUA and in the PCFG outside of the MUA
+
+
+
