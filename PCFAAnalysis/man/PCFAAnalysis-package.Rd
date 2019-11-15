@@ -2,8 +2,8 @@
 % Please edit documentation in R/PCFAAnalysis-package.R
 \docType{package}
 \name{PCFAAnalysis-package}
-\alias{PCFAAnalysis}
 \alias{PCFAAnalysis-package}
+\alias{PCFAAnalysis}
 \title{Analysis of gray whale photo-identification data collected from California
 to Kodiak Alaska}
 \description{
@@ -20,4 +20,3 @@ yes\cr }
 Jeff Laake Maintainer: <Jeff.Laake@noaa.gov>
 }
 \keyword{package}
-

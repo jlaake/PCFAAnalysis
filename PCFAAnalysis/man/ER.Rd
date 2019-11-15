@@ -104,4 +104,3 @@ ER$Calf[is.na(ER$Calf)]=0
 
 }
 \keyword{datasets}
-

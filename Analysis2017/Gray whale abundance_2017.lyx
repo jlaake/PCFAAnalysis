@@ -109,7 +109,7 @@ Updated analysis of abundance and population structure of seasonal gray
 \end_layout
 
 \begin_layout Author
-John Calambokidis, Jeffrey Laake, and Alie Pérez
+John Calambokidis, Alie Pérez, and Jeffrey Laake
 \end_layout
 
 \begin_layout Standard
@@ -655,7 +655,7 @@ status open
 
 
 \backslash
-Sexpr{sum(year.photos)}
+Sexpr{formatC(sum(year.photos),big.mark=",",digits=5)}
 \end_layout
 
 \end_inset
@@ -668,7 +668,7 @@ status open
 
 
 \backslash
-Sexpr{nwhales}
+Sexpr{formatC(nwhales,big.mark=",",digits=4)}
 \end_layout
 
 \end_inset
@@ -699,10 +699,10 @@ Sexpr{maxyear}
 
 \end_inset
 
- from Southern California to Kodiak, Alaska.
+ from Southern California to Alaska.
  Gray whales seen from 1 June - 30 Nov (after the northward and before southward
  migrations) were more likely to be seen repeatedly and in multiple regions
- and years;therefore only whales seen during those data were included in
+ and years; therefore only whales seen during those data were included in
  the abundance estimates.
  Gray whales using the Pacific Northwest in summer and fall include two
  groups: 1) whales that return frequently and account for the majority of
@@ -765,9 +765,10 @@ Sexpr{maxyear}
  The earlier estimates for 1996-1997 are biased low because the survey coverage
  area was much smaller but those data were included to improve estimates
  later in the time series.
- The abundance estimates since the early 2000s has been relatively stable
- but it has increased in 2013-2015.
- 
+ This report updates our estimates in previous similar reports using data
+ from two new years (2016 and 2017).
+ The abundance estimates since the early 2000s were relatively stable but
+ increased from 2010 to 2015 before decreasing slightly in 2016.
 \end_layout
 
 \begin_layout Section
@@ -928,7 +929,12 @@ tottab=tottab[order(firstyear),]
 
 \begin_layout Plain Layout
 
-rownames(tottab)=NULL
+#rownames(tottab)=NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+tottab=tottab[order(as.numeric(rownames(tottab))),]
 \end_layout
 
 \begin_layout Plain Layout
@@ -1014,7 +1020,7 @@ mua.table[mua.table==0]=NA
 
 \begin_layout Plain Layout
 
-rownames(mua.table)=NULL
+#rownames(mua.table)=NULL
 \end_layout
 
 \begin_layout Plain Layout
@@ -1263,7 +1269,16 @@ mua.table[mua.table==0]=NA
 
 \begin_layout Plain Layout
 
-rownames(mua.table)=NULL
+#rownames(mua.table)=NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+mua.table=mua.table[order(as.numeric(rownames(mua.table))),]
+\end_layout
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -1606,22 +1621,10 @@ key "Calambokidis2004"
 \end_layout
 
 \begin_layout Standard
-This report updates information through 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{maxyear}
-\end_layout
-
-\end_inset
-
- from a collaborative effort to collect photographic identiﬁcations of gray
- whales from California to Alaska has continued since 1996 and these data
- now cover 
+This report updates information incorporating identifications from 2016
+ and 2017 from a collaborative effort to collect photographic identiﬁcations
+ of gray whales from California to Alaska has continued since 1996 and these
+ data now cover 
 \begin_inset ERT
 status open
 
@@ -2393,7 +2396,7 @@ status open
 
 
 \backslash
-Sexpr{nphotos}
+Sexpr{formatC(nphotos,big.mark=",",digits=5)}
 \end_layout
 
 \end_inset
@@ -2432,7 +2435,7 @@ status open
 
 
 \backslash
-Sexpr{nphotos-nsightings}
+Sexpr{formatC(nphotos-nsightings,big.mark=",",digits=4)}
 \end_layout
 
 \end_inset
@@ -2452,7 +2455,7 @@ Sexpr{min(year.photos)}
 
 \end_inset
 
- and 
+ to 
 \begin_inset ERT
 status open
 
@@ -2460,7 +2463,7 @@ status open
 
 
 \backslash
-Sexpr{max(year.photos)}
+Sexpr{formatC(max(year.photos),big.mark=",",digits=4)}
 \end_layout
 
 \end_inset
@@ -2473,7 +2476,7 @@ status open
 
 
 \backslash
-Sexpr{sum(year.photos)}
+Sexpr{formatC(sum(year.photos),big.mark=",",digits=5)}
 \end_layout
 
 \end_inset
@@ -2486,7 +2489,7 @@ status open
 
 
 \backslash
-Sexpr{nwhales}
+Sexpr{formatC(nwhales,big.mark=",",digits=4)}
 \end_layout
 
 \end_inset
@@ -2534,7 +2537,7 @@ Sexpr{max(table(ERd$ID))}
 ).
  Identifications were made throughout the year but with most effort from
  June to September.
- Number of sightings were most numerous in NCA, SVI, WVI, and NBC and (Table
+ Number of sightings were most numerous in NCA, SVI, WVI, and NBC (Table
  
 \begin_inset ERT
 status open
@@ -3318,7 +3321,7 @@ status open
 
 
 \backslash
-Sexpr{nwhales}
+Sexpr{formatC(nwhales,big.mark=",",digits=4)}
 \end_layout
 
 \end_inset
@@ -3358,12 +3361,12 @@ status open
 
 
 \backslash
-Sexpr{not.spring.whales}
+Sexpr{formatC(not.spring.whales,big.mark=",",digits=4)}
 \end_layout
 
 \end_inset
 
- whales sighted between 1 June -30 November at some time, 
+ whales sighted between 1 June - 30 November at some time, 
 \begin_inset ERT
 status open
 
@@ -3444,12 +3447,189 @@ reference "Fig2"
 \end_layout
 
 \begin_layout Standard
-A large photo-ID sample of gray whales in the MUA was conducted in 2015
- by Makah Tribal biologists.
- At the time of this report the full comparison of these whales to historical
- images had not been completed but in the future will provide a better indicatio
-n of proportion of PCFG whales present prior to 1 June.
+The proposed Makah gray whale hunt in the MUA area (NWA and SJF) may occur
+ in NWA after 30 November and prior to 1 June.
+ A hunt conducted in spring (March-May) potentially could take whales from
+ the PCFG although those chances are less in NWA than in SJF.
+ There have been 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{length(springwhalesNWA)}
+\end_layout
+
+\end_inset
+
+ whale sightings (a unique whale-day) in NWA prior to 1 June of which 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{(as.numeric(formatC(100*length(springwhalesNWA.PCFA)/length(springwhalesNWA)
+,digits=4)))}
+\end_layout
+
+\end_inset
+
+% (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{length(springwhalesNWA.PCFA)}
+\end_layout
+
+\end_inset
+
+) were of whales that were seen in the PCFG after 1 June at sometime.
+ If we restrict the comparison to whales seen in at least 2 years in the
+ PCFG, then the percentage is only reduced to 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{(as.numeric(formatC(100*length(springwhalesNWA.PCFA.2x)/length(springwhalesNW
+A),digits=3)))}
+\end_layout
+
+\end_inset
+
+% (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{length(springwhalesNWA.PCFA.2x)}
+\end_layout
+
+\end_inset
+
+).
+ If we restrict the area, only 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{(as.numeric(formatC(100*length(springwhalesNWA.ORSVI)/length(springwhalesNWA
+),digits=3)))}
+\end_layout
+
+\end_inset
+
+% (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{length(springwhalesNWA.ORSVI)}
+\end_layout
+
+\end_inset
+
+) were of whales that were seen in OR-SVI after 1 June at some time, and
  
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{(as.numeric(formatC(100*length(springwhalesNWA.MUA)/length(springwhalesNWA),
+digits=4)))}
+\end_layout
+
+\end_inset
+
+% (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{length(springwhalesNWA.MUA)}
+\end_layout
+
+\end_inset
+
+) were of whales that were seen in MUA after 1 June at some time.
+ In comparison, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{length(springwhalesSJF)}
+\end_layout
+
+\end_inset
+
+ whale sightings were in SJF prior to 1 June of which 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{100*(as.numeric(formatC(length(springwhalesSJF.PCFA)/length(springwhalesSJF)
+,digits=0)))}
+\end_layout
+
+\end_inset
+
+% (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{length(springwhalesSJF.PCFA)}
+\end_layout
+
+\end_inset
+
+) were of whales that were seen in the PCFG after 1 June at sometime, emphasizin
+g the importance of restricting a hunt to coastal waters of the MUA (i.e.,
+ the NWA) to limit the take of whales from the PCFG.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fig3"
+
+\end_inset
+
+ shows the distribution of the proportion of the unique whales seen in NWA
+ during spring in each area during the PCFG period (1 June - November) in
+ any year.
 \end_layout
 
 \begin_layout Standard
@@ -4116,7 +4296,21 @@ ref{tab2c}
  In particular, in comparison to other regions, the large number of sightings
  in SVI partly reflects large numbers of sampling days by Brian Gisborne
  who has routinely sampled SVI from summer through fall on almost a daily
- basis.
+ basis through 2015; in 2016 and 2017 the trips were more intermittent and
+ less frequent due to the end of his regular water taxi service (Table 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{tab1}
+\end_layout
+
+\end_inset
+
+).
  On the other hand, the decline in sightings in SVI during 2007 was not
  due to reduced effort but to the distribution of whales with many of the
  whales having moved to waters off Oregon and Washington (
@@ -4127,6 +4321,35 @@ key "Calambokidis2009b"
 \end_inset
 
 ).
+ The changes in whale numbers in SVI declined dramatically for 2015 to 2017
+ (Table 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{tab2a}
+\end_layout
+
+\end_inset
+
+, Table 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{tab2c}
+\end_layout
+
+\end_inset
+
+), in 2015 due to reduced whales in this area and in 2016 and 2017 by the
+ combination of reduced effort and whales.
  Similarly, there were 40 survey days in SJF in 2010 but only 4 whales were
  seen on 4 different days (Table 
 \begin_inset ERT
@@ -4155,6 +4378,12 @@ ref{tab2c}
 \end_inset
 
 ) so this drop relative to other years was not due to lack of effort.
+ There were also other ways the habitat for gray whales shifted to some
+ degree in 2016 and most dramatically in 2017.
+ Within NWA in particular, gray whales in 2017 were concentrated feeding
+ through most of the season in and around the surf zone around Kalaloch
+ a more exposed shallow beach area and farther south than their usual habitat.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -4479,7 +4708,7 @@ Sexpr{formatC(100* sum(apply(morethan8[,(maxyear-2011)+(33:41)],1,max,na.rm=T)>=
 
 \end_inset
 
-% were seen in at least one of the regions during six or more of the years
+% being seen in at least one of the regions during six or more of the years
  they were seen and 
 \begin_inset ERT
 status open
@@ -4493,7 +4722,7 @@ Sexpr{formatC(100* length(fidelity[fidelity>=.6666])/nrow(morethan8),digits=3)}
 
 \end_inset
 
-% were seen in a region two-thirds or more of the years they were seen.
+% being seen in a region two-thirds or more of the years they were seen.
  SVI was the region with the maximum number of years seen for 
 \begin_inset ERT
 status open
@@ -6587,7 +6816,7 @@ ref{tabnseen-1}
 
 \end_inset
 
-) .
+).
  By separating the cohorts, survival for each cohort was time-varying and
  thus each cohort has a separate first year survival.
  The goodness of fit test (Test 2) demonstrated a lack of fit for NCA-NBC
@@ -6667,14 +6896,14 @@ ref{tabmodelselect}
 \end_inset
 
  the best model was model 4 for all areas.
- Model 9 was the second best model.
- Both models 4 and 9 included a separate first year survival which depends
+ Models 5 and 9 were close competitorsl.
+ Both models 4, 5 and 9 included a separate first year survival which depends
  on MT.
  Model 9 included a different calf first-year “survival” which gave a higher
  survival for calves than non-calves the first year seen (redundant for
  calves) because they are more likely to return.
- In models 9 and 4, there are 3 intercepts for first year survival (1996&97,
- 1998, >1998) and in model 9 the slopes for MT differ as well.
+ In models 4, 5 and 9, there are 3 intercepts for first year survival (1996&97,
+ 1998, >1998) and in models 5 and 9 the slopes for MT differ as well.
  These results were consistent with 
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -6773,8 +7002,8 @@ ref{Figcapturep}
 \end_inset
 
 ).
- The lowest values were from 2007 which reflects the temporary emigration
- of whales from MUA and SVI to waters offshore of Oregon in that year.
+ Some of the lowest values were from 2007 which reflects the temporary emigratio
+n of whales from MUA and SVI to waters offshore of Oregon in that year.
  In contrast, for MUA capture probabilities were much lower ranging from
  
 \begin_inset ERT
@@ -6819,10 +7048,10 @@ ref{Figcapturep-MUA}
  The lower overall capture probability and weaker relationship between capture
  probability and MT reflect the transitory behavior of whales in such a
  small area.
- The lower estimates of of capture probability in 1999-2004 for MUA was
- due to decreased effort by NMML which spread their survey effort across
- MUA to WVI during 1999-2002, lost a vessel in 2002 and had no funding in
- 2004 (Figure 
+ The lower estimates of capture probability in 1999-2004 for MUA was due
+ to decreased effort by NMML which spread their survey effort across MUA
+ to WVI during 1999-2002, lost a vessel in 2002 and had no funding in 2004
+ (Figure 
 \begin_inset ERT
 status open
 
@@ -6969,8 +7198,8 @@ Sexpr{formatC(se.Calf.S,format="f",digits=3)}
 \end_inset
 
 ).
- There was some support for a different first year calf survival with model
- 9 being the second best model  (
+ There was some support for a different first year calf survival in model
+ 9  (
 \begin_inset Formula $\phi$
 \end_inset
 
@@ -7578,11 +7807,7 @@ dd=dev.off()
 \begin_inset Newline newline
 \end_inset
 
-For
-\change_deleted -1173166803 1395253367
- 
-\change_unchanged
- NCA-NBC, OR-SVI and MUA annual estimates of abundance were constructed
+For NCA-NBC, OR-SVI and MUA annual estimates of abundance were constructed
  with model averaged values for JS1 (Table 
 \begin_inset ERT
 status open
@@ -7900,7 +8125,7 @@ Sexpr{formatC(max(seen.all[4:(nyears-1),3]),format="f",digits=1)}
  but were not seen in that year.
  Currently recruitment appears to be offset by losses (either mortality
  or permanent emigration) as the abundance estimates have been fairly stable
- since 2002 and recently increasing.
+ since 2002.
  
 \end_layout
 
@@ -8176,9 +8401,13 @@ ns and individuals contributing identification photographs (the primary
  Vancouver Island.
  William Megill coordinated providing sightings and identifications from
  CERF, Dawn Goley and Jeff Jacobsen coordinated effort for HSU, Christina
- Tombach and Dave Duffus coordinated early efforts for UVIC, Carrie Newell
- provided identification photographs from Oregon, Merrill Gosho, Pat Gearin,
- Nate Pamplin and Jonathan Scordino provided photos form Washington.
+ Tombach and Dave Duffus coordinated early efforts for UVIC, Leigh Torres
+ and her graduate students at Oregon State University (OSU) provided identificat
+ion photographs from both central and southern Oregon starting in 2015 and
+ the OSU Whale Telemetry Group provided photographs associated with their
+ tagging efforts, Carrie Newell provided identification photographs from
+ Depoe Bay Oregon, Merrill Gosho, Pat Gearin, Nate Pamplin and Jonathan
+ Scordino provided photos form Washington.
  Brian Gisborne's diligence and hard work provided an immense amount of
  data and photographs from Vancouver Island.
  A number of people assisted in the field effort and in the printing and
@@ -9320,7 +9549,7 @@ Model specifications for survival (
 \uwave default
 \noun default
 \color inherit
-applies to cohorts 1999 and beyond and 
+ applies to cohorts 1999 and beyond and 
 \family roman
 \series medium
 \shape up
@@ -29544,6 +29773,111 @@ status open
 
 \begin_layout Plain Layout
 
+print(spring.plot)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "Fig3"
+
+\end_inset
+
+Proportion of the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{length(unique(springwhalesNWA.PCFA))}
+\end_layout
+
+\end_inset
+
+ unique whales seen in NWA during the spring and in the PCFG after 1 June
+ that were seen in each PCFG sub-region after 1 June at least once from
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{minyear}
+\end_layout
+
+\end_inset
+
+-
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{maxyear}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<fig=T>>=
+\end_layout
+
+\begin_layout Plain Layout
+
 print(pop.structure)
 \end_layout
 
@@ -30897,8 +31231,8 @@ xtab=xtable(tottab[,-(1:7)],digits=0,align=c(rep("c",40+maxyear-2011-4)),caption
  In year columns, a 1 means the whale was only sighted in the spring (March-May)
 , 2 means it was only seen in June-Nov, and 3 means it was seen in both
  March-May and June-Nov.
- The region value is the nunber of years the whale was seen in that region.",labe
-l="apptab1",vsep="")
+ The region value is the nunber of years the whale was seen in that region.
+ Row name is the CRC ID number.",label="apptab1",vsep="")
 \end_layout
 
 \begin_layout Plain Layout
@@ -30907,8 +31241,8 @@ print(xtab,size="
 \backslash
 
 \backslash
-tiny",caption.placement="top",add.to.row=addtorow,include.rownames=FALSE,floating=FA
-LSE,tabular.environment="longtable",hline.after=c(-1))
+tiny",caption.placement="top",add.to.row=addtorow,include.rownames=TRUE,floating=FAL
+SE,tabular.environment="longtable",hline.after=c(-1))
 \end_layout
 
 \begin_layout Plain Layout
@@ -31046,8 +31380,8 @@ xtab=xtable(mua.table,digits=0,align=c(rep("c",17+maxyear-2011)),caption="Sighti
 g histories of whales seen in the MUA during 1 June - 30 November in at
  least one year.
  1: whale sighted in PCFG but not in the MUA during that year, 2: only seen
- in MUA that year, and 3: seen in both MUA and another PCFG area.",label="apptab2
-",vsep="")
+ in MUA that year, and 3: seen in both MUA and another PCFG area.
+ Row name is the CRC ID number.",label="apptab2",vsep="")
 \end_layout
 
 \begin_layout Plain Layout
@@ -31056,8 +31390,8 @@ print(xtab,size="
 \backslash
 
 \backslash
-tiny",caption.placement="top",add.to.row=addtorow,include.rownames=FALSE,floating=FA
-LSE,tabular.environment="longtable",hline.after=c(-1))
+tiny",caption.placement="top",add.to.row=addtorow,include.rownames=TRUE,floating=FAL
+SE,tabular.environment="longtable",hline.after=c(-1))
 \end_layout
 
 \begin_layout Plain Layout

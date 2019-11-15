@@ -1,8 +1,8 @@
 Package: PCFAAnalysis
 Type: Package
 Title: Analysis of gray whale photo-ids from PCFA
-Version: 1.0
-Date: 2009-12-30
+Version: 1.1
+Date: 2018-12-26
 Author: Jeff Laake
 Maintainer: <jeff.laake@noaa.gov>
 Description: Data summaries and exploration and analysis of abundance and
@@ -22,4 +22,5 @@ Collate:
     'PCFAAnalysis-package.R'
     'summary.stats.plots.R'
     'noCalf.r'
-RoxygenNote: 5.0.1
+RoxygenNote: 6.1.1
+Encoding: UTF-8

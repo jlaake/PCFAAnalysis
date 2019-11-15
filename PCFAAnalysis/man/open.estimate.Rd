@@ -25,4 +25,3 @@ POPAN model fitting
 \author{
 Jeff Laake
 }
-

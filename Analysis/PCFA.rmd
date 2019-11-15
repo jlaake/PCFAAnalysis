@@ -1,8 +1,13 @@
 ---
-title: "Updated analysis of abundance and population structure of seasonal gray whales in the Pacific Northwest, 1996-2015"
+title: Updated analysis of abundance and population structure of seasonal gray whales
+  in the Pacific Northwest, 1996-2017
 author: "John Calambokidis, Jeffrey Laake, and Alie Perez"
-date: "5 November 2018"
-output: word_document
+date: "20 December 2018"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  word_document: default
 ---
 
 ```{r options, results="hide", echo=FALSE}
@@ -15,14 +20,14 @@ library(pander)
 workdir=  "C:\\Users\\jefflaake\\Documents\\Projects\\PCFAAnalysis\\Analysis\\"
 workspace="C:\\Users\\jefflaake\\Documents\\Projects\\PCFAAnalysis\\Analysis\\.Rdata"
 load(workspace)
-runit=TRUE
+runit=FALSE
 suppressMessages(suppressPackageStartupMessages({library(PCFAAnalysis) 
 library(xtable)
 library(RMark)
 library(ggplot2)}))
 data(ER) 
 rg=read.delim("researchgroup.txt",sep="\t")[,1:2] 
-maxyear=2015
+maxyear=2017
 minyear=1996
 nyears=maxyear-minyear+1
 data(ER) 
@@ -98,7 +103,7 @@ table7=move
 
 ```
 
-Abstract The existence of a small number of Eastern North Pacific gray whales that spend the spring, summer and fall feeding in coastal waters of the Pacific Northwest has been known for some time and localized short-term studies have examined aspects of the natural history of these animals. We report the results of a ```r nyears```-year (```r minyear```-```r maxyear```) collaborative study examining the abundance and the population structure of these animals conducted over a number of regions from Northern California to British Columbia using photographic identification. Some ```r sum(year.photos)``` identifications representing ```r nwhales``` unique gray whales were obtained during ```r minyear```-```r maxyear``` from Southern California to Kodiak, Alaska. Gray whales seen from 1 June - 30 Nov (after the northward and before southward migrations) were more likely to be seen repeatedly and in multiple regions and years;therefore only whales seen during those data were included in the abundance estimates. Gray whales using the Pacific Northwest in summer and fall include two groups: 1) whales that return frequently and account for the majority of the sightings and 2)  transients seen in only one year, generally for shorter periods and in more limited areas. A time series of abundance estimates of the non-transient whales for ```r minyear```-```r maxyear``` was constructed for the region from N. California (NCA) to N. Vancouver Island (NBC). The most recent estimate for ```r maxyear``` was 243 whales (se=18.9). The estimated abundance increased  in the late 1990s and early 2000s during the period when the eastern North Pacific gray whale population was experiencing a high mortality event and this created an apparent influx of whales into the area. The earlier estimates for 1996-1997 are biased low because the survey coverage area was much smaller but those data were included to improve estimates later in the time series. The abundance estimates since the early 2000s has been relatively stable but it has increased in 2013-2015. 
+Abstract The existence of a small number of Eastern North Pacific gray whales that spend the spring, summer and fall feeding in coastal waters of the Pacific Northwest has been known for some time and localized short-term studies have examined aspects of the natural history of these animals. We report the results of a ```r nyears```-year (```r minyear```-```r maxyear```) collaborative study examining the abundance and the population structure of these animals conducted over a number of regions from Northern California to British Columbia using photographic identification. Some ```r sum(year.photos)``` identifications representing ```r nwhales``` unique gray whales were obtained during ```r minyear```-```r maxyear``` from Southern California to Kodiak, Alaska. Gray whales seen from 1 June - 30 Nov (after the northward and before southward migrations) were more likely to be seen repeatedly and in multiple regions and years;therefore only whales seen during those data were included in the abundance estimates. Gray whales using the Pacific Northwest in summer and fall include two groups: 1) whales that return frequently and account for the majority of the sightings and 2)  transients seen in only one year, generally for shorter periods and in more limited areas. A time series of abundance estimates of the non-transient whales for ```r minyear```-```r maxyear``` was constructed for the region from N. California (NCA) to N. Vancouver Island (NBC). The most recent estimate for ```r maxyear``` was xxx whales (se=x.xx). The estimated abundance increased  in the late 1990s and early 2000s during the period when the eastern North Pacific gray whale population was experiencing a high mortality event and this created an apparent influx of whales into the area. The earlier estimates for 1996-1997 are biased low because the survey coverage area was much smaller but those data were included to improve estimates later in the time series. The abundance estimates since the early 2000s has been relatively stable but it increased in 2013-2015. 
 
 1 Introduction
 
@@ -693,10 +698,12 @@ S.2011=MT.S(indices[16],ch.all$min2011[ch.all$min2011>0],2011)
 S.2012=MT.S(indices[17],ch.all$min2012[ch.all$min2012>0],2012)  
 S.2013=MT.S(indices[18],ch.all$min2013[ch.all$min2013>0],2013)  
 S.2014=MT.S(indices[19],ch.all$min2014[ch.all$min2014>0],2014)  
+S.2015=MT.S(indices[20],ch.all$min2015[ch.all$min2015>0],2015)  
+S.2016=MT.S(indices[21],ch.all$min2016[ch.all$min2016>0],2016)  
 
 
-S.df=data.frame(Cohort=factor(rep(minyear:(maxyear-1),each=5)),MT=c(S.1996$estimates[,6],S.1997$estimates[,6],S.1998$estimates[,6],S.1999$estimates[,6],S.2000$estimates[,6],S.2001$estimates[,6],S.2002$estimates[,6],S.2003$estimates[,6],S.2004$estimates[,6],S.2005$estimates[,6],S.2006$estimates[,6],S.2007$estimates[,6],S.2008$estimates[,6],S.2009$estimates[,6],S.2010$estimates[,6],S.2011$estimates[,6],S.2012$estimates[,6],S.2013$estimates[,6],S.2014$estimates[,6]), Survival=c(S.1996$estimates$estimate,S.1997$estimates$estimate,S.1998$estimates$estimate,S.1999$estimates$estimate,S.2000$estimates$estimate,S.2001$estimates$estimate,S.2002$estimates$estimate,S.2003$estimates$estimate,S.2004$estimates$estimate,S.2005$estimates$estimate,S.2006$estimates$estimate,S.2007$estimates$estimate,S.2008$estimates$estimate,S.2009$estimates$estimate,S.2010$estimates$estimate,S.2011$estimates$estimate,S.2012$estimates$estimate,S.2013$estimates$estimate,S.2014$estimates$estimate)) 
-Survival.plot=ggplot(S.df,aes(MT,Survival,group=Cohort,shape=Cohort))+geom_line()+geom_point()+scale_shape_manual(values=c(1:5,9,11,15:22,23,24,25,10))+xlab("\nMinimum tenure (days)")+ylab("First year survival\n")
+S.df=data.frame(Cohort=factor(rep(minyear:(maxyear-1),each=5)),MT=c(S.1996$estimates[,6],S.1997$estimates[,6],S.1998$estimates[,6],S.1999$estimates[,6],S.2000$estimates[,6],S.2001$estimates[,6],S.2002$estimates[,6],S.2003$estimates[,6],S.2004$estimates[,6],S.2005$estimates[,6],S.2006$estimates[,6],S.2007$estimates[,6],S.2008$estimates[,6],S.2009$estimates[,6],S.2010$estimates[,6],S.2011$estimates[,6],S.2012$estimates[,6],S.2013$estimates[,6],S.2014$estimates[,6],S.2015$estimates[,6],S.2016$estimates[,6]), Survival=c(S.1996$estimates$estimate,S.1997$estimates$estimate,S.1998$estimates$estimate,S.1999$estimates$estimate,S.2000$estimates$estimate,S.2001$estimates$estimate,S.2002$estimates$estimate,S.2003$estimates$estimate,S.2004$estimates$estimate,S.2005$estimates$estimate,S.2006$estimates$estimate,S.2007$estimates$estimate,S.2008$estimates$estimate,S.2009$estimates$estimate,S.2010$estimates$estimate,S.2011$estimates$estimate,S.2012$estimates$estimate,S.2013$estimates$estimate,S.2014$estimates$estimate,S.2015$estimates$estimate,S.2016$estimates$estimate)) 
+Survival.plot=ggplot(S.df,aes(MT,Survival,group=Cohort,shape=Cohort))+geom_line()+geom_point()+scale_shape_manual(values=c(1:5,9,11,15:22,23,24,25,10,18,19))+xlab("\nMinimum tenure (days)")+ylab("First year survival\n")
 
 
 S.1998=MT.S(indices[3],ch.all$min1998[ch.all$min1998>0&ch.all$Calf==1],1998,calf=1,q=c(0.05,.5,.95),ch.all$min1998[ch.all$min1998>0])
@@ -711,12 +718,15 @@ S.2010=MT.S(indices[15],ch.all$min2010[ch.all$min2010>0&ch.muasvi$Calf==1],2010,
 S.2011=MT.S(indices[16],ch.all$min2011[ch.all$min2011>0&ch.all$Calf==1],2011,calf=1,q=c(0.05,.5,.95),ch.all$min2011[ch.all$min2011>0]) 
 S.2012=MT.S(indices[17],ch.all$min2012[ch.all$min2012>0&ch.all$Calf==1],2012,calf=1,q=c(0.05,.5,.95),ch.all$min2012[ch.all$min2012>0]) 
 S.2013=MT.S(indices[18],ch.all$min2013[ch.all$min2013>0&ch.all$Calf==1],2013,calf=1,q=c(0.05,.5,.95),ch.all$min2013[ch.all$min2013>0]) 
+S.2014=MT.S(indices[19],ch.all$min2014[ch.all$min2014>0&ch.all$Calf==1],2014,calf=1,q=c(0.05,.5,.95),ch.all$min2014[ch.all$min2014>0]) 
+S.2015=MT.S(indices[20],ch.all$min2015[ch.all$min2015>0&ch.all$Calf==1],2015,calf=1,q=c(0.05,.5,.95),ch.all$min2015[ch.all$min2015>0]) 
+S.2016=MT.S(indices[21],ch.all$min2016[ch.all$min2016>0&ch.all$Calf==1],2016,calf=1,q=c(0.05,.5,.95),ch.all$min2016[ch.all$min2016>0]) 
 
 
 
 
-CS.df=data.frame(Cohort=factor(rep(c(1998,2001:2005,2007:2008,2010:2013),each=3)),MT=c(S.1998$estimates[,6],S.2001$estimates[,6],S.2002$estimates[,6],S.2003$estimates[,6],S.2004$estimates[,6],S.2005$estimates[,6],S.2007$estimates[,6],S.2008$estimates[,6],S.2010$estimates[,6],S.2011$estimates[,6],S.2012$estimates[,6],S.2013$estimates[,6]), Survival=c(S.1998$estimates$estimate,S.2001$estimates$estimate,S.2002$estimates$estimate,S.2003$estimates$estimate,S.2004$estimates$estimate,S.2005$estimates$estimate,S.2007$estimates$estimate,S.2008$estimates$estimate,S.2010$estimates$estimate,S.2011$estimates$estimate,S.2012$estimates$estimate,S.2013$estimates$estimate)) 
-CSurvival.plot=ggplot(CS.df,aes(MT,Survival,group=Cohort,shape=Cohort))+geom_line()+geom_point()+scale_shape_manual(values=c(1,4:5,9,11,15,16,17,18,22,23,24,25))+xlab("\nMinimum tenure (days)")+ylab("First year survival\n")
+CS.df=data.frame(Cohort=factor(rep(c(1998,2001:2005,2007:2008,2010:2016),each=3)),MT=c(S.1998$estimates[,6],S.2001$estimates[,6],S.2002$estimates[,6],S.2003$estimates[,6],S.2004$estimates[,6],S.2005$estimates[,6],S.2007$estimates[,6],S.2008$estimates[,6],S.2010$estimates[,6],S.2011$estimates[,6],S.2012$estimates[,6],S.2013$estimates[,6],S.2014$estimates[,6],S.2015$estimates[,6],S.2016$estimates[,6]), Survival=c(S.1998$estimates$estimate,S.2001$estimates$estimate,S.2002$estimates$estimate,S.2003$estimates$estimate,S.2004$estimates$estimate,S.2005$estimates$estimate,S.2007$estimates$estimate,S.2008$estimates$estimate,S.2010$estimates$estimate,S.2011$estimates$estimate,S.2012$estimates$estimate,S.2013$estimates$estimate,S.2014$estimates$estimate,S.2015$estimates$estimate,S.2016$estimates$estimate)) 
+CSurvival.plot=ggplot(CS.df,aes(MT,Survival,group=Cohort,shape=Cohort))+geom_line()+geom_point()+scale_shape_manual(values=c(1,4:5,9,11,15,16,17,18,22,23,24,25,12,13,14))+xlab("\nMinimum tenure (days)")+ylab("First year survival\n")
 PCFGCalves=ch.all[ch.all$Calf==1,]
 csdf=PCFGCalves[,c("cohort",paste("min",minyear:(maxyear-1),sep=""))]
 csdf$Calf=1
@@ -780,11 +790,13 @@ p.2012=MT.p(maxPhiIndex+17,ch.all$pmin2012[ch.all$pmin2012>0],2012)
 p.2013=MT.p(maxPhiIndex+18,ch.all$pmin2013[ch.all$pmin2013>0],2013)
 p.2014=MT.p(maxPhiIndex+19,ch.all$pmin2014[ch.all$pmin2014>0],2014)
 p.2015=MT.p(maxPhiIndex+20,ch.all$pmin2015[ch.all$pmin2015>0],2015)
+p.2016=MT.p(maxPhiIndex+21,ch.all$pmin2016[ch.all$pmin2016>0],2016)
+p.2017=MT.p(maxPhiIndex+22,ch.all$pmin2017[ch.all$pmin2017>0],2017)
 
 
-p.df=data.frame(Year=factor(rep((minyear+1):maxyear,each=5)), MT=c(p.1997$estimates[,5],p.1998$estimates[,5],p.1999$estimates[,5],p.2000$estimates[,5],p.2001$estimates[,5],p.2002$estimates[,5],p.2003$estimates[,5],p.2004$estimates[,5],p.2005$estimates[,5],p.2006$estimates[,5],p.2007$estimates[,5],p.2008$estimates[,5],p.2009$estimates[,5],p.2010$estimates[,5],p.2011$estimates[,5],p.2012$estimates[,5],p.2013$estimates[,5],p.2014$estimates[,5],p.2015$estimates[,5]),p=c(p.1997$estimates$estimate,p.1998$estimates$estimate,p.1999$estimates$estimate,p.2000$estimates$estimate,p.2001$estimates$estimate,p.2002$estimates$estimate,p.2003$estimates$estimate,p.2004$estimates$estimate,p.2005$estimates$estimate,p.2006$estimates$estimate,p.2007$estimates$estimate,p.2008$estimates$estimate,p.2009$estimates$estimate,p.2010$estimates$estimate,p.2011$estimates$estimate,p.2012$estimates$estimate,p.2013$estimates$estimate,p.2014$estimates$estimate,p.2015$estimates$estimate))
+p.df=data.frame(Year=factor(rep((minyear+1):maxyear,each=5)), MT=c(p.1997$estimates[,5],p.1998$estimates[,5],p.1999$estimates[,5],p.2000$estimates[,5],p.2001$estimates[,5],p.2002$estimates[,5],p.2003$estimates[,5],p.2004$estimates[,5],p.2005$estimates[,5],p.2006$estimates[,5],p.2007$estimates[,5],p.2008$estimates[,5],p.2009$estimates[,5],p.2010$estimates[,5],p.2011$estimates[,5],p.2012$estimates[,5],p.2013$estimates[,5],p.2014$estimates[,5],p.2015$estimates[,5],p.2016$estimates[,5],p.2017$estimates[,5]),p=c(p.1997$estimates$estimate,p.1998$estimates$estimate,p.1999$estimates$estimate,p.2000$estimates$estimate,p.2001$estimates$estimate,p.2002$estimates$estimate,p.2003$estimates$estimate,p.2004$estimates$estimate,p.2005$estimates$estimate,p.2006$estimates$estimate,p.2007$estimates$estimate,p.2008$estimates$estimate,p.2009$estimates$estimate,p.2010$estimates$estimate,p.2011$estimates$estimate,p.2012$estimates$estimate,p.2013$estimates$estimate,p.2014$estimates$estimate,p.2015$estimates$estimate,p.2016$estimates$estimate,p.2017$estimates$estimate))
 
-capturep.plot=ggplot(p.df,aes(MT,p,group=Year,shape=Year))+geom_line()+geom_point()+scale_shape_manual(values=c(1:5,9,11,15:25,10,12))+xlab("\nMinimum tenure (days)")+ylab("Capture probability\n")
+capturep.plot=ggplot(p.df,aes(MT,p,group=Year,shape=Year))+geom_line()+geom_point()+scale_shape_manual(values=c(1:5,9,11,15:25,10,12,13,14))+xlab("\nMinimum tenure (days)")+ylab("Capture probability\n")
 
 MT.p=function(index,x,yr)
 {
@@ -812,11 +824,13 @@ p.2012=MT.p(maxPhiIndex+17,ch.mua$pmin2012[ch.mua$pmin2012>0],2012)
 p.2013=MT.p(maxPhiIndex+18,ch.mua$pmin2013[ch.mua$pmin2013>0],2013)
 p.2014=MT.p(maxPhiIndex+19,ch.mua$pmin2014[ch.mua$pmin2014>0],2014)
 p.2015=MT.p(maxPhiIndex+20,ch.mua$pmin2015[ch.mua$pmin2015>0],2015)
+p.2016=MT.p(maxPhiIndex+21,ch.mua$pmin2016[ch.mua$pmin2016>0],2016)
+p.2017=MT.p(maxPhiIndex+22,ch.mua$pmin2017[ch.mua$pmin2017>0],2017)
 
 
-muap.df=data.frame(Year=factor(rep((minyear+1):maxyear,each=5)), MT=c(p.1997$estimates[,5],p.1998$estimates[,5],p.1999$estimates[,5],p.2000$estimates[,5],p.2001$estimates[,5],p.2002$estimates[,5],p.2003$estimates[,5],p.2004$estimates[,5],p.2005$estimates[,5],p.2006$estimates[,5],p.2007$estimates[,5],p.2008$estimates[,5],p.2009$estimates[,5],p.2010$estimates[,5],p.2011$estimates[,5],p.2012$estimates[,5],p.2013$estimates[,5],p.2014$estimates[,5],p.2015$estimates[,5]),p=c(p.1997$estimates$estimate,p.1998$estimates$estimate,p.1999$estimates$estimate,p.2000$estimates$estimate,p.2001$estimates$estimate,p.2002$estimates$estimate,p.2003$estimates$estimate,p.2004$estimates$estimate,p.2005$estimates$estimate,p.2006$estimates$estimate,p.2007$estimates$estimate,p.2008$estimates$estimate,p.2009$estimates$estimate,p.2010$estimates$estimate,p.2011$estimates$estimate,p.2012$estimates$estimate,p.2013$estimates$estimate,p.2014$estimates$estimate,p.2015$estimates$estimate))
+muap.df=data.frame(Year=factor(rep((minyear+1):maxyear,each=5)), MT=c(p.1997$estimates[,5],p.1998$estimates[,5],p.1999$estimates[,5],p.2000$estimates[,5],p.2001$estimates[,5],p.2002$estimates[,5],p.2003$estimates[,5],p.2004$estimates[,5],p.2005$estimates[,5],p.2006$estimates[,5],p.2007$estimates[,5],p.2008$estimates[,5],p.2009$estimates[,5],p.2010$estimates[,5],p.2011$estimates[,5],p.2012$estimates[,5],p.2013$estimates[,5],p.2014$estimates[,5],p.2015$estimates[,5],p.2016$estimates[,5],p.2017$estimates[,5]),p=c(p.1997$estimates$estimate,p.1998$estimates$estimate,p.1999$estimates$estimate,p.2000$estimates$estimate,p.2001$estimates$estimate,p.2002$estimates$estimate,p.2003$estimates$estimate,p.2004$estimates$estimate,p.2005$estimates$estimate,p.2006$estimates$estimate,p.2007$estimates$estimate,p.2008$estimates$estimate,p.2009$estimates$estimate,p.2010$estimates$estimate,p.2011$estimates$estimate,p.2012$estimates$estimate,p.2013$estimates$estimate,p.2014$estimates$estimate,p.2015$estimates$estimate,p.2016$estimates$estimate,p.2017$estimates$estimate))
 
-MUAcapturep.plot=ggplot(muap.df,aes(MT,p,group=Year,shape=Year))+geom_line()+geom_point()+scale_shape_manual(values=c(1:5,9,11,15:25,10,12))+xlab("\nMinimum tenure (days)")+ylab("Capture probability\n")
+MUAcapturep.plot=ggplot(muap.df,aes(MT,p,group=Year,shape=Year))+geom_line()+geom_point()+scale_shape_manual(values=c(1:5,9,11,15:25,10,12,13,14))+xlab("\nMinimum tenure (days)")+ylab("Capture probability\n")
 
 
 # True Survival

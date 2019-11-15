@@ -1,6 +1,6 @@
 # This is how ER dataframe was created from pcfa.txt data file
 # Read in data file anc create region fields
-ER=utils::read.delim("C:\\Users\\jefflaake\\Documents\\Projects\\PCFAAnalysis\\PCFAAnalysis\\data\\pcfa.txt",header=TRUE,na.strings="",sep="\t",colClasses=c("numeric","factor","numeric","character","factor","factor","numeric","numeric"))
+ER=utils::read.delim("pcfa.txt",header=TRUE,na.strings="",sep="\t",colClasses=c("numeric","factor","numeric","character","factor","factor","numeric","numeric"))
 ER$Date=as.Date(ER$Date,"%d-%b-%y")
 ER$Month=as.POSIXlt(ER$Date)$mon+1
 # Add various region fields to enable easy partitioning of the data
@@ -45,8 +45,9 @@ names(ER)[names(ER)=="Region"]="region"
 ER$Region=ER$region
 ER$Region[ER$Region%in%c("NPS","PS-HC-BB-SJ","SJI")]="NPS"
 ER$Region=factor(ER$Region,levels=c("MX","SCA","CCA","NCA","SOR","OR","GH+","NWA","SJF","NPS","SVI","WVI","NBC","SEAK","KAK","NAK"))
-# add calf data
-calves=utils::read.delim("C:\\Users\\jefflaake\\Documents\\Projects\\PCFAAnalysis\\PCFAAnalysis\\data\\CalfMomData.txt",colClasses=c("numeric","factor","numeric","numeric",rep("character",3)))
+# add calf data; note that starting through 2017 this is the first date seen and last date seen regardless of mom presence as done previously
+# also no mom id attached here.
+calves=utils::read.delim("CalfMomData.txt",colClasses=c("numeric","factor","numeric","numeric",rep("character",3)))
 calves$FirstDate=as.Date(calves$FirstDate,"%d-%b-%y")
 calves$LastDate=as.Date(calves$LastDate,"%d-%b-%y")
 calves$CalfAloneDate=as.Date(calves$CalfAloneDate,"%d-%b-%y")

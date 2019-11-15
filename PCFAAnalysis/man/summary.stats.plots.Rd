@@ -18,10 +18,9 @@ None
 \description{
 Produces a set of summary statistics and plots for a subset of the PCFA data
 }
-\author{
-Jeff Laake
-}
 \seealso{
 \code{\link{movement.table}}
 }
-
+\author{
+Jeff Laake
+}

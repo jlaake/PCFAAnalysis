@@ -24,4 +24,3 @@ Matrix of movements of whales between regions
 \author{
 Jeff Laake
 }
-

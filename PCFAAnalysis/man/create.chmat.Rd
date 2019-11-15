@@ -32,4 +32,3 @@ Create dataframe with capture history matrix and related data
 \author{
 Jeff Laake
 }
-

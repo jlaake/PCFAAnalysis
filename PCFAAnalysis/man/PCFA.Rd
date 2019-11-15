@@ -41,8 +41,8 @@ seen at some point in the spring (March to May) anywhere in SJF;0 otherwise}
 were taken with NWA/SJF collapsed to MUA} 
 \item{list("MomID")}{ID of the mother}
 \item{list("Calf")}{Year they were seen as a calf or 0}
-\item{list("FirstDate")}{First date seen with mom}
-\item{list("LastDate")}{Last date seen with mom} 
+\item{list("FirstDate")}{First date seen}
+\item{list("LastDate")}{Last date seen} 
 \item{list("CalfAloneDate")}{First date calf seen without mom} 
 \item{list("old")}{Seen prior to 1996} 
 }}
@@ -67,4 +67,3 @@ PCFA$Sreg=factor(PCFA$Sreg)
 
 }
 \keyword{datasets}
-

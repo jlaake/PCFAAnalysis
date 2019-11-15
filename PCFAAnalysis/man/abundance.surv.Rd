@@ -25,4 +25,3 @@ Alternative abundance estimators for open population models
 \author{
 Jeff Laake
 }
-

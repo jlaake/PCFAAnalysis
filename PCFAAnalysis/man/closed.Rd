@@ -2,8 +2,8 @@
 % Please edit documentation in R/closed.R
 \name{closed}
 \alias{closed}
-\alias{closed.set}
 \alias{limited.LP}
+\alias{closed.set}
 \title{Computes sequence of closed population estimates for a specified number of
 consecutive years in the capture history.}
 \usage{
@@ -62,4 +62,3 @@ population.
 \author{
 Jeff Laake
 }
-
